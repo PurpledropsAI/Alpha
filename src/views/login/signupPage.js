@@ -6,6 +6,7 @@ import { FiFacebook } from 'react-icons/fi';
 import { FaXTwitter } from 'react-icons/fa6';
 // import
 export default function SignupPage() {
+
   return (
     <div className="flex flex-col md:flex-row h-screen bg-cover bg-center bg-no-repeat text-white bg-black" style={{ backgroundImage: `url(${loginBg})` }}>
       {/* Left Section */}
@@ -78,13 +79,13 @@ export default function SignupPage() {
               type="submit"
               className="w-full bg-green-500  py-2 rounded-3xl hover:bg-green-600 transition font-bold"
             >
-              Log in
+              Sign Up
             </button>
           </form>
 
           <div className="text-center mt-6">
             <span className="text-gray-400">Already have an account? </span>
-            <a href="#" className="text-green-500 hover:underline">Log In</a>
+            <Link to="/login" className="text-green-500 hover:underline">Log In</Link>
           </div>
 
           {/* Social Icons */}

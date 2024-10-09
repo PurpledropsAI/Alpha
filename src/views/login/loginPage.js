@@ -4,6 +4,7 @@ import { FaInstagram } from 'react-icons/fa';
 import { TbBrandThreads } from 'react-icons/tb';
 import { FiFacebook } from 'react-icons/fi';
 import { FaXTwitter } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 // import
 export default function LoginPage() {
   return (
@@ -84,7 +85,7 @@ export default function LoginPage() {
 
           <div className="text-center mt-6">
             <span className="text-gray-400">Don’t have an account? </span>
-            <a href="#" className="text-green-500 hover:underline">Sign Up</a>
+            <Link to="/signup" className="text-green-500 hover:underline">Sign Up</Link>
           </div>
 
           {/* Social Icons */}
