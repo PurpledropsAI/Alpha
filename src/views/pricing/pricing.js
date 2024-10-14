@@ -13,8 +13,8 @@ export default function Pricing() {
         <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-[#0D3225] via-[#172631] to-[#545767]  overflow-hidden">
             <Header />
 
-            <div className="flex flex-col items-center p-20">
-                <div className="text-center text-white mb-10">
+            <div className="flex flex-col gap-5 items-center p-3 sm:p-20 w-full">
+                <div className="text-center text-white">
                     <h1 className="text-4xl font-bold">
                         Start making <span className="text-green-400">smarter</span> decisions,
                     </h1>
@@ -22,9 +22,9 @@ export default function Pricing() {
                 </div>
 
                 {/* Pricing Cards */}
-                <div className="flex gap-8">
+                <div className="flex flex-col sm:flex-row gap-8">
                     {/* Lifetime Plan */}
-                    <div className="w-72 bg-white rounded-xl p-3 flex flex-col gap-3 items-center">
+                    <div className=" bg-white rounded-xl p-3 sm:p-5 sm:px-10 flex flex-col gap-3 items-center">
                         <div>
                             <h3 className="text-xl font-sans font-400 text-gray-800 text-center">Life Time Plan</h3>
                             <div className="flex items-end">
@@ -52,7 +52,7 @@ export default function Pricing() {
 
                     </div>
 
-                    <div className="w-72 bg-white rounded-xl p-3 flex flex-col gap-3 items-center">
+                    <div className=" bg-white rounded-xl p-3 sm:p-5 sm:px-10 flex flex-col gap-3 items-center">
                         <div>
                             <h3 className="text-xl font-sans font-400 text-gray-800 text-center">1 Year Plan</h3>
                             <div className="flex items-end">
@@ -82,20 +82,20 @@ export default function Pricing() {
                 </div>
 
                 {/* Footer Icons */}
-                <div className="mt-6 flex justify-center items-center space-x-8 text-green-500">
-                    <div className="flex gap-1 items-center">
+                <div className="flex gap-5 justify-center items-center text-green-500 text-center">
+                    <div className="flex flex-col sm:flex-row gap-1 items-center">
                         {/* <span className="w-4 h-4 bg-green-500 rounded-full inline-block mr-2"></span> */}
                         <FaCircleCheck className='text-green-500' />
 
                         Free trial
                     </div>
-                    <div className="flex gap-1 items-center">
+                    <div className="flex flex-col sm:flex-row gap-1 items-center">
                         {/* <span className="w-4 h-4 bg-green-500 rounded-full inline-block mr-2"></span> */}
                         <FaCircleCheck className='text-green-500' />
 
                         Cancel anytime
                     </div>
-                    <div className="flex gap-1 items-center">
+                    <div className="flex flex-col sm:flex-row gap-1 items-center">
                         {/* <span className="w-4 h-4 bg-green-500 rounded-full inline-block mr-2"></span> */}
                         <FaCircleCheck className='text-green-500' />
 

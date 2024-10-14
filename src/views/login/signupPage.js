@@ -10,17 +10,17 @@ import "./login.css"
 export default function SignupPage() {
 
   return (
-    <div className="flex flex-col md:flex-row h-screen bg-cover bg-center bg-no-repeat text-white bg-black background-image">
+    <div className="flex flex-col md:flex-row min-h-screen h-full w-screen sm:p-10 bg-cover bg-center bg-no-repeat text-white bg-black background-imag">
       {/* Left Section */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center items-start p-8 md:p-16 max-sm:mt-14">
+      <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-16 max-sm:pt-20">
         <div className="text-2xl sm:text-4xl md:text-5xl">
           Get started <br /> with <span className="text-green-500 font-bold">Alpha Robotics LLP</span>
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="w-full md:w-1/2 flex justify-center items-center p-6 md:p-0">
-        <div className=" p-8 md:p-10 rounded-3xl shadow-lg border w-[30rem]">
+      <div className="w-full md:w-1/2 flex justify-center items-center p-4 sm:p-6 md:p-0">
+        <div className="p-3 sm:p-8 md:p-10 rounded-3xl shadow-lg border w-[30rem]">
           <h1 className="text-2xl md:text-3xl  font-semibold text-center">
             Hey! Welcome <span className="wave-emoji">👋</span>
           </h1>
@@ -100,7 +100,7 @@ export default function SignupPage() {
         </div>
       </div>
       <img src='/logo.png' className='absolute top-5 sm:top-10 left-5 sm:left-10 w-14 sm:w-20'></img>
-      <div className='absolute flex justify-between bottom-10 left-10 w-[50rem]'>
+      <div className='max-sm:hidden absolute flex justify-between bottom-10 left-10 sm:gap-[20rem]'>
         <div>
           © 2024 alpha All Rights Reserved.
         </div>
