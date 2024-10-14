@@ -26,7 +26,7 @@ export default function LoginPage() {
 
           <form className="space-y-4 ">
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="username">Username*</label>
+              <label className="block  mb-1 text-[12px]" htmlFor="username">Username *</label>
               <input
                 id="username"
                 type="text"
@@ -36,7 +36,7 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="email">Email*</label>
+              <label className="block  mb-1 text-[12px]" htmlFor="email">Email *</label>
               <input
                 id="email"
                 type="email"
