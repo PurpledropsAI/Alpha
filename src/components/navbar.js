@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-export default function Header() {
+export default function Navbar() {
     const navigate = useNavigate();
     return (
         <div className='flex justify-between items-center  w-screen sm:h-24 p-3 sm:px-10 bg-gradient-to-r from-[#09241A] to-[#121624]'>

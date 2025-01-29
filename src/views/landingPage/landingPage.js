@@ -1,8 +1,8 @@
 import React from 'react'
-import Header from '../components/header'
-import Footer from '../components/footer'
+import Header from '../../components/navbar'
+import Footer from '../../components/footer'
 import avatar from './assets/avatar2.png'
-export default function HomePage() {
+export default function LandingPage() {
     return (
         <div className='overflow-hidden'>
             <Header />

@@ -11,7 +11,7 @@ export default function Footer() {
             <div className='grid grid-cols-1 sm:grid-cols-3 justify-between gap-5 items-center sm:flex-row p-5 sm:p-10 '>
                 <div className='flex flex-col justify-between gap-5'>
                     <div className='flex justify-between items-center'>
-                        <img src='/logo.png' className='w-16 sm:w-28'></img>
+                        <img src='/logo.png' alt="logo" className='w-16 sm:w-28'></img>
                         <div className='flex gap-4 text-black h-full'>
                             <div className='text-green-500 rounded-full cursor-pointer'>
                                 <FaInstagram size={30} />
@@ -57,7 +57,7 @@ export default function Footer() {
                     </ul>
 
                 </div>
-                <img src={avatar} className='w-96'></img>
+                <img src="/hello.png" alt='helloLogo' className='w-96'></img>
 
             </div>
             <div className='bg-slate-300 w-screen h-[1px]'>
