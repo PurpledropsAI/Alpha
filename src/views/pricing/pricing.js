@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Header from "../../components/navbar";
 import PaymentModal from "../modals/paymentModal";
 
-import Footer from "../../components/footer";
+import Footer from "../../components/footer/footer";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { FaCircleCheck } from "react-icons/fa6";
 

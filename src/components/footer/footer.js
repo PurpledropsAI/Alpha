@@ -1,8 +1,5 @@
 import React from 'react'
 import { FaFacebookSquare, FaInstagram, FaLinkedinIn } from 'react-icons/fa'
-import { FiFacebook } from 'react-icons/fi'
-
-import avatar from './assets/avatar.png'
 import { IoIosArrowRoundForward } from 'react-icons/io'
 
 export default function Footer() {

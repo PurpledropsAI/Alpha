@@ -8,6 +8,7 @@ import "./App.css";
 // import ConnectBinance from "./views/binance/ConnectBinance";
 import AuthProvider from "./views/auth/AuthProvider";
 import AuthRoutes from "./views/auth/AuthRoutes";
+import Dashboard from "./views/dashboard/Dashboard";
 // import Dashboard from "./views/dashboard/Dashboard";
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
     //     <Route path="/signup" element={<SignupPage />} />
     //   </Routes>
     // </BrowserRouter>
-
+// {/* <Dashboard/> */}
     <AuthProvider>
       <AuthRoutes />
     </AuthProvider>

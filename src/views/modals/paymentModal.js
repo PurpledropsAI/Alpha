@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Header from '../../components/navbar';
-import Footer from '../../components/footer';
+import Footer from '../../components/footer/footer';
 import { CgCloseO } from 'react-icons/cg';
 
 export default function PaymentModal({onclose}) {

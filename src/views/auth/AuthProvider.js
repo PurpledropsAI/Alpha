@@ -27,7 +27,7 @@ const AuthProvider = ({ children }) => {
   const getUserData = () => {
     return JSON.parse(token);
   };
-
+  
   // Memoized value of the authentication context
   const contextValue = useMemo(
     () => ({

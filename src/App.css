@@ -1,0 +1,10 @@
+.gradient-bg {
+    text-align: center;
+    background: linear-gradient(
+      to bottom right,
+      rgb(9, 36, 26) 10%,
+      rgb(16, 29, 42) 50%,
+      rgb(82, 84, 101) 100%
+    );
+  }
+  

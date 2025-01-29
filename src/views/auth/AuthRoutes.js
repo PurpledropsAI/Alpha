@@ -1,13 +1,18 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import AuthProvider, { useAuth } from "./AuthProvider";
 import { ProtectedRoute } from "./ProtectedRoute";
 import Pricing from "../pricing/pricing";
 import ConnectBinance from "../binance/ConnectBinance";
-// import Landing from "../landingPage";
 import LoginPage from "../login/loginPage";
 import SignupPage from "../login/signupPage";
 import Dashboard from "../dashboard/Dashboard";
 import LandingPage from "../landingPage/landingPage";
+import PageNotFound from "../../components/pageNotFound";
+import HomePage from "../homePage/homePage";
 
 const AuthRoutes = () => {
   const { token } = useAuth();
@@ -22,6 +27,10 @@ const AuthRoutes = () => {
       element: <ProtectedRoute />, // Wrap the component in ProtectedRoute
       children: [
         {
+          path: "/",
+          element: <HomePage />,
+        },
+        {
           path: "/dashboard",
           element: <Dashboard />,
         },
@@ -34,6 +43,10 @@ const AuthRoutes = () => {
           element: <ConnectBinance />,
         },
       ],
+    },
+    {
+      path: "*",
+      element: <PageNotFound />,
     },
   ];
 
@@ -51,12 +64,16 @@ const AuthRoutes = () => {
       path: "/signup",
       element: <SignupPage />,
     },
+    {
+      path: "*",
+      element: <PageNotFound />,
+    },
   ];
 
   // Combine and conditionally include routes based on authentication status
   const router = createBrowserRouter([
     ...routesForPublic,
-    ...(!token ? routesForNotAuthenticatedOnly : []),
+    ...(token ? [] : routesForNotAuthenticatedOnly),
     ...routesForAuthenticatedOnly,
   ]);
 

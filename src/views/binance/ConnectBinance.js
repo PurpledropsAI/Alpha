@@ -1,5 +1,5 @@
 import Navbar from "../../components/navbar";
-import Footer from "../../components/footer";
+import Footer from "../../components/footer/footer";
 import { RiH1 } from "react-icons/ri";
 
 const ConnectBinance = () => {

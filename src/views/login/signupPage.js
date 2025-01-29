@@ -8,12 +8,13 @@ import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
 import axios from "axios";
 import { useAuth } from "../auth/AuthProvider";
-import { SIGN_UP_URL } from "../../constants/Constants";
+import { BASE_URL, SIGN_UP_URL } from "../../api/api";
 // import
 export default function SignupPage() {
   let [passWordType, setPasswordType] = useState(true);
-  let [errorMessage, setErrorMessage] = useState("");
-  let [successMessage, setSuccessMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const [inputs, setInputs] = useState({
     username: "",
@@ -28,7 +29,7 @@ export default function SignupPage() {
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-
+    setIsLoading(true);
     if (
       inputs.username !== "" &&
       inputs.password !== "" &&
@@ -38,7 +39,10 @@ export default function SignupPage() {
       console.log("inpts", inputs);
 
       try {
-        const result = await axios.post(SIGN_UP_URL, inputs);
+        const result = await axios.post(
+          `${BASE_URL}/api/users/signup/`,
+          inputs
+        );
         if (result.status.toString().startsWith("2")) {
           setInputs({
             username: "",
@@ -47,7 +51,7 @@ export default function SignupPage() {
             password: "",
           });
 
-          let data = result.data;
+          const data = result.data;
           setSuccessMessage(data.message);
 
           const user_id = data.user_id;
@@ -78,8 +82,11 @@ export default function SignupPage() {
         const joinedString = errors.join(" \n");
 
         setErrorMessage(joinedString);
+      } finally {
+        setIsLoading(false);
       }
     } else {
+      setIsLoading(false);
       setErrorMessage("Please fill the below details");
     }
   };
@@ -98,7 +105,7 @@ export default function SignupPage() {
       <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-16 max-sm:pt-20">
         <div className="text-2xl sm:text-4xl md:text-5xl">
           Get started <br /> with{" "}
-          <span className="text-green-500 font-bold">Alpha Robotics LLP</span>
+          <span className="text-green-500 font-semibold font-poppins">Alpha Robotics LLP</span>
         </div>
       </div>
 
