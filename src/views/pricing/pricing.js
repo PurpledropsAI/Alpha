@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Header from "../../components/navbar";
-import PaymentModal from "../modals/paymentModal";
+import PaymentModal from "../../components/modals/paymentModal";
 
 import Footer from "../../components/footer/footer";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import { FaCircleCheck } from "react-icons/fa6";
+import HomeHeader from "../../components/navbar/homeHeader";
 
 export default function Pricing() {
   const [isPaymentModal, setIsPaymentModal] = useState(false);
@@ -41,8 +41,8 @@ export default function Pricing() {
   const pricingFooter = ["Free trial", "Cancel anytime", "Support included"];
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-[#0D3225] via-[#172631] to-[#545767]  overflow-hidden">
-      <Header />
+    <div className="flex flex-col items-center text-white font-aclonica justify-center h-full bg-gradient-to-br from-[#0D3225] via-[#172631] to-[#545767]  overflow-hidden">
+      <HomeHeader />
 
       <div className="flex flex-col gap-5 items-center p-3 sm:p-20 w-full">
         <div className="text-center text-white">

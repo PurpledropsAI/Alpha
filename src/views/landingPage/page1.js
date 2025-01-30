@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Page1() {
   return (
-    <div>
+    <div className=" w-scr">
       <div className="flex flex-col items-center gap-3 pt-20 p-10 lg:px-[22rem] text-center w-screen">
         <span className="text-[20px]">Alpha Robotics LLP</span>
 
@@ -15,8 +15,8 @@ export default function Page1() {
           imagination for growth and improved working conditions.
         </span>
       </div>
-      <div className="flex w-full h-full px-10">
-        <img src="/hello2.png" alt="helloLogo" className="w-[25rem]"></img>
+      <div className="flex w-screen h-full px-10">
+        <img src="/hello2.png" alt="helloLogo" className="w-[25rem] animate-slide"></img>
       </div>
     </div>
   );

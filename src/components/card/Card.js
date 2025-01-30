@@ -10,25 +10,25 @@ const Card = ({
   planType,
   clickEvent,
 }) => (
-  <div className="bg-alphaWhite hover:shadow-xl rounded-2xl p-6 w-72 m-3 cursor">
+  <div className="bg-white hover:shadow-xl rounded-2xl p-6 w-72 m-3 cursor">
     <h1 className="text-xl font-semibold mb-2">{title}</h1>
     <div className="font-bold">
-      <span className="text-3xl text-alphaGreen">{primaryPrice}/</span>
-      <span className="text-lg text-alphaLightGray">{secondaryPrice}</span>
-      <hr className="border-dotted border-alphaLightGray my-5 px-3" />
+      <span className="text-3xl text-green-500">{primaryPrice}/</span>
+      <span className="text-lg text-slate-600">{secondaryPrice}</span>
+      <hr className="border-dotted border-slate-400 my-5 px-3" />
       <div className="font-normal text-left">
         {descriptionList.map((description, index) => (
           <p className="my-3" index={index}>
-            <FaArrowRight className="text-alphaGreen inline mr-2" />
+            <FaArrowRight className="text-green-500 inline mr-2" />
             {description}
           </p>
         ))}
       </div>
     </div>
     {isPrimary ? (
-      <div className="text-alphaWhite mt-9">
+      <div className="text-white mt-9">
         <button
-          className="w-full rounded-xl bg-alphaGreen border-alphaGreen"
+          className="w-full rounded-xl bg-green-500 border-green-500"
           onClick={clickEvent}
           data-planType={planType}
         >
@@ -40,7 +40,7 @@ const Card = ({
         <button
           onClick={clickEvent}
           data-planType={planType}
-          className="w-full rounded-xl bg-alphaWhite border-black"
+          className="w-full rounded-xl bg-white border-black"
         >
           Buy Now <FaArrowRight className="inline m-2" />
         </button>

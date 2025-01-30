@@ -1,7 +1,7 @@
 const OpenPositionsTab = ({ isfirst }) => {
   return (
     <div
-      className={`text-left w-full py-4 px-5 mx-auto bg-alphaWhite ${
+      className={`text-left w-full py-4 px-5 mx-auto bg-white ${
         isfirst ? `rounded-b-lg` : `rounded-lg`
       }`}
     >

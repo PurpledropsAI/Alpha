@@ -1,4 +1,4 @@
-import Navbar from "../../components/navbar";
+import Navbar from "../../components/navbar/header";
 import Footer from "../../components/footer/footer";
 import { RiH1 } from "react-icons/ri";
 
@@ -7,7 +7,7 @@ const ConnectBinance = () => {
     <div className="gradient-bg mx-auto ">
       <Navbar />
 
-      <section className="my-5 text-alphaWhite mx-5 lg:mx-32 text-left">
+      <section className="my-5 text-white mx-5 lg:mx-32 text-left">
         <h1 className="text-3xl">Connection Exchange Alpha Trading Bot</h1>
         <h1 className="mt-3 mb-4">
           Kindly watch the video tutorial on how to connect your
@@ -74,7 +74,7 @@ const ConnectBinance = () => {
         </div>
 
         <div className="mt-10 flex items-center justify-center">
-          <button className="p-2 px-20 rounded-xl text-center text-alphaWhite bg-alphaGreen">
+          <button className="p-2 px-20 rounded-xl text-center text-white bg-alphaGreen">
             Connect to Binance
           </button>
         </div>

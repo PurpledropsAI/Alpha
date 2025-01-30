@@ -6,7 +6,7 @@ import { IoMdWallet } from "react-icons/io";
 
 const StatsSideBar = () => {
   return (
-    <div className="text-left w-full my-5 mx-auto bg-alphaWhite rounded-lg">
+    <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
         <span className="text-lg font-semibold"> Stats</span>
 
@@ -67,7 +67,7 @@ const StatsSideBar = () => {
       <hr class="border-alphaGray " />
 
       <div className="text-center">
-        <button className="m-2 rounded-xl bg-alphaWhite border-solid border-l border-alphaGray w-1/2 md:w-2/3">
+        <button className="m-2 rounded-xl bg-white border-solid border-l border-alphaGray w-1/2 md:w-2/3">
           <FiRefreshCcw className="inline m-2" /> Convert to USDT
         </button>
       </div>

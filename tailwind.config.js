@@ -6,6 +6,7 @@ module.exports = {
       fontFamily: {
         zona: ["Zona Pro", "sans-serif"],
         poppins: ["Poppins", "serif"],
+        aclonica: ["Aclonica", "serif"],
       },
       fontWeight: {
         100: "100",

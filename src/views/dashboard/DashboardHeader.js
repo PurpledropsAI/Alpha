@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaUserAlt } from "react-icons/fa";
+import { FaDiscord, FaUserAlt } from "react-icons/fa";
 import { TbMoonFilled } from "react-icons/tb";
 import { IoFolderOpenOutline } from "react-icons/io5";
 import { CiServer } from "react-icons/ci";
@@ -43,22 +43,24 @@ const DashboardHeader = () => {
 
   return (
     <div>
-      <div className="border-alphaLightGray bg-alphaWhite border-b-[1px] ">
-        <header className="flex justify-between items-center mx-6 md:mx-10 p-4 px-2 text-white ">
+      <div className="border-slate-400 bg-white border-b-[1px] font-aclonica">
+        <header className="flex justify-between items-center mx-6 md:mx-10 p-4 px-2 ">
           <div className="text-xl md:text-2xl inline text-alphaGreen font-semibold">
             <span
-              className="cursor-pointer mr-4 text-alphaBlack"
+              className="cursor-pointer mr-4 text-black"
               onClick={toggleNavbar}
             >
               {"☰"}
             </span>
-            <h1 className="inline">alpha robotics</h1>
+            <h1 className="inline text-green-500">alpha robotics</h1>
           </div>
           <div className="hidden md:inline-block text-black">
-            <div className="flex justify-between items-center font-semibold">
+            <div className="flex justify-between gap-5 items-center font-semibold">
               <h2 className="mr-7">Advanced view</h2>
-              <TbMoonFilled className="inline mr-7 text-xl" />
-              <FaUserAlt className="inline text-xl" />
+              <TbMoonFilled className="inline text-3xl cursor-pointer" />
+              <FaUserAlt className="inline text-3xl cursor-pointer" />
+              <FaDiscord className="inline text-3xl cursor-pointer"/>
+
             </div>
           </div>
         </header>
@@ -77,7 +79,7 @@ const DashboardHeader = () => {
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="p-4 bg-alphaWhite h-full">
+        <div className="p-4 bg-white h-full">
           <ul className="text-left">
             {menuItems.map((item, index) => (
               <li index={index} className="py-2 mx-3 cursor-pointer">

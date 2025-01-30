@@ -4,7 +4,7 @@ import { IoIosArrowRoundForward } from 'react-icons/io'
 
 export default function Footer() {
     return (
-        <div className='bg-[#10192A]'>
+        <div className='bg-[#10192A] font-poppins'>
             <div className='grid grid-cols-1 sm:grid-cols-3 justify-between gap-5 items-center sm:flex-row p-5 sm:p-10 '>
                 <div className='flex flex-col justify-between gap-5'>
                     <div className='flex justify-between items-center'>

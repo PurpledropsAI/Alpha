@@ -32,7 +32,7 @@ const tabs = [
 
 const Dashboard = () => {
   return (
-    <div className="gradient-bg mx-auto h-full">
+    <div className="gradient-bg mx-auto h-full text-black font-aclonica">
       <DashboardHeader />
 
       <div className="mx-6">
@@ -79,16 +79,16 @@ const createTab = (tab, index) => {
   return (
     <div
       index={index}
-      className="text-left w-full my-5 py-2 px-5 mx-auto bg-alphaWhite rounded-lg"
+      className="text-left w-full my-5 py-2 px-5 mx-auto bg-white rounded-lg"
     >
       <span className="text-lg font-semibold"> {tab.title}</span>
       <div className="my-3 text-right">
-        <span className="text-alphaBlack text-2xl font-semibold ">
+        <span className="text-black text-2xl font-semibold ">
           {tab.largeText}
         </span>
       </div>
       <div className="my-3">
-        <span className="text-alphaGray">{tab.dummyLabel}</span>
+        <span className="text-slate-600">{tab.dummyLabel}</span>
       </div>
     </div>
   );

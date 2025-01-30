@@ -11,7 +11,7 @@ const list = [
 
 const SwitchBoxSideBar = () => {
   return (
-    <div className="text-left w-full my-5 mx-auto bg-alphaWhite rounded-lg">
+    <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       {list.map((item, index) => (
         <div>
           <div className="py-2 px-4">

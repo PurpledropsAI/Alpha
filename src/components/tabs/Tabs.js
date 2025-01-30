@@ -36,8 +36,8 @@ function Tab({ children, isDisabled, ...rest }) {
   const isActive = index === activeIndex;
 
   let selectedTabClasses = isActive
-    ? "text-alphaBlack bg-alphaWhite rounded-t-lg"
-    : "text-alphaWhite bg-transparent";
+    ? "text-black bg-white rounded-t-lg"
+    : "text-white bg-transparent";
 
   return (
     <li

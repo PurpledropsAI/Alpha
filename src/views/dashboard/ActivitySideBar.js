@@ -3,7 +3,7 @@ import { BiTargetLock } from "react-icons/bi";
 
 const ActivitySideBar = () => {
   return (
-    <div className="text-left w-full my-5 mx-auto bg-alphaWhite rounded-lg">
+    <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
         <span className="text-lg font-semibold"> Activity</span>
 
