@@ -9,12 +9,16 @@ import { useNavigate } from "react-router-dom";
 import HomeHeader from "../../components/navbar/homeHeader";
 import FailureModal from "../../components/modals/failureModal";
 import { RotatingLines } from "react-loader-spinner";
+import { IoCopyOutline } from "react-icons/io5";
+import { TbCopyCheck } from "react-icons/tb";
 
 export default function HomePage() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [isFailureModal, setIsFailureModal] = useState(false);
+  const [isCopied1, setIsCopied1] = useState(false);
+  const [isCopied2, setIsCopied2] = useState(false);
 
   const [inputs, setInputs] = useState({
     api_key: "",
@@ -90,7 +94,7 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="flex w-full p-10">
+      <div className="flex justify-between w-full p-10">
         <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <label htmlFor="name">API Label:</label>
@@ -121,7 +125,6 @@ export default function HomePage() {
               onChange={handleInputChange}
               className="p-4 px-4 rounded-xl outline-none text-black w-[30rem]"
             />
-
           </div>
           {/* <div className="flex flex-col gap-2">
             <label htmlFor="name">Passphrase:</label>
@@ -135,7 +138,9 @@ export default function HomePage() {
           </div> */}
           <div className="flex justify-center w-full">
             <button
-              className={`p-4 px-8 rounded-xl  text-white ${isLoading?"px-16 bg-green-300":"bg-green-500"}`}
+              className={`p-4 px-8 rounded-xl  text-white ${
+                isLoading ? "px-16 bg-green-300" : "bg-green-500"
+              }`}
               type="submit"
             >
               {isLoading ? (
@@ -144,7 +149,6 @@ export default function HomePage() {
                   height="40"
                   width="40"
                   color="white"
-                  
                   strokeWidth="5"
                   animationDuration="0.75"
                   ariaLabel="rotating-lines-loading"
@@ -157,6 +161,45 @@ export default function HomePage() {
             </button>
           </div>
         </form>
+        <div className="p-10 rounded-lg w-full">
+          <div className="flex flex-col gap-3 ">
+            <span>Add these APIs to Binance:</span>
+            <div className="flex flex-col items-start gap-3">
+              <div
+                className={`flex items-center p-2 rounded-lg bg-black bg-opacity-20 gap-2 hover:text-green-300 hover:bg-opacity-40 cursor-pointer ${
+                  isCopied1 ? "text-green-500" : ""
+                }`}
+                onClick={() =>
+                  navigator.clipboard.writeText("52.51.148.88").then(
+                    setIsCopied1(true),
+                    setTimeout(() => {
+                      setIsCopied1(false);
+                    }, 2000)
+                  )
+                }
+              >
+                <span>52.51.148.88</span>
+                {isCopied1 ? <TbCopyCheck color="green" /> : <IoCopyOutline />}
+              </div>
+              <div
+                className={`flex items-center p-2 rounded-lg bg-black bg-opacity-20 gap-2 hover:text-green-300 hover:bg-opacity-40 cursor-pointer ${
+                  isCopied2 ? "text-green-500" : ""
+                }`}
+                onClick={() =>
+                  navigator.clipboard.writeText("52.208.145.228").then(
+                    setIsCopied2(true),
+                    setTimeout(() => {
+                      setIsCopied2(false);
+                    }, 2000)
+                  )
+                }
+              >
+                <span>52.208.145.228</span>
+                {isCopied2 ? <TbCopyCheck color="green" /> : <IoCopyOutline />}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <Footer />
 
