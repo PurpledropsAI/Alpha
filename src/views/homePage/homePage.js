@@ -84,7 +84,7 @@ export default function HomePage() {
       <div className="flex flex-col gap-5 p-10 items-center w-full">
         <div className="flex flex-col gap-3 h-full ">
           <span className="text-[40px]">
-            Connection Echange Alpha Trading Bot
+            Connection Exchange Alpha Trading Bot
           </span>
           <span className="w-[30rem] font-light">
             Kindly watch the video tutorial on how to connect your Binance
@@ -161,7 +161,8 @@ export default function HomePage() {
             </button>
           </div>
         </form>
-        <div className="p-10 rounded-lg w-full">
+
+        <div className="px-10 rounded-lg w-full">
           <div className="flex flex-col gap-3 ">
             <span>Add these APIs to Binance:</span>
             <div className="flex flex-col items-start gap-3">

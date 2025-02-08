@@ -96,14 +96,14 @@ export default function Dashboard() {
                 <SiTether color="white" size={40} />
               </div>
 
-              <span className="text-[20px]">Total USDT: {Number(userData?.relevantBalances[0]?.free || 0).toFixed(4)}</span>
+              <span className="text-[20px]">Total USDT: {Number(userData?.relevantBalances[1]?.free || 0).toFixed(4)}</span>
             </div>
             <div className="flex items-center gap-3 p-5 rounded-lg bg-white">
               <div className="p-2 rounded-full bg-yellow-500">
                 <RiBnbFill color="white" size={40} />
               </div>
 
-              <span className="text-[20px]">Total BNB:  {Number(userData?.relevantBalances[1]?.free).toFixed(4)}</span>
+              <span className="text-[20px]">Total BNB:  {Number(userData?.relevantBalances[0]?.free).toFixed(4)}</span>
             </div>
           </div>
           <div>
