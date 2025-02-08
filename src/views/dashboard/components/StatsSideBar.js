@@ -4,7 +4,7 @@ import { BiTargetLock } from "react-icons/bi";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoMdWallet } from "react-icons/io";
 
-const StatsSideBar = () => {
+const StatsSideBar = ({usdtBal}) => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
@@ -14,17 +14,17 @@ const StatsSideBar = () => {
           <div className="my-2 flex flex-row justify-start items-center px-1">
             <div className="mr-8">
               <span className="">
-                <TfiStatsUp className="text-6xl text-alphaGreen font-bold" />
+                <TfiStatsUp className="text-6xl text-green-500 font-bold" />
               </span>
             </div>
             <div className=" flex flex-col items-start">
-              <span className="text-alphaGray mb-1 uppercase">
+              <span className="font-extralight mb-1 uppercase">
                 Current Profit:
                 <span className="text-alphaBlack font-normal">
                   <BsFillQuestionCircleFill className="inline m-1" />
                 </span>
               </span>
-              <span className="text-2xl mb-1 text-alphaGreen font-bold">
+              <span className="text-2xl mb-1 text-green-500 font-bold">
                 0.00 USDT{`(0%)`}
               </span>
               <span className="mb-1">reset |</span>
@@ -40,7 +40,7 @@ const StatsSideBar = () => {
           <div className="my-2 flex flex-row justify-start items-center px-1">
             <div className="mr-8">
               <span className="inline">
-                <IoMdWallet className="text-6xl text-alphaBlack  font-bold" />
+                <IoMdWallet className="text-6xl   font-bold" />
               </span>
             </div>
             <div className=" flex flex-col items-start">
@@ -51,8 +51,8 @@ const StatsSideBar = () => {
                   <BsFillQuestionCircleFill />
                 </span>
               </span>
-              <span className="text-2xl mb-1 text-alphaGreen font-bold">
-                0.00 {`(0%)`}
+              <span className="text-2xl mb-1 text-green-500 font-bold">
+                {Number(usdtBal || 0)?.toFixed(4)} {`(0%)`}
               </span>
 
               <span className="text-alphaGray mb-1">

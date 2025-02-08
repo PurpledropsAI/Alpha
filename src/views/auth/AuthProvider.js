@@ -8,7 +8,8 @@ const AuthProvider = ({ children }) => {
 
   // Function to set the authentication token
   const setToken = (newToken) => {
-    setToken_(JSON.stringify(newToken));
+    setToken_(newToken);
+    // setToken_(JSON.stringify(newToken));
   };
 
   const logOut = () => {

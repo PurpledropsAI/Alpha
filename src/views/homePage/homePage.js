@@ -7,16 +7,18 @@ import { BASE_URL } from "../../api/api";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import HomeHeader from "../../components/navbar/homeHeader";
+import FailureModal from "../../components/modals/failureModal";
+import { RotatingLines } from "react-loader-spinner";
 
 export default function HomePage() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessModal, setIsSuccessModal] = useState(false);
+  const [isFailureModal, setIsFailureModal] = useState(false);
 
   const [inputs, setInputs] = useState({
-    name: "",
     api_key: "",
-    api_search: "",
-    passphrase: "",
+    api_secret: "",
   });
 
   const navigate = useNavigate();
@@ -26,20 +28,39 @@ export default function HomePage() {
     if (isLoading) return;
     setIsLoading(true);
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("token not found. Please login again");
+      setIsLoading(false);
+      return;
+    }
+
     console.log("inputs: ", inputs);
+    console.log("token: ", token);
     try {
-      const response = await axios.post(`${BASE_URL}/binance/connect`, inputs);
+      const response = await axios.post(
+        `${BASE_URL}/binance/connect/`,
+        inputs,
+        {
+          headers: {
+            Authorization: `Token ${token}`, // ✅ Ensure correct format
+          },
+        }
+      );
 
       console.log("response: ", response);
-    if(response?.status == 200){
-      setModalIsOpen(true);
-      setTimeout(() => {
-        setModalIsOpen(false);
-        navigate("/dashboard")
-      }, 3000);
-    }
+      if (response?.status === 200) {
+        setIsSuccessModal(true);
+        setTimeout(() => {
+          setIsSuccessModal(false);
+          navigate("/dashboard");
+        }, 3000);
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error.response?.data || error.message); // ✅ Improved error handling
+      setIsFailureModal(true);
+    } finally {
+      setIsLoading(false); // ✅ Ensures loading state resets
     }
   };
   const handleInputChange = (e) => {
@@ -49,6 +70,9 @@ export default function HomePage() {
       [name]: value,
     }));
   };
+
+  const ip = ["52.51.148.88", "52.208.145.228"];
+
   return (
     <div className="flex flex-col items-center font-aclonica text-white justify-center h-full bg-gradient-to-br from-[#0D3225] via-[#172631] to-[#545767]  overflow-hidden">
       <HomeHeader />
@@ -62,14 +86,14 @@ export default function HomePage() {
             Kindly watch the video tutorial on how to connect your Binance
             account to the Alpha trading bot
           </span>
-          <img src={img1} alt="img1" className="rounded-[3rem]"></img>
+          {/* <img src={img1} alt="img1" className="rounded-[3rem]"></img> */}
         </div>
       </div>
 
       <div className="flex w-full p-10">
         <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
-            <label htmlFor="name">Name:</label>
+            <label htmlFor="name">API Label:</label>
             <input
               name="name"
               placeholder="Siva Prakash"
@@ -89,16 +113,17 @@ export default function HomePage() {
             />
           </div>
           <div className="flex flex-col gap-2">
-            <label htmlFor="name">API Search:</label>
+            <label htmlFor="name">Secret Key:</label>
             <input
-              name="api_search"
+              name="api_secret"
               placeholder="QKSH2882API"
-              value={inputs.api_search}
+              value={inputs.api_secret}
               onChange={handleInputChange}
               className="p-4 px-4 rounded-xl outline-none text-black w-[30rem]"
             />
+
           </div>
-          <div className="flex flex-col gap-2">
+          {/* <div className="flex flex-col gap-2">
             <label htmlFor="name">Passphrase:</label>
             <input
               name="passphrase"
@@ -107,20 +132,41 @@ export default function HomePage() {
               onChange={handleInputChange}
               className="p-4 px-4 rounded-xl outline-none text-black w-[30rem]"
             />
-          </div>
+          </div> */}
           <div className="flex justify-center w-full">
             <button
-              className="p-4 px-8 rounded-xl bg-green-500 text-white"
+              className={`p-4 px-8 rounded-xl  text-white ${isLoading?"px-16 bg-green-300":"bg-green-500"}`}
               type="submit"
             >
-              Connect to Binance
+              {isLoading ? (
+                <RotatingLines
+                  visible={true}
+                  height="40"
+                  width="40"
+                  color="white"
+                  
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                <span>Connect to Binance</span>
+              )}
             </button>
           </div>
         </form>
       </div>
       <Footer />
 
-      {modalIsOpen && <ConfirmModal />}
+      {isSuccessModal && <ConfirmModal />}
+      {isFailureModal && (
+        <FailureModal
+          message="Please Check your API KEY & SECRET KEY and Try again."
+          onClose={() => setIsFailureModal(false)}
+        />
+      )}
     </div>
   );
 }

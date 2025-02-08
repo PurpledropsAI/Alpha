@@ -16,8 +16,8 @@ const ActivitySideBar = () => {
             </div>
             <div className=" flex flex-col items-start">
               <span className="text-alphaGray mb-1">No Activity</span>
-              <span className="text-2xl mb-1">Bot is Active</span>
-              <span className="text-alphaGray mb-1">16/10/2024 09:00:00</span>
+              <span className="text-xl mb-1">Bot is Active</span>
+              <span className="text-slate-400 mb-1">16/10/2024 09:00:00</span>
             </div>
           </div>
         </div>
@@ -28,7 +28,7 @@ const ActivitySideBar = () => {
           <div className="my-2 flex flex-row justify-start items-center px-1">
             <div className="mr-8">
               <span className="">
-                <BiTargetLock className="text-6xl text-alphaGreen font-bold" />
+                <BiTargetLock className="text-6xl text-green-500 font-bold" />
               </span>
             </div>
             <div className=" flex flex-col items-start">

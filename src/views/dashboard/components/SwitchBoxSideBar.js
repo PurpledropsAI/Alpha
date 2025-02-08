@@ -1,4 +1,4 @@
-import ToggleSlider from "../../components/toggle-slider/ToggleSlider";
+import ToggleSlider from "../../../components/toggle-slider/ToggleSlider";
 import { FaTrafficLight } from "react-icons/fa";
 import { IoMdDownload } from "react-icons/io";
 import { MdFileUpload } from "react-icons/md";
@@ -13,11 +13,11 @@ const SwitchBoxSideBar = () => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       {list.map((item, index) => (
-        <div>
+        <div key={index}>
           <div className="py-2 px-4">
             <div key={index}>
               <div className="flex justify-around items-center my-5">
-                <span className="text-6xl text-alphaGreen">{item.icon}</span>
+                <span className="text-6xl text-green-500">{item.icon}</span>
                 <div className="flex flex-col items-center">
                   <span className="text-lg mb-1 text-alphaGreen uppercase">
                     {item.title} <span className="font-bold">Enabled</span>

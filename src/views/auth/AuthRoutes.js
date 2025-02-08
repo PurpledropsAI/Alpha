@@ -9,7 +9,7 @@ import Pricing from "../pricing/pricing";
 import ConnectBinance from "../binance/ConnectBinance";
 import LoginPage from "../login/loginPage";
 import SignupPage from "../login/signupPage";
-import Dashboard from "../dashboard/Dashboard";
+import DashboardLayout from "../dashboard/DashboardLayout";
 import LandingPage from "../landingPage/landingPage";
 import PageNotFound from "../../components/pageNotFound";
 import HomePage from "../homePage/homePage";
@@ -31,8 +31,8 @@ const AuthRoutes = () => {
           element: <HomePage />,
         },
         {
-          path: "/dashboard",
-          element: <Dashboard />,
+          path: "/dashboard/*",
+          element: <DashboardLayout />,
         },
         {
           path: "/pricing",

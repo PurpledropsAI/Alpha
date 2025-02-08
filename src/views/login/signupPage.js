@@ -43,6 +43,8 @@ export default function SignupPage() {
           `${BASE_URL}/api/users/signup/`,
           inputs
         );
+        console.log("response: ", result);
+        
         if (result.status.toString().startsWith("2")) {
           setInputs({
             username: "",

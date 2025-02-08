@@ -10,6 +10,7 @@ import { BASE_URL } from "../../api/api";
 
 import "./login.css";
 import axios from "axios";
+import { RotatingLines } from "react-loader-spinner";
 // import
 export default function SignupPage() {
   const [passwordType, setpasswordType] = useState(true);
@@ -45,19 +46,21 @@ export default function SignupPage() {
     }
     try {
       const response = await axios.post(`${BASE_URL}/api/users/login/`, inputs);
-      console.log("loginResponse: ", response);
+      console.log("loginResponse: ", response?.data);
       const data = response?.data;
 
       if (response?.data?.token) {
-        localStorage.setItem("token", response?.data?.token);
-        // navigate("/homePage");
-
-        auth.setToken(data);
+        // localStorage.setItem("token", response?.data?.token);
+        auth.setToken(data?.token);
 
         if (data.plan == null || data.plan === "") {
-          navigate("/pricing", { replace: true });
+          console.log("navigate to pricing");
+
+          navigate("/");
         } else {
-          navigate("/dashboard", { replace: true });
+          console.log("navigate to dashboard");
+
+          navigate("/dashboard");
         }
       }
       // if (response.status.toString().startsWith("2")) {
@@ -70,9 +73,12 @@ export default function SignupPage() {
       //   } else navigate("/dashboard", { replace: true });
       // }
     } catch (err) {
-      setErrorMessage(err);
+      console.log("error occurred:", err?.response?.data?.error);
+      if (err?.response?.data?.error) {
+        setErrorMessage(err?.response?.data?.error);
+      }
+      // setErrorMessage(err);
     } finally {
-      setErrorMessage("");
       setIsLoading(false);
     }
   };
@@ -91,7 +97,9 @@ export default function SignupPage() {
       <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-16 max-sm:pt-20">
         <div className="text-2xl sm:text-4xl md:text-5xl">
           Get started <br /> with{" "}
-          <span className="text-green-500 font-semibold font-poppins">Alpha Robotics LLP</span>
+          <span className="text-green-500 font-semibold font-poppins">
+            Alpha Robotics LLP
+          </span>
         </div>
       </div>
 
@@ -171,14 +179,30 @@ export default function SignupPage() {
               </div>
             </div>
             {errorMessage && (
-              <span className="text-12px text-red-500">{errorMessage}</span>
+              <span className="text-[12px] text-red-500">{errorMessage}</span>
             )}
 
             <button
               type="submit"
-              className="w-full bg-green-500  py-2 rounded-3xl hover:bg-green-600 transition font-bold"
+              className={`flex justify-center w-full  py-2 rounded-3xl hover:bg-green-600 transition font-bold ${
+                isLoading ? "px-16 bg-green-300" : "bg-green-500"
+              }`}
             >
-              Log In
+              {isLoading ? (
+                <RotatingLines
+                  visible={true}
+                  height="40"
+                  width="40"
+                  color="white"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                <span> Log In</span>
+              )}
             </button>
           </form>
 
