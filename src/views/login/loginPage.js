@@ -11,10 +11,12 @@ import { BASE_URL } from "../../api/api";
 import "./login.css";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
+import ConfirmModal from "../../components/modals/confirmModal";
 // import
 export default function SignupPage() {
   const [passwordType, setpasswordType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [inputs, setInputs] = useState({
     email_or_phone: "",
@@ -50,28 +52,26 @@ export default function SignupPage() {
       const data = response?.data;
 
       if (response?.data?.token) {
-        // localStorage.setItem("token", response?.data?.token);
-        auth.setToken(data?.token);
 
         if (data.plan == null || data.plan === "") {
-          console.log("navigate to pricing");
+          setIsSuccessModal(true);
+          setTimeout(() => {
+            setIsSuccessModal(false);
+        auth.setToken(data?.token);
 
-          navigate("/");
+            navigate("/");
+          }, 2000);
         } else {
-          console.log("navigate to dashboard");
+          setIsSuccessModal(true);
+          setTimeout(() => {
+            setIsSuccessModal(false);
+        auth.setToken(data?.token);
 
-          navigate("/dashboard");
+            navigate("/dashboard");
+          }, 2000);
         }
+        
       }
-      // if (response.status.toString().startsWith("2")) {
-      //   const data = response?.data;
-
-      //   auth.setToken(data);
-
-      //   if (data.plan == null || data.plan == "") {
-      //     navigate("/pricing", { replace: true });
-      //   } else navigate("/dashboard", { replace: true });
-      // }
     } catch (err) {
       console.log("error occurred:", err?.response?.data?.error);
       if (err?.response?.data?.error) {
@@ -136,7 +136,7 @@ export default function SignupPage() {
                 value={inputs.email_or_phone}
                 onChange={handleInput}
                 className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
-                placeholder="hariuxi.dsgn@gmail.com"
+                placeholder="xyz@gmail.com"
               />
             </div>
 
@@ -214,43 +214,50 @@ export default function SignupPage() {
           </div>
 
           {/* Social Icons */}
-          <div className="flex justify-center mt-8 space-x-4 ">
-            <a href="#">
+          {/* <div className="flex justify-center mt-8 space-x-4 text-white bg-white w-full h-full ">
+            <button className="bg-white w-96 h-96">
               <i className="fab fa-instagram"></i>
-            </a>
-            <a href="#">
+            </button>
+            <button >
               <i className="fab fa-facebook"></i>
-            </a>
-            <a href="#">
+            </button>
+            <button >
               <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#">
+            </button>
+            <button >
               <i className="fab fa-google"></i>
-            </a>
-          </div>
+            </button>
+          </div> */}
         </div>
       </div>
       <img
+        alt="logo"
         src="/logo.png"
         className="absolute top-5 sm:top-10 left-5 sm:left-10 w-14 sm:w-20"
       ></img>
       <div className="max-sm:hidden absolute flex justify-between bottom-10 left-10 sm:gap-[20rem]">
         <div>© 2024 alpha All Rights Reserved.</div>
         <div className="flex gap-4 text-black">
-          <div className="bg-white rounded-full p-2">
+          <button className="bg-white rounded-full p-2">
             <FaInstagram />
-          </div>
-          <div className="bg-white rounded-full p-2">
+          </button>
+          <button className="bg-white rounded-full p-2">
             <FaXTwitter />
-          </div>
-          <div className="bg-white rounded-full p-2">
+          </button>
+          <button className="bg-white rounded-full p-2">
             <FiFacebook />
-          </div>
-          <div className="bg-white rounded-full p-2">
+          </button>
+          <button className="bg-white rounded-full p-2">
             <TbBrandThreads />
-          </div>
+          </button>
         </div>
       </div>
+       {isSuccessModal && (
+              <ConfirmModal
+                title="Login Successfull"
+                isClose={false}
+              />
+            )}
     </div>
   );
 }

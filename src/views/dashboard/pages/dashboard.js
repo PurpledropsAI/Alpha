@@ -16,6 +16,8 @@ import { SiTether } from "react-icons/si";
 import { RiBnbFill } from "react-icons/ri";
 import axios from "axios";
 import { BASE_URL } from "../../../api/api";
+import DepositModal from "../../../components/modals/depositModal";
+import FailureModal from "../../../components/modals/failureModal";
 
 const tabs = [
   {
@@ -37,7 +39,11 @@ const tabs = [
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
+  const [isDepositModal, setIsDepositModal] = useState(false);
+  const [bal, setBal] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
+  // /binance/data
   const fetchUserData = async () => {
     // e.preventDefault();
     // if (isLoading) return;
@@ -61,7 +67,7 @@ export default function Dashboard() {
 
       console.log("response: ", response.data);
       if (response?.status === 200) {
-        setUserData(response?.data);
+        return response?.data;
       }
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
@@ -70,8 +76,95 @@ export default function Dashboard() {
     }
   };
 
+  const fetchBalance = async () => {
+    // e.preventDefault();
+    // if (isLoading) return;
+    // setIsLoading(true);
+
+    const token = localStorage.getItem("token");
+    console.log("token: ", token);
+
+    if (!token) {
+      alert("token not found. Please login again");
+      // setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${BASE_URL}/bot/config/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+
+      console.log("bot/config: ", response.data);
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+    } finally {
+      // setIsLoading(false);  // ✅ Ensures loading state resets
+    }
+  };
+  const startTrade = async () => {
+    // e.preventDefault();
+    // if (isLoading) return;
+    // setIsLoading(true);
+
+    const token = localStorage.getItem("token");
+    console.log("token: ", token);
+
+    if (!token) {
+      alert("token not found. Please login again");
+      // setIsLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${BASE_URL}/bot/start-trade/`, {
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      });
+
+      console.log("bot/config: ", response.data);
+      if (response?.status === 200) {
+        return response?.data;
+      }
+    } catch (error) {
+      console.error("Error:", error.response?.data || error.message);
+      if (error?.response?.data?.error) {
+        setErrorMessage("Bot is disabled. Enable it.");
+      }
+    } finally {
+      // setIsLoading(false);  // ✅ Ensures loading state resets
+    }
+  };
+
+  // const fetch
+  const handleStartBotClick = async () => {
+    const response1 = await fetchBalance();
+    if (response1?.is_enabled === false) {
+      setErrorMessage("Bot is disabled. Enable it.");
+      return;
+    }
+    const response2 = await startTrade();
+    console.log("response2: ", response2);
+  };
+
   useEffect(() => {
-    fetchUserData();
+    async function fetchDta() {
+      const data = await fetchBalance();
+      setBal(data?.initial_capital);
+      if (data?.is_enabled === false) {
+        setIsDepositModal(true);
+      }
+
+      const data2 = await fetchUserData();
+      setUserData(data2);
+    }
+    fetchDta();
   }, []);
 
   return (
@@ -80,7 +173,7 @@ export default function Dashboard() {
         {/* side tabs section */}
         <div className=" w-full md:w-2/5 bg-transparent p-4">
           <ActivitySideBar />
-          <StatsSideBar usdtBal={userData?.relevantBalances[1]?.free}/>
+          <StatsSideBar usdtBal={bal || 0} />
           <SwitchBoxSideBar />
           {/* {sideTabs.map((tab, index) => createTab(tab, index))} */}
         </div>
@@ -90,20 +183,35 @@ export default function Dashboard() {
           <div className="my-5">
             <SuccessBar />
           </div>
-          <div className="flex gap-10 w-full my-5">
+          <div className="grid grid-cols-3 gap-10 w-full my-5">
             <div className="flex items-center gap-3 p-5 rounded-lg bg-white">
-              <div className="p-2 rounded-full bg-green-500">
+              <div className="p-2 rounded-full bg-green-600">
                 <SiTether color="white" size={40} />
               </div>
 
-              <span className="text-[20px]">Total USDT: {Number(userData?.relevantBalances[1]?.free || 0).toFixed(4)}</span>
+              <span className="text-[20px]">
+                Total USDT:{" "}
+                {Number(userData?.relevantBalances[1]?.free || 0).toFixed(4)}
+              </span>
             </div>
             <div className="flex items-center gap-3 p-5 rounded-lg bg-white">
               <div className="p-2 rounded-full bg-yellow-500">
                 <RiBnbFill color="white" size={40} />
               </div>
 
-              <span className="text-[20px]">Total BNB:  {Number(userData?.relevantBalances[0]?.free).toFixed(4)}</span>
+              <span className="text-[20px]">
+                Total BNB:{" "}
+                {Number(userData?.relevantBalances[0]?.free).toFixed(4)}
+              </span>
+            </div>
+            <div
+              className="flex items-center gap-3 p-5  rounded-lg bg-green-600 cursor-pointer hover:bg-green-500"
+              onClick={() => handleStartBotClick()}
+            >
+              <div className="p-2 px-4 rounded-xl bg-white">
+                <img src="/hello3.png" alt="logo" className="w-12 h-12" />
+              </div>
+              <span className="text-white w-full text-[20px]">Start Bot</span>
             </div>
           </div>
           <div>
@@ -129,6 +237,21 @@ export default function Dashboard() {
           {tabs.map((tab, index) => createTab(tab, index))}
         </div>
       </div>
+      {isDepositModal && (
+        <DepositModal
+          onClose={() => setIsDepositModal(false)}
+          onConfirm={() => {
+            fetchBalance();
+            setIsDepositModal(false);
+          }}
+        />
+      )}
+      {errorMessage && (
+        <FailureModal
+          message1={errorMessage}
+          onClose={() => setErrorMessage("")}
+        />
+      )}
     </div>
   );
 }

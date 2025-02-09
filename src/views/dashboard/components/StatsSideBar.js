@@ -1,10 +1,9 @@
 import { TfiStatsUp } from "react-icons/tfi";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
-import { BiTargetLock } from "react-icons/bi";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoMdWallet } from "react-icons/io";
 
-const StatsSideBar = ({usdtBal}) => {
+const StatsSideBar = ({ usdtBal }) => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
@@ -45,14 +44,16 @@ const StatsSideBar = ({usdtBal}) => {
             </div>
             <div className=" flex flex-col items-start">
               <span className="text-alphaGray mb-1 uppercase">
-                Total <span className=" text-alphaBlack">USDT</span> in Assets
-                on Exchange:{" "}
+                Total <span className=" text-alphaBlack">USDT</span> set as
+                Initial capital for the bot to trade:
                 <span className="text-alphaBlack font-normal">
                   <BsFillQuestionCircleFill />
                 </span>
               </span>
               <span className="text-2xl mb-1 text-green-500 font-bold">
-                {Number(usdtBal || 0)?.toFixed(4)} {`(0%)`}
+                {/* {Number(usdtBal || 0)?.toFixed(4)} {`(0%)`} */}
+                {usdtBal}
+                {"(0%)"}
               </span>
 
               <span className="text-alphaGray mb-1">

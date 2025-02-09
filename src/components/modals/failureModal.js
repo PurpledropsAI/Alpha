@@ -3,7 +3,7 @@ import checkImg from "..//assets/check.png";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { MdError } from "react-icons/md";
 
-export default function FailureModal({ message, onClose }) {
+export default function FailureModal({ message1, message2, onClose }) {
   return (
     <div
       className="w-screen h-screen fixed top-0 left-0 flex text-black font-aclonica justify-center items-center backdrop-blur-xl z-[100]"
@@ -23,8 +23,10 @@ export default function FailureModal({ message, onClose }) {
         <MdError size={50} color="red" />
 
         <span className="text-red-500 text-[32px]">Error</span>
-        <span>{message}</span>
-        {/* <img src={checkImg} alt="checkImg" className="w-44" /> */}
+        <div className="flex flex-col gap-2">
+          <span>{message1}</span>
+          {message2 && <span className="text-[12px]">{message2}</span>}
+        </div>
       </div>
     </div>
   );

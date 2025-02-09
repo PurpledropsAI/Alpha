@@ -204,7 +204,13 @@ export default function HomePage() {
       </div>
       <Footer />
 
-      {isSuccessModal && <ConfirmModal />}
+      {isSuccessModal && (
+        <ConfirmModal
+          isClose={false}
+          title="Connect Confirmation"
+          message1="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+        />
+      )}
       {isFailureModal && (
         <FailureModal
           message="Please Check your API KEY & SECRET KEY and Try again."

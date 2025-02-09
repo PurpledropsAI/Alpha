@@ -9,10 +9,16 @@ import "./login.css";
 import axios from "axios";
 import { useAuth } from "../auth/AuthProvider";
 import { BASE_URL, SIGN_UP_URL } from "../../api/api";
+import { RotatingLines } from "react-loader-spinner";
+import ConfirmModal from "../../components/modals/confirmModal";
+import FailureModal from "../../components/modals/failureModal";
 // import
 export default function SignupPage() {
   let [passWordType, setPasswordType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSuccessModal, setIsSuccessModal] = useState(false);
+  const [isFailureModal, setIsFailureModal] = useState(false);
+  // const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -39,13 +45,13 @@ export default function SignupPage() {
       console.log("inpts", inputs);
 
       try {
-        const result = await axios.post(
+        const response = await axios.post(
           `${BASE_URL}/api/users/signup/`,
           inputs
         );
-        console.log("response: ", result);
-        
-        if (result.status.toString().startsWith("2")) {
+        console.log("response: ", response);
+
+        if (response.status.toString().startsWith("2")) {
           setInputs({
             username: "",
             email: "",
@@ -53,13 +59,14 @@ export default function SignupPage() {
             password: "",
           });
 
-          const data = result.data;
+          const data = response.data;
           setSuccessMessage(data.message);
 
-          const user_id = data.user_id;
-          auth.setToken({ user_id });
-
-          navigate("/pricing", { replace: true });
+          if (data?.message === "Signup successful") {
+            setIsSuccessModal(true);
+          } else {
+            setIsFailureModal(true);
+          }
         }
       } catch (err) {
         let errors = [];
@@ -89,7 +96,7 @@ export default function SignupPage() {
       }
     } else {
       setIsLoading(false);
-      setErrorMessage("Please fill the below details");
+      setErrorMessage("Please fill in all the details");
     }
   };
 
@@ -101,13 +108,20 @@ export default function SignupPage() {
     }));
   };
 
+  const handleModalOnClose = () => {
+    setIsSuccessModal(false);
+    navigate("/login");
+  };
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen h-full w-screen sm:p-10 bg-cover bg-center bg-no-repeat text-white bg-black background-imag">
       {/* Left Section */}
       <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-16 max-sm:pt-20">
         <div className="text-2xl sm:text-4xl md:text-5xl">
           Get started <br /> with{" "}
-          <span className="text-green-500 font-semibold font-poppins">Alpha Robotics LLP</span>
+          <span className="text-green-500 font-semibold font-poppins">
+            Alpha Robotics LLP
+          </span>
         </div>
       </div>
 
@@ -132,7 +146,7 @@ export default function SignupPage() {
                 value={inputs.username}
                 onChange={handleInput}
                 className="w-full px-4 p-3 rounded-3xl border bg-transparent  outline-none "
-                placeholder="Hariharan .S"
+                placeholder="Username"
               />
             </div>
 
@@ -146,7 +160,7 @@ export default function SignupPage() {
                 value={inputs.email}
                 onChange={handleInput}
                 className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
-                placeholder="hariuxi.dsgn@gmail.com"
+                placeholder="xyz@gmail.com"
               />
             </div>
 
@@ -164,7 +178,7 @@ export default function SignupPage() {
                   value={inputs.phone_number}
                   onChange={handleInput}
                   className="w-full px-4 py-3 rounded-r-3xl border bg-transparent outline-none  "
-                  placeholder="+91 97913 36435"
+                  placeholder="+00 0000000000"
                 />
               </div>
             </div>
@@ -189,14 +203,31 @@ export default function SignupPage() {
                   👁️
                 </span>
               </div>
+              {errorMessage && (
+                <span className="text-red-500 text-[12px]">{errorMessage}</span>
+              )}
             </div>
 
             <button
               type="submit"
               // onClick={handleSubmitEvent}
-              className="w-full bg-green-500  py-2 rounded-3xl hover:bg-green-600 transition font-bold"
+              className="flex justify-center w-full bg-green-500  py-2 rounded-3xl hover:bg-green-600 transition font-bold"
             >
-              Sign Up
+              {isLoading ? (
+                <RotatingLines
+                  visible={true}
+                  height="40"
+                  width="40"
+                  color="white"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  ariaLabel="rotating-lines-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                <span> Sign Up</span>
+              )}
             </button>
           </form>
 
@@ -209,22 +240,23 @@ export default function SignupPage() {
 
           {/* Social Icons */}
           <div className="flex justify-center mt-8 space-x-4 ">
-            <a href="#">
+            <div>
               <i className="fab fa-instagram"></i>
-            </a>
-            <a href="#">
+            </div>
+            <div>
               <i className="fab fa-facebook"></i>
-            </a>
-            <a href="#">
+            </div>
+            <div>
               <i className="fab fa-twitter"></i>
-            </a>
-            <a href="#">
+            </div>
+            <div>
               <i className="fab fa-google"></i>
-            </a>
+            </div>
           </div>
         </div>
       </div>
       <img
+        alt="logo"
         src="/logo.png"
         className="absolute top-5 sm:top-10 left-5 sm:left-10 w-14 sm:w-20"
       ></img>
@@ -245,6 +277,23 @@ export default function SignupPage() {
           </div>
         </div>
       </div>
+
+      {isSuccessModal && (
+        <ConfirmModal
+          title="Signup Successfull"
+          message1="Please login in to proceed."
+          isClose={true}
+          onClose={() => handleModalOnClose()}
+        />
+      )}
+      {isFailureModal && (
+        <FailureModal
+        
+          message1="Some error occurred."
+          message2="Please try again."
+          onClose={() => handleModalOnClose()}
+        />
+      )}
     </div>
   );
 }
