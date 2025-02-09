@@ -89,7 +89,7 @@ const DashboardLayout = () => {
         {/* <div> */}
         {sideBarIsOpen && (
           <nav
-            className={` h-screen transition-all ease-in-out duration-200 ${
+            className={`flex flex-col  h-screen transition-all ease-in-out duration-200 ${
               sideBarIsOpen ? "translate-x-0 w-72" : "-translate-x-full w-0"
             }`}
           >

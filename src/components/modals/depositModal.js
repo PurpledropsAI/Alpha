@@ -6,7 +6,7 @@ import { BASE_URL } from "../../api/api";
 import axios from "axios";
 import ConfirmModal from "./confirmModal";
 
-export default function DepositModal({ onClose, onConfirm }) {
+export default function DepositModal({ onClose, onConfirm, usdtBal}) {
   const [balValue, setBalValue] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSuccessModal, setIsSuccessModal] = useState(false);
@@ -83,14 +83,14 @@ export default function DepositModal({ onClose, onConfirm }) {
             Set Initial Capital for Bot to Trade
           </span>
           <span>
-            You have <span className="text-green-500">103.789 USDT</span>{" "}
-            available in yoru wallet. To add more transfer funds from your
+            You have <span className="text-green-500">{usdtBal} USDT</span>{" "}
+            available in your wallet. To add more transfer funds from your
             funding wallet to spot or make a deposit.
           </span>
         </div>
         <div className="w-full h-[0.5px] bg-black bg-opacity-40"></div>
         <div className="flex flex-col gap-2">
-          <span className="text-green-500 text-[20px]">Deposit USDT </span>
+          {/* <span className="text-green-500 text-[20px]">Deposit USDT </span> */}
           <span>
             Please enter the initial USDT amount you want to use for trading/
           </span>
@@ -117,8 +117,8 @@ export default function DepositModal({ onClose, onConfirm }) {
       {isSuccessModal && (
               <ConfirmModal
                 isClose={false}
-                title="Connect Confirmation"
-                message1="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+                title="Success"
+                message1={`Initial Capital Set as ${balValue} USDT`}
               />
             )}
     </div>

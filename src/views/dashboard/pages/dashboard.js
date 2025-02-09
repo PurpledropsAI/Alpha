@@ -91,6 +91,8 @@ export default function Dashboard() {
     }
 
     try {
+      console.log("fetching balance...");
+
       const response = await axios.get(`${BASE_URL}/bot/config/`, {
         headers: {
           Authorization: `Token ${token}`,
@@ -99,6 +101,7 @@ export default function Dashboard() {
 
       console.log("bot/config: ", response.data);
       if (response?.status === 200) {
+        setBal(response?.data?.initial_capital);
         return response?.data;
       }
     } catch (error) {
@@ -122,18 +125,23 @@ export default function Dashboard() {
     }
 
     try {
-      const response = await axios.get(`${BASE_URL}/bot/start-trade/`, {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
-      });
+      const response = await axios.post(
+        `${BASE_URL}/bot/start-trade/`,
+        {},
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
 
       console.log("bot/config: ", response.data);
       if (response?.status === 200) {
         return response?.data;
       }
     } catch (error) {
-      console.error("Error:", error.response?.data || error.message);
+      console.error("Error:", error?.response?.data);
+      console.error("ErrorMessage:", error?.message);
       if (error?.response?.data?.error) {
         setErrorMessage("Bot is disabled. Enable it.");
       }
@@ -146,6 +154,7 @@ export default function Dashboard() {
   const handleStartBotClick = async () => {
     const response1 = await fetchBalance();
     if (response1?.is_enabled === false) {
+      console.log("is_enabled is false.");
       setErrorMessage("Bot is disabled. Enable it.");
       return;
     }
@@ -239,6 +248,7 @@ export default function Dashboard() {
       </div>
       {isDepositModal && (
         <DepositModal
+          usdtBal={userData?.relevantBalances[1]?.free || 0}
           onClose={() => setIsDepositModal(false)}
           onConfirm={() => {
             fetchBalance();

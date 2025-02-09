@@ -52,6 +52,7 @@ export default function SignupPage() {
       const data = response?.data;
 
       if (response?.data?.token) {
+        localStorage.setItem("userData", JSON.stringify(data));
         if (data.plan == null || data.plan === "") {
           setIsSuccessModal(true);
           setTimeout(() => {
