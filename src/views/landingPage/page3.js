@@ -76,14 +76,16 @@ export default function Page3() {
     },
   ];
   return (
-    <div className="flex w-screen rounded-[5rem] p-10 my-20 bg-[#293140]">
-      <div className="flex flex-col gap-5 w-5/12">
-        <span className="text-[16px] text-slate-300 ">Our Services</span>
-        <span className="text-[60px] pr-10">
+    <div className="flex flex-col lg:flex-row w-screen rounded-[3rem] sm:rounded-[5rem] p-3 sm:p-10 my-20 bg-[#293140]">
+      <div className="flex flex-col p-2 sm:p-5 md:p-0 gap-5 lg:w-5/12">
+        <span className="text-[12px] sm:text-[16px] text-slate-300 ">
+          Our Services
+        </span>
+        <span className="text-[20px] sm:text-[60px] pr-10">
           Simplify The Process To Shorten The Timeline.
         </span>
       </div>
-      <div className="w-7/12">
+      <div className="lg:w-7/12">
         {accordianData?.map((item, index) => (
           <div>
             <Accordion
@@ -101,18 +103,18 @@ export default function Page3() {
                 }
               >
                 <div className="flex items-center text-[20px] gap-3">
-<span>{item.id}</span>
-                <span className="text-[32px]">{item.title}</span>
+                  <span className="text-[14px] sm:text-[16px]">{item.id}</span>
+                  <span className="text-[20px] sm:text-[32px]">{item.title}</span>
                 </div>
               </AccordionSummary>
               <AccordionDetails>
                 <div className="flex flex-col gap-3 font-extralight">
-                  <span className="font-extralight">{item.description}</span>
+                  <span className="text-[14px] sm:text-[16px] font-extralight">{item.description}</span>
                   <div className="flex gap-3 flex-wrap">
                     {item.tags?.map((tag, index) => (
                       <div className="flex items-center ">
                         <MdKeyboardDoubleArrowRight />
-                        <span>{tag}</span>
+                        <span className="text-[12px] sm:text-[16px]">{tag}</span>
                       </div>
                     ))}
                   </div>

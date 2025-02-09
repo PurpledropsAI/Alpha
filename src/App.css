@@ -16,7 +16,7 @@
   0% {
     transform: translate(0%);
   }
-  50%{
+  50% {
     transform: translate(250%);
   }
   100% {
@@ -24,4 +24,19 @@
   }
 }
 
-
+@media screen and (max-width: 500px) {
+  .animate-slide {
+    animation: slide infinite 5s linear;
+  }
+  @keyframes slide {
+    0% {
+      transform: translate(0%);
+    }
+    50% {
+      transform: translate(85%);
+    }
+    100% {
+      transform: translateX(0%);
+    }
+  }
+}

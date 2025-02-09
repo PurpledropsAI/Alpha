@@ -7,8 +7,8 @@ export default function PaymentModal({onclose}) {
   const [selectedMethod, setSelectedMethod] = useState('creditCard');
 
   return (
-    <div className='w-screen h-screen fixed top-0 text-black left-0 flex font-aclonica justify-center items-center backdrop-blur-xl z-[100]' data-aos="fade-in">
-      <div className="fixed bg-white rounded-lg shadow-lg p-10 w-full max-w-4xl" data-aos="zoom-in">
+    <div className='w-screen h-full sm:h-screen fixed top-0 text-black left-0 flex font-aclonica justify-center items-center backdrop-blur-xl z-[100] overflow-auto' data-aos="fade-in">
+      <div className="fixed h-full m-10 bg-white rounded-lg shadow-lg p-3 sm:p-10 w-full max-w-4xl" data-aos="zoom-in">
         <div className='flex justify-between items-center py-5'>
           <h2 className="text-2xl font-bold ">Payment Method</h2>
           <CgCloseO size={25} onClick={onclose} className='cursor-pointer'/>

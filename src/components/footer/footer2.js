@@ -5,10 +5,10 @@ import { IoIosArrowRoundForward } from "react-icons/io";
 export default function Footer() {
   return (
     <div className="bg-[#10192A] h-full w-full">
-      <div className="flex sm:flex-row justify-between gap-5 items-center  p-5 sm:p-10 h-full w-full">
-        <div className="flex flex-col justify-between gap-10 h-full w-[40rem]">
+      <div className="flex flex-col lg:flex-row justify-between gap-5 items-center  p-3 sm:p-10 h-full w-full">
+        <div className="flex flex-col justify-between gap-10 h-full w-full sm:w-[40rem]">
           <div className="flex justify-between items-center">
-            <img src="/logo.png" alt="logo" className="w-16 sm:w-36"></img>
+            <img src="/logo.png" alt="logo" className="w-20 sm:w-36"></img>
             {/* <div className='flex gap-4 text-black h-full'>
                             <div className='text-green-500 rounded-full cursor-pointer'>
                                 <FaInstagram size={30} />
@@ -27,7 +27,7 @@ export default function Footer() {
               NEVER MISS ANY UPDATED ABOUT US BY SUBSCRIBING TO OUR NEWSLETTER
             </p>
           </div>
-          <div className="relative">
+          <div className="relative w-full">
             <input
               placeholder="EMAIL"
               className="p-2 px-4 w-full bg-white rounded-xl outline-none"
@@ -49,8 +49,8 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between gap-5 sm:p-5 text-white font-extralight w-full">
-          <ul className="flex flex-col gap-3">
+        <div className="flex flex-wrap justify-between gap-5 sm:p-5 text-white font-extralight w-full">
+          <ul className="flex flex-col gap-1 sm:gap-3 text-[12px] sm:text-[16px]">
             <li className=" font-semibold">Features</li>
             <li>Crypto Baskets</li>
             <li>DCA Investing</li>
@@ -60,7 +60,7 @@ export default function Footer() {
             <li>ChatGPT Strategy</li>
             <li>Paper Trading</li>
           </ul>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-1 sm:gap-3 text-[12px] sm:text-[16px]">
             <li className=" font-semibold">Resources</li>
             <li>Investing Guides</li>
             <li>Trading Bots Guides</li>
@@ -70,7 +70,7 @@ export default function Footer() {
             <li>Scalping Signals</li>
             <li>Feedback</li>
           </ul>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col gap-1 sm:gap-3 text-[12px] sm:text-[16px]">
             <li className=" font-semibold">Company</li>
             <li>About Us</li>
             <li>Contact</li>
@@ -82,12 +82,12 @@ export default function Footer() {
           </ul>
         </div>
         <div className="flex flex-col justify-end  h-full">
-          <img src="/hello.png" alt="helloLogo" className="w-96"></img>
+          <img src="/hello.png" alt="helloLogo" className="w-60 sm:w-96"></img>
         </div>
       </div>
       <div className="bg-slate-400 w-screen h-[1px]"></div>
 
-      <div className="p-10 sm:px-10 flex flex-col sm:flex-row gap-3 text-center justify-between text-white text-[12px] sm:text-[14px]">
+      <div className="p-3 sm:px-10 flex flex-col sm:flex-row gap-3 text-center justify-between text-white text-[12px] sm:text-[14px]">
         <p>© alpha robotics llp. All Rights Reserved 2024</p>
         <p>Designed by our company</p>
       </div>

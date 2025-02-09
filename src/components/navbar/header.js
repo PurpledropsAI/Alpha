@@ -11,16 +11,16 @@ export default function Header() {
         className="w-14 sm:w-20 cursor-pointer"
         onClick={() => navigate("/")}
       ></img>
-      <div className="flex gap-5">
+      <div className="flex gap-5 text-[14px]">
         <Link
           to="/signup"
-          className="p-1 px-2 sm:p-2 sm:px-10 bg-white text-green-600 rounded-full"
+          className="p-2 px-4  sm:px-10 bg-white text-green-600 rounded-full"
         >
           Sign Up
         </Link>
         <Link
           to="/login"
-          className="p-1 px-2 sm:p-2 sm:px-10 bg-green-500 text-white rounded-full"
+          className="p-2 px-4  sm:px-10 bg-green-500 text-white rounded-full"
         >
           Log In
         </Link>

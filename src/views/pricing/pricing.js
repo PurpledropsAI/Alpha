@@ -46,15 +46,15 @@ export default function Pricing() {
 
       <div className="flex flex-col gap-5 items-center p-3 sm:p-20 w-full">
         <div className="text-center text-white">
-          <h1 className="text-4xl font-bold">
+          <h1 className="text-[18px] sm:text-4xl font-bold">
             Start making <span className="text-green-400">smarter</span>{" "}
             decisions,
           </h1>
-          <h2 className="text-4xl font-bold">Choose a plan</h2>
+          <h2 className="text-[18px] sm:text-4xl font-bold">Choose a plan</h2>
         </div>
 
         {/* Pricing Cards */}
-        <div className="flex flex-col sm:flex-row gap-8">
+        <div className="flex flex-col sm:flex-row justify-center gap-8 w-full">
           {cardList?.map((items, index) => (
             <div
               key={index}
@@ -74,7 +74,7 @@ export default function Pricing() {
               <div className="w-full h-[1px] bg-slate-400"></div>
               <ul className="text-gray-700 space-y-2">
                 {items.descriptionList?.map((desc, index) => (
-                  <li key={index}>✔ {desc}</li>
+                  <li key={index} className="text-[14px] sm:text-[16px]">✔ {desc}</li>
                 ))}
               </ul>
               <div
@@ -93,9 +93,9 @@ export default function Pricing() {
         </div>
 
         {/* Footer Icons */}
-        <div className="flex gap-5 justify-center items-center text-green-500 text-center">
+        <div className="flex gap-2 sm:gap-5 justify-center items-center text-green-500 text-center">
           {pricingFooter?.map((item, index) => (
-            <div className="flex flex-col sm:flex-row gap-1 items-center">
+            <div className="flex flex-col sm:flex-row gap-1 items-center text-[12px] sm:text-[16px]">
               <FaCircleCheck className="text-green-500" />
               {item}
             </div>

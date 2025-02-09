@@ -25,12 +25,12 @@ export default function HomeHeader() {
           className="flex items-center justify-center gap-5 cursor-pointer hover:border  p-3 rounded-md"
           onClick={() => setShowOptions(!showOptions)}
         >
-          <img src="avatar.png" alt="avatar" className="w-16" />
+          <img src="avatar.png" alt="avatar" className="w-8 sm:w-16" />
 
-          <span>Mr. John Mathew</span>
+          <span className="text-[12px] sm:text-[14px]">Mr. John Mathew</span>
         </div>
         <div
-          className={`top-20 right-0 flex justify-center items-center p-5 px-10 rounded-lg bg-black bg-opacity-20 ${
+          className={`top-20 right-0 flex justify-center items-center p-5 px-10 rounded-lg bg-black bg-opacity-40 ${
             showOptions ? "absolute" : "hidden"
           }`}
         >

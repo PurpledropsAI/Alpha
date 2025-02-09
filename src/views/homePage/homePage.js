@@ -81,12 +81,12 @@ export default function HomePage() {
     <div className="flex flex-col items-center font-aclonica text-white justify-center h-full bg-gradient-to-br from-[#0D3225] via-[#172631] to-[#545767]  overflow-hidden">
       <HomeHeader />
 
-      <div className="flex flex-col gap-5 p-10 items-center w-full">
+      <div className="flex flex-col gap-5 p-3 sm:p-10 items-center w-full">
         <div className="flex flex-col gap-3 h-full ">
-          <span className="text-[40px]">
+          <span className="text-[20px] sm:text-[40px]">
             Connection Exchange Alpha Trading Bot
           </span>
-          <span className="w-[30rem] font-light">
+          <span className="text-[12px] sm:text-[16px] sm:w-[30rem] font-extralight">
             Kindly watch the video tutorial on how to connect your Binance
             account to the Alpha trading bot
           </span>
@@ -94,8 +94,8 @@ export default function HomePage() {
         </div>
       </div>
 
-      <div className="flex justify-between w-full p-10">
-        <form className="flex flex-col gap-3 w-full" onSubmit={handleSubmit}>
+      <div className="flex flex-col sm:flex-row gap-5 justify-between w-full p-3 sm:p-10">
+        <form className="flex flex-col max-sm:order-last gap-3 w-full text-[14px] sm:text-[16px]" onSubmit={handleSubmit}>
           <div className="flex flex-col gap-2">
             <label htmlFor="name">API Label:</label>
             <input
@@ -103,7 +103,7 @@ export default function HomePage() {
               placeholder="Siva Prakash"
               value={inputs.name}
               onChange={handleInputChange}
-              className="p-4 px-4 rounded-xl outline-none text-black w-[30rem]"
+              className="p-2 sm:p-4 px-4 rounded-xl outline-none text-black sm:w-[30rem]"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -113,7 +113,7 @@ export default function HomePage() {
               placeholder="QKSH2882"
               value={inputs.api_key}
               onChange={handleInputChange}
-              className="p-4 px-4 rounded-xl outline-none text-black w-[30rem]"
+              className="p-2 sm:p-4 px-4 rounded-xl outline-none text-black sm:w-[30rem]"
             />
           </div>
           <div className="flex flex-col gap-2">
@@ -123,7 +123,7 @@ export default function HomePage() {
               placeholder="QKSH2882API"
               value={inputs.api_secret}
               onChange={handleInputChange}
-              className="p-4 px-4 rounded-xl outline-none text-black w-[30rem]"
+              className="p-2 sm:p-4 px-4 rounded-xl outline-none text-black sm:w-[30rem]"
             />
           </div>
           {/* <div className="flex flex-col gap-2">
@@ -156,16 +156,16 @@ export default function HomePage() {
                   wrapperClass=""
                 />
               ) : (
-                <span>Connect to Binance</span>
+                <span >Connect to Binance</span>
               )}
             </button>
           </div>
         </form>
 
-        <div className="px-10 rounded-lg w-full">
-          <div className="flex flex-col gap-3 ">
+        <div className="sm:px-10 rounded-lg w-full">
+          <div className="flex flex-col gap-1 sm:gap-3 text-[14px]">
             <span>Add these APIs to Binance:</span>
-            <div className="flex flex-col items-start gap-3">
+            <div className="flex flex-col items-start gap-1 sm:gap-3">
               <div
                 className={`flex items-center p-2 rounded-lg bg-black bg-opacity-20 gap-2 hover:text-green-300 hover:bg-opacity-40 cursor-pointer ${
                   isCopied1 ? "text-green-500" : ""

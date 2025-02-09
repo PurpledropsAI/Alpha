@@ -38,7 +38,7 @@ export default function Footer() {
                     </div>
 
                 </div>
-                <div className='flex justify-between gap-5 sm:p-5 text-white font-semibold'>
+                <div className='flex justify-between gap-5 sm:p-5 text-[14px] sm:text-[16px] text-white font-semibold'>
                     <ul className='flex flex-col gap-3'>
                         <li>Tokens</li>
                         <li>About Us</li>

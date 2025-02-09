@@ -52,12 +52,11 @@ export default function SignupPage() {
       const data = response?.data;
 
       if (response?.data?.token) {
-
         if (data.plan == null || data.plan === "") {
           setIsSuccessModal(true);
           setTimeout(() => {
             setIsSuccessModal(false);
-        auth.setToken(data?.token);
+            auth.setToken(data?.token);
 
             navigate("/");
           }, 2000);
@@ -65,12 +64,11 @@ export default function SignupPage() {
           setIsSuccessModal(true);
           setTimeout(() => {
             setIsSuccessModal(false);
-        auth.setToken(data?.token);
+            auth.setToken(data?.token);
 
             navigate("/dashboard");
           }, 2000);
         }
-        
       }
     } catch (err) {
       console.log("error occurred:", err?.response?.data?.error);
@@ -92,29 +90,30 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen h-full w-screen sm:p-10 bg-cover bg-center bg-no-repeat text-white bg-black background-imag">
+    <div className="flex flex-col justify-between  sm:h-screen h-full  w-screen sm:p-10 bg-cover bg-center bg-no-repeat text-white bg-black background-imag">
       {/* Left Section */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center p-8 md:p-16 max-sm:pt-20">
-        <div className="text-2xl sm:text-4xl md:text-5xl">
-          Get started <br /> with{" "}
-          <span className="text-green-500 font-semibold font-poppins">
-            Alpha Robotics LLP
-          </span>
+      <div className="flex flex-col md:flex-row h-full">
+        <div className="w-full md:w-1/2 flex flex-col justify-center items-start p-8 md:p-16 max-sm:pt-20">
+          <div className="text-2xl sm:text-4xl md:text-5xl">
+            Get started <br /> with{" "}
+            <span className="text-green-500 font-semibold font-poppins">
+              Alpha Robotics LLP
+            </span>
+          </div>
         </div>
-      </div>
 
-      {/* Right Section */}
-      <div className="w-full md:w-1/2 flex justify-center items-center p-4 sm:p-6 md:p-0">
-        <div className="p-3 sm:p-8 md:p-10 rounded-3xl shadow-lg border w-[30rem]">
-          <h1 className="text-2xl md:text-3xl  font-semibold text-center">
-            Welcome Back <span className="wave-emoji">👋</span>
-          </h1>
-          <p className="text-gray-400 mb-8  text-center">
-            Login your account to get started..!
-          </p>
+        {/* Right Section */}
+        <div className="w-full md:w-1/2 flex justify-center items-center p-4 sm:p-6 md:p-0">
+          <div className="p-3 sm:p-8 md:p-10 rounded-3xl shadow-lg border w-[30rem]">
+            <h1 className="text-2xl md:text-3xl  font-semibold text-center">
+              Welcome Back <span className="wave-emoji">👋</span>
+            </h1>
+            <p className="text-gray-400 mb-8  text-center">
+              Login your account to get started..!
+            </p>
 
-          <form className="space-y-4 " onSubmit={handleSubmitEvent}>
-            {/* <div>
+            <form className="space-y-4 " onSubmit={handleSubmitEvent}>
+              {/* <div>
               <label className="block  mb-1 text-[12px]" htmlFor="username">
                 Username*
               </label>
@@ -126,21 +125,21 @@ export default function SignupPage() {
               />
             </div> */}
 
-            <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="email">
-                Email*
-              </label>
-              <input
-                name="email_or_phone"
-                type="email"
-                value={inputs.email_or_phone}
-                onChange={handleInput}
-                className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
-                placeholder="xyz@gmail.com"
-              />
-            </div>
+              <div>
+                <label className="block  mb-1 text-[12px]" htmlFor="email">
+                  Email*
+                </label>
+                <input
+                  name="email_or_phone"
+                  type="email"
+                  value={inputs.email_or_phone}
+                  onChange={handleInput}
+                  className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
+                  placeholder="xyz@gmail.com"
+                />
+              </div>
 
-            {/* <div>
+              {/* <div>
               <label className="block  mb-1 text-[12px]" htmlFor="phone">
                 Phone Number*
               </label>
@@ -157,64 +156,64 @@ export default function SignupPage() {
               </div>
             </div> */}
 
-            <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="password">
-                Password*
-              </label>
-              <div className="relative">
-                <input
-                  name="password"
-                  type={passwordType ? "password" : "text"}
-                  value={inputs.password}
-                  onChange={handleInput}
-                  className="w-full px-4 py-3 rounded-3xl border bg-transparent  outline-none "
-                  placeholder="********"
-                />
-                <span
-                  className="absolute inset-y-0 right-4 flex items-center text-gray-400 cursor-pointer"
-                  onClick={() => setpasswordType(!passwordType)}
-                >
-                  👁️
-                </span>
+              <div>
+                <label className="block  mb-1 text-[12px]" htmlFor="password">
+                  Password*
+                </label>
+                <div className="relative">
+                  <input
+                    name="password"
+                    type={passwordType ? "password" : "text"}
+                    value={inputs.password}
+                    onChange={handleInput}
+                    className="w-full px-4 py-3 rounded-3xl border bg-transparent  outline-none "
+                    placeholder="********"
+                  />
+                  <span
+                    className="absolute inset-y-0 right-4 flex items-center text-gray-400 cursor-pointer"
+                    onClick={() => setpasswordType(!passwordType)}
+                  >
+                    👁️
+                  </span>
+                </div>
               </div>
-            </div>
-            {errorMessage && (
-              <span className="text-[12px] text-red-500">{errorMessage}</span>
-            )}
-
-            <button
-              type="submit"
-              className={`flex justify-center w-full  py-2 rounded-3xl hover:bg-green-600 transition font-bold ${
-                isLoading ? "px-16 bg-green-300" : "bg-green-500"
-              }`}
-            >
-              {isLoading ? (
-                <RotatingLines
-                  visible={true}
-                  height="40"
-                  width="40"
-                  color="white"
-                  strokeWidth="5"
-                  animationDuration="0.75"
-                  ariaLabel="rotating-lines-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                />
-              ) : (
-                <span> Log In</span>
+              {errorMessage && (
+                <span className="text-[12px] text-red-500">{errorMessage}</span>
               )}
-            </button>
-          </form>
 
-          <div className="text-center mt-6">
-            <span className="text-gray-400">Don’t have an account? </span>
-            <Link to="/signup" className="text-green-500 hover:underline">
-              Sign Up
-            </Link>
-          </div>
+              <button
+                type="submit"
+                className={`flex justify-center w-full  py-2 rounded-3xl hover:bg-green-600 transition font-bold ${
+                  isLoading ? "px-16 bg-green-300" : "bg-green-500"
+                }`}
+              >
+                {isLoading ? (
+                  <RotatingLines
+                    visible={true}
+                    height="40"
+                    width="40"
+                    color="white"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                ) : (
+                  <span> Log In</span>
+                )}
+              </button>
+            </form>
 
-          {/* Social Icons */}
-          {/* <div className="flex justify-center mt-8 space-x-4 text-white bg-white w-full h-full ">
+            <div className="text-center mt-6">
+              <span className="text-gray-400">Don’t have an account? </span>
+              <Link to="/signup" className="text-green-500 hover:underline">
+                Sign Up
+              </Link>
+            </div>
+
+            {/* Social Icons */}
+            {/* <div className="flex justify-center mt-8 space-x-4 text-white bg-white w-full h-full ">
             <button className="bg-white w-96 h-96">
               <i className="fab fa-instagram"></i>
             </button>
@@ -228,6 +227,7 @@ export default function SignupPage() {
               <i className="fab fa-google"></i>
             </button>
           </div> */}
+          </div>
         </div>
       </div>
       <img
@@ -235,9 +235,9 @@ export default function SignupPage() {
         src="/logo.png"
         className="absolute top-5 sm:top-10 left-5 sm:left-10 w-14 sm:w-20"
       ></img>
-      <div className="max-sm:hidden absolute flex justify-between bottom-10 left-10 sm:gap-[20rem]">
-        <div>© 2024 alpha All Rights Reserved.</div>
-        <div className="flex gap-4 text-black">
+      <div className=" flex flex-col sm:flex-row items-center gap-3  justify-between p-3 sm:px-32 sm:gap-[20rem]">
+        <div className="text-[12px] max-sm:order-last sm:text-[16px]">© 2024 alpha All Rights Reserved.</div>
+        <div className="flex gap-4  text-black">
           <button className="bg-white rounded-full p-2">
             <FaInstagram />
           </button>
@@ -252,12 +252,9 @@ export default function SignupPage() {
           </button>
         </div>
       </div>
-       {isSuccessModal && (
-              <ConfirmModal
-                title="Login Successfull"
-                isClose={false}
-              />
-            )}
+      {isSuccessModal && (
+        <ConfirmModal title="Login Successfull" isClose={false} />
+      )}
     </div>
   );
 }

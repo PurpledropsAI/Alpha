@@ -183,7 +183,7 @@ export default function Dashboard() {
           <div className="my-5">
             <SuccessBar />
           </div>
-          <div className="grid grid-cols-3 gap-10 w-full my-5">
+          <div className="grid sm:grid-cols-3 gap-5 sm:gap-10 w-full my-5">
             <div className="flex items-center gap-3 p-5 rounded-lg bg-white">
               <div className="p-2 rounded-full bg-green-600">
                 <SiTether color="white" size={40} />
