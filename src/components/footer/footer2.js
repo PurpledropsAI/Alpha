@@ -1,8 +1,16 @@
 import React from "react";
-import { FaFacebookSquare, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import {
+  FaFacebookSquare,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTelegramPlane,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import { IoIosArrowRoundForward } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
+  const navigate = useNavigate();
   return (
     <div className="bg-[#10192A] h-full w-full">
       <div className="flex flex-col lg:flex-row justify-between gap-5 items-center  p-3 sm:p-10 h-full w-full">
@@ -47,6 +55,25 @@ export default function Footer() {
             <div className="text-green-500 rounded-full cursor-pointer">
               <FaLinkedinIn size={30} />
             </div>
+            <div
+              className="text-green-500 rounded-full cursor-pointer"
+              onClick={() =>
+                window.open(
+                  "https://x.com/Alpha_Robot_LLP?t=Z6yuPpdrcfNZ-9KhHjQO9w&s=09",
+                  "_blank"
+                )
+              }
+            >
+              <FaXTwitter size={30} />
+            </div>
+            <div
+              className="text-green-500 rounded-full cursor-pointer"
+              onClick={() =>
+                window.open("https://t.me/Alpha_Robotics_LLP", "_blank")
+              }
+            >
+              <FaTelegramPlane size={30} />
+            </div>
           </div>
         </div>
         <div className="flex flex-wrap justify-between gap-5 sm:p-5 text-white font-extralight w-full">
@@ -88,7 +115,7 @@ export default function Footer() {
       <div className="bg-slate-400 w-screen h-[1px]"></div>
 
       <div className="p-3 sm:px-10 flex flex-col sm:flex-row gap-3 text-center justify-between text-white text-[12px] sm:text-[14px]">
-        <p>© alpha robotics llp. All Rights Reserved 2024</p>
+        <p>© alpha robotics llp. All Rights Reserved 2025</p>
         <p>Designed by our company</p>
       </div>
     </div>

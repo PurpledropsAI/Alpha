@@ -17,7 +17,7 @@ const ActivitySideBar = () => {
             <div className=" flex flex-col items-start">
               <span className="text-alphaGray mb-1">No Activity</span>
               <span className="text-xl mb-1">Bot is Active</span>
-              <span className="text-slate-400 mb-1">16/10/2024 09:00:00</span>
+              <span className="text-slate-400 mb-1">16/10/2025 09:00:00</span>
             </div>
           </div>
         </div>
@@ -34,7 +34,7 @@ const ActivitySideBar = () => {
             <div className=" flex flex-col items-start">
               <span className="text-alphaGray mb-1">Last activity:</span>
               <span className="text-2xl mb-1">Searching targets</span>
-              <span className="text-alphaGray mb-1">29/08/2024 09:55:10</span>
+              <span className="text-alphaGray mb-1">29/08/2025 09:55:10</span>
             </div>
           </div>
         </div>

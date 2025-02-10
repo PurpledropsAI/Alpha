@@ -91,7 +91,7 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="flex flex-col justify-between  sm:h-screen h-full  w-screen sm:p-10 bg-cover bg-center bg-no-repeat text-white bg-black background-imag">
+    <div className="flex flex-col justify-center sm:justify-between  sm:h-screen min-h-screen  w-screen sm:p-10 bg-cover bg-center bg-no-repeat text-white bg-black background-imag">
       {/* Left Section */}
       <div className="flex flex-col md:flex-row h-full">
         <div className="w-full md:w-1/2 flex flex-col justify-center items-start p-8 md:p-16 max-sm:pt-20">
@@ -237,7 +237,7 @@ export default function SignupPage() {
         className="absolute top-5 sm:top-10 left-5 sm:left-10 w-14 sm:w-20"
       ></img>
       <div className=" flex flex-col sm:flex-row items-center gap-3  justify-between p-3 sm:px-32 sm:gap-[20rem]">
-        <div className="text-[12px] max-sm:order-last sm:text-[16px]">© 2024 alpha All Rights Reserved.</div>
+        <div className="text-[12px] max-sm:order-last sm:text-[16px]">© 5 alpha All Rights Reserved.</div>
         <div className="flex gap-4  text-black">
           <button className="bg-white rounded-full p-2">
             <FaInstagram />
