@@ -3,7 +3,7 @@ import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
 import { BASE_URL } from "../../../api/api";
 
-const TradeCycleDashboard = () => {
+const TradeCycleDashboard = ({setUsdtProfit}) => {
   const [cycleStatus, setCycleStatus] = useState(null);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
@@ -12,7 +12,7 @@ const TradeCycleDashboard = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `${BASE_URL}/bot/trade-cycle-status/`, 
+        `${BASE_URL}/bot/realtime-trade-cycle/`, 
         {
           headers: {
             Authorization: `Token ${token}`,

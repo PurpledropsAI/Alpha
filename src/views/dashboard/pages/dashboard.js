@@ -21,6 +21,7 @@ import FailureModal from "../../../components/modals/failureModal";
 import TradeCycleDashboard from "../components/TradeCycleDashboard";
 import ConfirmModal from "../../../components/modals/confirmModal";
 import { RotatingLines } from "react-loader-spinner";
+import OpenPositionsTab1 from "../components/OpenPositionsTab1";
 
 const tabs = [
   {
@@ -44,6 +45,7 @@ export default function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [isDepositModal, setIsDepositModal] = useState(false);
   const [bal, setBal] = useState("");
+  const [usdtProfit, setUsdtProfit] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successModalMessage, setSuccessModalMessage] = useState("");
   const [successModalTitle, setSuccessModalTitle] = useState("");
@@ -177,7 +179,7 @@ export default function Dashboard() {
     console.log("response2: ", response2);
     if (response2?.message === "Trade cycle initiated.") {
       setSuccessModalMessage("Bot has been successfully initiated.");
-      setSuccessModalTitle("Success");
+      setSuccessModalTitle("Hey! Congratulations");
       setIsSuccessModal(true);
       setTimeout(() => {
         setIsSuccessModal(false);
@@ -279,7 +281,7 @@ export default function Dashboard() {
                   <OpenPositionsTab isfirst={true} />
                 </TabPanel>
                 <TabPanel>
-                  <OpenPositionsTab />
+                  <OpenPositionsTab1 />
                 </TabPanel>
                 <TabPanel>
                   <OpenPositionsTab />
@@ -290,7 +292,7 @@ export default function Dashboard() {
           <div className="p-10 w-full">
             <h1 className="text-3xl text-white mb-5">Dashboard</h1>
             {/* Show trade cycle live updates */}
-            <TradeCycleDashboard />
+            <TradeCycleDashboard setUsdtProfit={(e)=>setUsdtProfit(e)}/>
             {/* ... rest of your dashboard components such as portfolio, stats, etc. */}
           </div>
           {tabs.map((tab, index) => createTab(tab, index))}
