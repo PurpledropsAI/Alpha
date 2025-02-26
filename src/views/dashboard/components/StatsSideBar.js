@@ -3,7 +3,7 @@ import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoMdWallet } from "react-icons/io";
 
-const StatsSideBar = ({ usdtBal }) => {
+const StatsSideBar = ({ usdtBal, usdtProfit }) => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
@@ -24,7 +24,7 @@ const StatsSideBar = ({ usdtBal }) => {
                 </span>
               </span>
               <span className="text-2xl mb-1 text-green-500 font-bold">
-                0.00 USDT{`(0%)`}
+                {usdtProfit} USDT{`(0%)`}
               </span>
               <span className="mb-1">reset |</span>
             </div>

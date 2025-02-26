@@ -7,13 +7,20 @@ import { BiSupport } from "react-icons/bi";
 import { ImStatsBars2 } from "react-icons/im";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { GrMoney } from "react-icons/gr";
+import { useNavigate } from "react-router-dom";
 
-
-const DashboardHeader = ({sideBarIsOpen}) => {
+const DashboardHeader = ({ sideBarIsOpen }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const navigate = useNavigate();
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
   };
 
   return (
@@ -31,11 +38,13 @@ const DashboardHeader = ({sideBarIsOpen}) => {
           </div>
           <div className="hidden md:inline-block text-black">
             <div className="flex justify-between gap-5 items-center font-semibold">
-              <h2 className="mr-7">Advanced view</h2>
+              
               <TbMoonFilled className="inline text-3xl cursor-pointer" />
               <FaUserAlt className="inline text-3xl cursor-pointer" />
-              <FaDiscord className="inline text-3xl cursor-pointer"/>
-
+              <FaDiscord className="inline text-3xl cursor-pointer" />
+              <span className="mr-7 cursor-pointer border bg-green-500 rounded-lg p-2 px-4" onClick={() => handleLogout()}>
+                Logout
+              </span>
             </div>
           </div>
         </header>
@@ -48,8 +57,6 @@ const DashboardHeader = ({sideBarIsOpen}) => {
         }`}
         onClick={toggleNavbar}
       ></div> */}
-
-      
     </div>
   );
 };

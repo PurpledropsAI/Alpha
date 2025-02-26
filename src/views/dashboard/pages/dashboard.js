@@ -18,6 +18,9 @@ import axios from "axios";
 import { BASE_URL } from "../../../api/api";
 import DepositModal from "../../../components/modals/depositModal";
 import FailureModal from "../../../components/modals/failureModal";
+import TradeCycleDashboard from "../components/TradeCycleDashboard";
+import ConfirmModal from "../../../components/modals/confirmModal";
+import { RotatingLines } from "react-loader-spinner";
 
 const tabs = [
   {
@@ -42,6 +45,10 @@ export default function Dashboard() {
   const [isDepositModal, setIsDepositModal] = useState(false);
   const [bal, setBal] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+  const [successModalMessage, setSuccessModalMessage] = useState("");
+  const [successModalTitle, setSuccessModalTitle] = useState("");
+  const [isSuccessModal, setIsSuccessModal] = useState(false);
+  const [botisLoading, setBotisLoading] = useState(false);
 
   // /binance/data
   const fetchUserData = async () => {
@@ -106,6 +113,7 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error("Error:", error.response?.data || error.message);
+      return error;
     } finally {
       // setIsLoading(false);  // ✅ Ensures loading state resets
     }
@@ -145,6 +153,7 @@ export default function Dashboard() {
       if (error?.response?.data?.error) {
         setErrorMessage("Bot is disabled. Enable it.");
       }
+      return error;
     } finally {
       // setIsLoading(false);  // ✅ Ensures loading state resets
     }
@@ -152,14 +161,29 @@ export default function Dashboard() {
 
   // const fetch
   const handleStartBotClick = async () => {
+    setBotisLoading(true);
     const response1 = await fetchBalance();
+    console.log(response1?.response?.data?.detail);
     if (response1?.is_enabled === false) {
       console.log("is_enabled is false.");
       setErrorMessage("Bot is disabled. Enable it.");
       return;
+    }else if(response1?.response?.data?.detail){
+      
+      setErrorMessage(response1?.response?.data?.detail);
     }
+
     const response2 = await startTrade();
     console.log("response2: ", response2);
+    if (response2?.message === "Trade cycle initiated.") {
+      setSuccessModalMessage("Bot has been successfully initiated.");
+      setSuccessModalTitle("Success");
+      setIsSuccessModal(true);
+      setTimeout(() => {
+        setIsSuccessModal(false);
+      }, 3000);
+    }
+    setBotisLoading(false);
   };
 
   useEffect(() => {
@@ -214,13 +238,33 @@ export default function Dashboard() {
               </span>
             </div>
             <div
-              className="flex items-center gap-3 p-5  rounded-lg bg-green-600 cursor-pointer hover:bg-green-500"
+              className={`flex items-center gap-3 p-5  rounded-lg  ${
+                botisLoading
+                  ? "bg-green-400"
+                  : "bg-green-600 cursor-pointer hover:bg-green-500"
+              }`}
               onClick={() => handleStartBotClick()}
             >
               <div className="p-2 px-4 rounded-xl bg-white">
                 <img src="/hello3.png" alt="logo" className="w-12 h-12" />
               </div>
-              <span className="text-white w-full text-[20px]">Start Bot</span>
+              {botisLoading ? (
+                <div className="flex justify-center w-full">
+                  <RotatingLines
+                    visible={true}
+                    height="40"
+                    width="40"
+                    color="blue"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    ariaLabel="rotating-lines-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                </div>
+              ) : (
+                <span className="text-white w-full text-[20px]">Start Bot</span>
+              )}
             </div>
           </div>
           <div>
@@ -243,6 +287,12 @@ export default function Dashboard() {
               </TabPanels>
             </Tabs>
           </div>
+          <div className="p-10 w-full">
+            <h1 className="text-3xl text-white mb-5">Dashboard</h1>
+            {/* Show trade cycle live updates */}
+            <TradeCycleDashboard />
+            {/* ... rest of your dashboard components such as portfolio, stats, etc. */}
+          </div>
           {tabs.map((tab, index) => createTab(tab, index))}
         </div>
       </div>
@@ -260,6 +310,13 @@ export default function Dashboard() {
         <FailureModal
           message1={errorMessage}
           onClose={() => setErrorMessage("")}
+        />
+      )}
+      {isSuccessModal && (
+        <ConfirmModal
+          isClose={false}
+          title={successModalTitle}
+          message1={successModalMessage}
         />
       )}
     </div>
