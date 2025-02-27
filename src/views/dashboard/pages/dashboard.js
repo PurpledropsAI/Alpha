@@ -22,6 +22,7 @@ import TradeCycleDashboard from "../components/TradeCycleDashboard";
 import ConfirmModal from "../../../components/modals/confirmModal";
 import { RotatingLines } from "react-loader-spinner";
 import OpenPositionsTab1 from "../components/OpenPositionsTab1";
+import TradeCyclesBar from "../components/TradeCyclesBar";
 
 const tabs = [
   {
@@ -51,6 +52,11 @@ export default function Dashboard() {
   const [successModalTitle, setSuccessModalTitle] = useState("");
   const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [botisLoading, setBotisLoading] = useState(false);
+  const [botStatus, setBotStatus] = useState(null);
+  const [botReason, setBotReason] = useState(null);
+  const [liveMarketPrice, setLiveMarketPrice] = useState(null);
+  const [totalUsdtUsed, setTotalUsdtUsed] = useState(null);
+  const [remainingUsdt, setRemainingUsdt] = useState(null);
 
   // /binance/data
   const fetchUserData = async () => {
@@ -170,8 +176,7 @@ export default function Dashboard() {
       console.log("is_enabled is false.");
       setErrorMessage("Bot is disabled. Enable it.");
       return;
-    }else if(response1?.response?.data?.detail){
-      
+    } else if (response1?.response?.data?.detail) {
       setErrorMessage(response1?.response?.data?.detail);
     }
 
@@ -207,8 +212,17 @@ export default function Dashboard() {
       <div className="flex flex-col md:flex-row w-full transition-all">
         {/* side tabs section */}
         <div className=" w-full md:w-2/5 bg-transparent p-4">
-          <ActivitySideBar />
-          <StatsSideBar usdtBal={bal || 0} />
+          <ActivitySideBar
+            status={botStatus}
+            liveMarketPrice={liveMarketPrice}
+            reason={botReason}
+          />
+          <StatsSideBar
+            usdtBal={bal || 0}
+            usdtProfit={usdtProfit}
+            totalUsdtUsed={totalUsdtUsed}
+            remainingUsdt={remainingUsdt}
+          />
           <SwitchBoxSideBar />
           {/* {sideTabs.map((tab, index) => createTab(tab, index))} */}
         </div>
@@ -269,7 +283,17 @@ export default function Dashboard() {
               )}
             </div>
           </div>
-          <div>
+          <div className="my-5">
+            <TradeCyclesBar
+              setUsdtProfit={(e) => setUsdtProfit(e)}
+              setBotReason={(e) => setBotReason(e)}
+              setBotStatus={(e) => setBotStatus(e)}
+              setLiveMarketPrice={(e) => setLiveMarketPrice(e)}
+              setTotalUsdtUsed={(e) => setTotalUsdtUsed(e)}
+              setRemainingUsdt={(e) => setRemainingUsdt(e)}
+            />
+          </div>
+          {/* <div>
             <Tabs>
               <TabList>
                 <Tab>Open Positions</Tab>
@@ -278,7 +302,7 @@ export default function Dashboard() {
               </TabList>
               <TabPanels>
                 <TabPanel>
-                  <OpenPositionsTab isfirst={true} />
+                  <OpenPositionsTab isfirst={true} setUsdtProfit={(e)=>setUsdtProfit(e)}/>
                 </TabPanel>
                 <TabPanel>
                   <OpenPositionsTab1 />
@@ -288,13 +312,11 @@ export default function Dashboard() {
                 </TabPanel>
               </TabPanels>
             </Tabs>
-          </div>
-          <div className="p-10 w-full">
+          </div> */}
+          {/* <div className="p-10 w-full">
             <h1 className="text-3xl text-white mb-5">Dashboard</h1>
-            {/* Show trade cycle live updates */}
             <TradeCycleDashboard setUsdtProfit={(e)=>setUsdtProfit(e)}/>
-            {/* ... rest of your dashboard components such as portfolio, stats, etc. */}
-          </div>
+]          </div> */}
           {tabs.map((tab, index) => createTab(tab, index))}
         </div>
       </div>

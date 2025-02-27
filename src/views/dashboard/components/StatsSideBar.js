@@ -3,7 +3,12 @@ import { BsFillQuestionCircleFill } from "react-icons/bs";
 import { FiRefreshCcw } from "react-icons/fi";
 import { IoMdWallet } from "react-icons/io";
 
-const StatsSideBar = ({ usdtBal, usdtProfit }) => {
+const StatsSideBar = ({
+  usdtBal,
+  usdtProfit,
+  totalUsdtUsed,
+  remainingUsdt,
+}) => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
@@ -63,8 +68,22 @@ const StatsSideBar = ({ usdtBal, usdtProfit }) => {
             </div>
           </div>
         </div>
+      <div className="flex flex-col gap-2 justify-between">
+        <div className="flex items-center justify-between">
+          <span>Total USDT Used </span>
+          <span className="text-green-500 rounded-md p-2 bg-green-100">
+            {totalUsdtUsed} USDT
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <span>Remaming USDT</span>
+          <span className="text-green-500 rounded-md p-2 bg-green-100">
+            {remainingUsdt} USDT
+          </span>
+        </div>
       </div>
 
+      </div>
       <hr class="border-alphaGray " />
 
       <div className="text-center">

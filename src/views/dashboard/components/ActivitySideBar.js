@@ -1,7 +1,7 @@
 import { MdAccessAlarm } from "react-icons/md";
 import { BiTargetLock } from "react-icons/bi";
 
-const ActivitySideBar = () => {
+const ActivitySideBar = ({status, reason, liveMarketPrice}) => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
@@ -15,9 +15,10 @@ const ActivitySideBar = () => {
               </span>
             </div>
             <div className=" flex flex-col items-start">
-              <span className="text-alphaGray mb-1">No Activity</span>
-              <span className="text-xl mb-1">Bot is Active</span>
-              <span className="text-slate-400 mb-1">16/10/2025 09:00:00</span>
+              <span className="text-slate-400 mb-1">Trade Cycle 1 in Progress</span>
+              <span className="text-xl mb-1 font-normal">Bot is {status || "unknown"}</span>
+              <span className="text-slate-400 mb-1">{new Date().toLocaleString()}</span>
+              <span className="text-xl mb-1 font-normal">Reason: {reason || "unknown"}</span>
             </div>
           </div>
         </div>
@@ -32,9 +33,9 @@ const ActivitySideBar = () => {
               </span>
             </div>
             <div className=" flex flex-col items-start">
-              <span className="text-alphaGray mb-1">Last activity:</span>
-              <span className="text-2xl mb-1">Searching targets</span>
-              <span className="text-alphaGray mb-1">29/08/2025 09:55:10</span>
+              <span className="text-slate-400 mb-1">Live Market Price:</span>
+              <span className="text-2xl mb-1">{liveMarketPrice || 0.00}</span>
+              <span className="text-slate-400 mb-1">{new Date().toLocaleString()}</span>
             </div>
           </div>
         </div>

@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
+import { BASE_URL } from "../../../api/api";
+import axios from "axios";
 
 export default function TradeHistory() {
+  const [tradeHistory, setTradeHistory] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  const token = localStorage.getItem("token");
+
+  const fetchtradeData = async () => {
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      const response = await axios.get(
+        `${BASE_URL}/bot/realtime-trade-cycle/`,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      console.log("tradeData response: ", response?.data);
+
+      setTradeHistory(response.data);
+    } catch (error) {
+      console.error(
+        "Error fetching cycle status:",
+        error.response?.data || error.message
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex flex-col p-10 w-full">
       <div className="flex ">
