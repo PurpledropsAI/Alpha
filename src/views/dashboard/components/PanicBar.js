@@ -52,7 +52,7 @@ const PanicBar = ({ panicTriggered }) => {
 
   return (
     <div className="flex w-full text-left my-5 mx-auto bg-white rounded-lg relative">
-      <div className="flex p-3">
+      <div className="flex items-center p-3">
         <GoAlertFill size={40} color="red" />
       </div>
       <div className="flex flex-col gap-2 p-3">

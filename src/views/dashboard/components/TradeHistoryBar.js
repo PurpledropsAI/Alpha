@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { HiMiniCheckBadge } from "react-icons/hi2";
+import { SiBinance } from "react-icons/si";
 import { BASE_URL } from "../../../api/api";
 import axios from "axios";
 
-export default function TradeHistory() {
+export default function TradeHistoryBar() {
   const [tradeHistory, setTradeHistory] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -33,35 +35,13 @@ export default function TradeHistory() {
   useEffect(() => {
     fetchtradeData();
   }, []);
-
   return (
-    <div className="flex flex-col p-10 w-full">
-      <div className="flex ">
-        <span className="text-[44px] text-white">Trade History</span>
+    <div className="flex flex-col w-full bg-white rounded-xl p-3 sm:p-5">
+      <div className="flex items-start">
+        <span className="">Latest 8 Buy/Sells</span>
       </div>
 
-      {/* Table */}
-      <div className="flex flex-col  bg-white rounded-2xl w-full">
-        <div className="header flex justify-between items-center w-full bg-slate-200 p-5 rounded-t-2xl">
-          <span>All History</span>
-          <div className="flex gap-5">
-            <div className="flex gap-2">
-              <input
-                type="checkbox"
-                defaultChecked
-                className="border text-black"
-                name="usd"
-              />
-              <label htmlFor="usd">USD</label>
-            </div>
-            <div className="flex gap-2">
-              <input type="checkbox" name="bnb" />
-              <label htmlFor="usd">BNB</label>
-            </div>
-          </div>
-        </div>
-
-        <div className="w-full overflow-auto p-5">
+      <div className="w-full overflow-auto p-5">
           <table className="w-full">
             <thead className="">
               <tr className=" bg-white bg-opacity-10 text-[12px] sm:text-[16px] ">
@@ -76,7 +56,7 @@ export default function TradeHistory() {
               </tr>
             </thead>
             {tradeHistory?.trades.length > 0 ? (
-              tradeHistory?.trades?.map((item, index) => (
+              tradeHistory?.trades?.slice(0,8).map((item, index) => (
                 <tbody className="text-[12px] sm:text-[16px] text-slate-400 z-[1000000]">
                   <tr key={index} className="border-b border-gray-700">
                     <td className="">{item?.id}</td>
@@ -105,7 +85,6 @@ export default function TradeHistory() {
             )}
           </table>
         </div>
-      </div>
     </div>
   );
 }

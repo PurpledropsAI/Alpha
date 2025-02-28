@@ -24,18 +24,20 @@ import { RotatingLines } from "react-loader-spinner";
 import OpenPositionsTab1 from "../components/OpenPositionsTab1";
 import TradeCyclesBar from "../components/TradeCyclesBar";
 import PanicBar from "../components/PanicBar";
+import TradeHistory from "./tradeHistory";
+import TradeHistoryBar from "../components/TradeHistoryBar";
 
 const tabs = [
-  {
-    title: "Open Orders",
-    dummyLabel: "No current active/open orders placed by Cryptohopper",
-    largeText: "",
-  },
-  {
-    title: "Summary Open positions",
-    dummyLabel: "",
-    largeText: "Total current positions",
-  },
+  // {
+  //   title: "Open Orders",
+  //   dummyLabel: "No current active/open orders placed by Cryptohopper",
+  //   largeText: "",
+  // },
+  // {
+  //   title: "Summary Open positions",
+  //   dummyLabel: "",
+  //   largeText: "Total current positions",
+  // },
   {
     title: "Latest 5 Sells",
     dummyLabel: "No sell trades made yet",
@@ -54,6 +56,7 @@ export default function Dashboard() {
   const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [botisLoading, setBotisLoading] = useState(false);
   const [botStatus, setBotStatus] = useState(null);
+  const [tradeCycleNo, setTradeCycleNo] = useState(null);
   const [botIsEnabled, setBotIsEnabled] = useState(false);
   const [botReason, setBotReason] = useState(null);
   const [liveMarketPrice, setLiveMarketPrice] = useState(null);
@@ -223,6 +226,7 @@ export default function Dashboard() {
             status={botStatus}
             liveMarketPrice={liveMarketPrice}
             reason={botReason}
+            tradeCycleNo={tradeCycleNo}
           />
           <StatsSideBar
             usdtBal={bal || 0}
@@ -233,7 +237,8 @@ export default function Dashboard() {
           <SwitchBoxSideBar
             botStatus={botStatus}
             botIsEnabled={(e) => {
-              setBotIsEnabled(e)}}
+              setBotIsEnabled(e);
+            }}
           />
           <PanicBar
             panicTriggered={() => {
@@ -255,20 +260,30 @@ export default function Dashboard() {
                 <SiTether color="white" size={40} />
               </div>
 
-              <span className="text-[20px]">
-                Total USDT:{" "}
-                {Number(userData?.relevantBalances[1]?.free || 0).toFixed(4)}
-              </span>
+              <div className="flex flex-col items-start text-[20px]">
+                  <span>Total USDT:</span>
+                  <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
+                    in your binance
+                  </span>
+                <span className="mx-[3px]">
+                  {Number(userData?.relevantBalances[1]?.free || 0).toFixed(4)}
+                </span>
+              </div>
             </div>
             <div className="flex items-center gap-3 p-5 rounded-lg bg-white">
               <div className="p-2 rounded-full bg-yellow-500">
                 <RiBnbFill color="white" size={40} />
               </div>
 
-              <span className="text-[20px]">
-                Total BNB:{" "}
-                {Number(userData?.relevantBalances[0]?.free).toFixed(4)}
-              </span>
+              <div className="flex flex-col items-start text-[20px]">
+                  <span>Total BNB:</span>
+                  <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
+                    in your binance
+                  </span>
+                <span className="mx-[3px]">
+                  {Number(userData?.relevantBalances[0]?.free || 0).toFixed(4)}
+                </span>
+              </div>
             </div>
             <button
               disabled={botisLoading}
@@ -306,6 +321,7 @@ export default function Dashboard() {
               setUsdtProfit={(e) => setUsdtProfit(e)}
               setBotReason={(e) => setBotReason(e)}
               setBotStatus={(e) => setBotStatus(e)}
+              setTradeCycleNo={(e) => setTradeCycleNo(e)}
               setLiveMarketPrice={(e) => setLiveMarketPrice(e)}
               setTotalUsdtUsed={(e) => setTotalUsdtUsed(e)}
               setRemainingUsdt={(e) => setRemainingUsdt(e)}
@@ -313,31 +329,9 @@ export default function Dashboard() {
               fetchData={fetchTradeCycleData}
             />
           </div>
-          {/* <div>
-            <Tabs>
-              <TabList>
-                <Tab>Open Positions</Tab>
-                <Tab>Short Positions</Tab>
-                <Tab>Reserved Funds</Tab>
-              </TabList>
-              <TabPanels>
-                <TabPanel>
-                  <OpenPositionsTab isfirst={true} setUsdtProfit={(e)=>setUsdtProfit(e)}/>
-                </TabPanel>
-                <TabPanel>
-                  <OpenPositionsTab1 />
-                </TabPanel>
-                <TabPanel>
-                  <OpenPositionsTab />
-                </TabPanel>
-              </TabPanels>
-            </Tabs>
-          </div> */}
-          {/* <div className="p-10 w-full">
-            <h1 className="text-3xl text-white mb-5">Dashboard</h1>
-            <TradeCycleDashboard setUsdtProfit={(e)=>setUsdtProfit(e)}/>
-]          </div> */}
-          {tabs.map((tab, index) => createTab(tab, index))}
+          {/* {tabs.map((tab, index) => createTab(tab, index))} */}
+          <TradeHistoryBar />
+
         </div>
       </div>
       {isDepositModal && (

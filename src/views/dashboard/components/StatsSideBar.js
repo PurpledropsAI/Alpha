@@ -28,7 +28,11 @@ const StatsSideBar = ({
                   <BsFillQuestionCircleFill className="inline m-1" />
                 </span>
               </span>
-              <span className="text-2xl mb-1 text-green-500 font-bold">
+              <span
+                className={`text-2xl mb-1  font-bold ${
+                  usdtProfit > 0 ? "text-green-500" : "text-red-500"
+                }`}
+              >
                 {usdtProfit} USDT{`(0%)`}
               </span>
               <span className="mb-1">reset |</span>
@@ -68,29 +72,28 @@ const StatsSideBar = ({
             </div>
           </div>
         </div>
-      <div className="flex flex-col gap-2 justify-between">
-        <div className="flex items-center justify-between">
-          <span>Total USDT Used </span>
-          <span className="text-green-500 rounded-md p-2 bg-green-100">
-            {totalUsdtUsed} USDT
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <span>Remaming USDT</span>
-          <span className="text-green-500 rounded-md p-2 bg-green-100">
-            {remainingUsdt} USDT
-          </span>
+        <div className="flex flex-col gap-2 justify-between">
+          <div className="flex items-center justify-between">
+            <span>Total USDT Used </span>
+            <span className="text-yellow-500 rounded-md p-2 bg-yellow-100">
+              {totalUsdtUsed} USDT
+            </span>
+          </div>
+          <div className="flex items-center justify-between">
+            <span>Remaining USDT</span>
+            <span className="text-green-500 rounded-md p-2 bg-green-100">
+              {remainingUsdt} USDT
+            </span>
+          </div>
         </div>
       </div>
+      {/* <hr class="border-alphaGray " /> */}
 
-      </div>
-      <hr class="border-alphaGray " />
-
-      <div className="text-center">
+      {/* <div className="text-center">
         <button className="m-2 rounded-xl bg-white border-solid border-l border-alphaGray w-1/2 md:w-2/3">
           <FiRefreshCcw className="inline m-2" /> Convert to USDT
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

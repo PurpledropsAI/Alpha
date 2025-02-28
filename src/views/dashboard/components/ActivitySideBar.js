@@ -1,7 +1,9 @@
 import { MdAccessAlarm } from "react-icons/md";
 import { BiTargetLock } from "react-icons/bi";
+import { RiBnbFill } from "react-icons/ri";
+import { SiBinance } from "react-icons/si";
 
-const ActivitySideBar = ({ status, reason, liveMarketPrice }) => {
+const ActivitySideBar = ({ status, reason, liveMarketPrice, tradeCycleNo }) => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
@@ -15,18 +17,24 @@ const ActivitySideBar = ({ status, reason, liveMarketPrice }) => {
               </span>
             </div>
             <div className=" flex flex-col items-start">
-              <span className="text-slate-400 mb-1">
-                Trade Cycle 1 in Progress
-              </span>
+              {tradeCycleNo ? (
+                <span className="text-slate-400 mb-1">
+                  Trade Cycle {tradeCycleNo} in Progress
+                </span>
+              ) : (
+                <span className="text-slate-400">
+                  Trade Cycle waiting for signal...
+                </span>
+              )}
               <span className="text-xl mb-1 font-normal">
-                Bot is {status || "unknown"}
+                Bot status: {status || "waiting for signal..."}
               </span>
               <span className="text-slate-400 mb-1">
                 {new Date().toLocaleString()}
               </span>
               {reason && (
                 <span className="text-xl mb-1 font-normal">
-                  Reason: {reason || "unknown"}
+                  Reason: {reason}
                 </span>
               )}
             </div>
@@ -44,7 +52,10 @@ const ActivitySideBar = ({ status, reason, liveMarketPrice }) => {
             </div>
             <div className=" flex flex-col items-start">
               <span className="text-slate-400 mb-1">Live Market Price:</span>
-              <span className="text-2xl mb-1">{liveMarketPrice || 0.0}</span>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">{liveMarketPrice || 0.0}</span>
+                <SiBinance color="orange" size={25} />
+              </div>
               <span className="text-slate-400 mb-1">
                 {new Date().toLocaleString()}
               </span>

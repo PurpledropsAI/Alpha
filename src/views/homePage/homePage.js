@@ -100,7 +100,7 @@ export default function HomePage() {
             <label htmlFor="name">API Label:</label>
             <input
               name="name"
-              placeholder="Siva Prakash"
+              placeholder="Enter name of your API label"
               value={inputs.name}
               onChange={handleInputChange}
               className="p-2 sm:p-4 px-4 rounded-xl outline-none text-black sm:w-[30rem]"
@@ -208,7 +208,7 @@ export default function HomePage() {
         <ConfirmModal
           isClose={false}
           title="Connect Confirmation"
-          message1="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+          message1="Your binance account is sucessfully connected to Alpha DCA BOT"
         />
       )}
       {isFailureModal && (
