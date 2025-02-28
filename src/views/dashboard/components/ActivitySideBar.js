@@ -1,7 +1,7 @@
 import { MdAccessAlarm } from "react-icons/md";
 import { BiTargetLock } from "react-icons/bi";
 
-const ActivitySideBar = ({status, reason, liveMarketPrice}) => {
+const ActivitySideBar = ({ status, reason, liveMarketPrice }) => {
   return (
     <div className="text-left w-full my-5 mx-auto bg-white rounded-lg">
       <div className="py-2 px-4">
@@ -15,10 +15,20 @@ const ActivitySideBar = ({status, reason, liveMarketPrice}) => {
               </span>
             </div>
             <div className=" flex flex-col items-start">
-              <span className="text-slate-400 mb-1">Trade Cycle 1 in Progress</span>
-              <span className="text-xl mb-1 font-normal">Bot is {status || "unknown"}</span>
-              <span className="text-slate-400 mb-1">{new Date().toLocaleString()}</span>
-              <span className="text-xl mb-1 font-normal">Reason: {reason || "unknown"}</span>
+              <span className="text-slate-400 mb-1">
+                Trade Cycle 1 in Progress
+              </span>
+              <span className="text-xl mb-1 font-normal">
+                Bot is {status || "unknown"}
+              </span>
+              <span className="text-slate-400 mb-1">
+                {new Date().toLocaleString()}
+              </span>
+              {reason && (
+                <span className="text-xl mb-1 font-normal">
+                  Reason: {reason || "unknown"}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -34,8 +44,10 @@ const ActivitySideBar = ({status, reason, liveMarketPrice}) => {
             </div>
             <div className=" flex flex-col items-start">
               <span className="text-slate-400 mb-1">Live Market Price:</span>
-              <span className="text-2xl mb-1">{liveMarketPrice || 0.00}</span>
-              <span className="text-slate-400 mb-1">{new Date().toLocaleString()}</span>
+              <span className="text-2xl mb-1">{liveMarketPrice || 0.0}</span>
+              <span className="text-slate-400 mb-1">
+                {new Date().toLocaleString()}
+              </span>
             </div>
           </div>
         </div>

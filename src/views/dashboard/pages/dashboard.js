@@ -23,6 +23,7 @@ import ConfirmModal from "../../../components/modals/confirmModal";
 import { RotatingLines } from "react-loader-spinner";
 import OpenPositionsTab1 from "../components/OpenPositionsTab1";
 import TradeCyclesBar from "../components/TradeCyclesBar";
+import PanicBar from "../components/PanicBar";
 
 const tabs = [
   {
@@ -53,10 +54,12 @@ export default function Dashboard() {
   const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [botisLoading, setBotisLoading] = useState(false);
   const [botStatus, setBotStatus] = useState(null);
+  const [botIsEnabled, setBotIsEnabled] = useState(false);
   const [botReason, setBotReason] = useState(null);
   const [liveMarketPrice, setLiveMarketPrice] = useState(null);
   const [totalUsdtUsed, setTotalUsdtUsed] = useState(null);
   const [remainingUsdt, setRemainingUsdt] = useState(null);
+  const [fetchTradeCycleData, setFetchTradeCycleData] = useState(true);
 
   // /binance/data
   const fetchUserData = async () => {
@@ -169,6 +172,10 @@ export default function Dashboard() {
 
   // const fetch
   const handleStartBotClick = async () => {
+    if (!botIsEnabled) {
+      setErrorMessage("Enable bot to Start BOT.");
+      return;
+    }
     setBotisLoading(true);
     const response1 = await fetchBalance();
     console.log(response1?.response?.data?.detail);
@@ -223,7 +230,17 @@ export default function Dashboard() {
             totalUsdtUsed={totalUsdtUsed}
             remainingUsdt={remainingUsdt}
           />
-          <SwitchBoxSideBar />
+          <SwitchBoxSideBar
+            botStatus={botStatus}
+            botIsEnabled={(e) => {
+              setBotIsEnabled(e)}}
+          />
+          <PanicBar
+            panicTriggered={() => {
+              setBotStatus("PAUSED");
+              setFetchTradeCycleData(!fetchTradeCycleData);
+            }}
+          />
           {/* {sideTabs.map((tab, index) => createTab(tab, index))} */}
         </div>
 
@@ -253,7 +270,8 @@ export default function Dashboard() {
                 {Number(userData?.relevantBalances[0]?.free).toFixed(4)}
               </span>
             </div>
-            <div
+            <button
+              disabled={botisLoading}
               className={`flex items-center gap-3 p-5  rounded-lg  ${
                 botisLoading
                   ? "bg-green-400"
@@ -281,7 +299,7 @@ export default function Dashboard() {
               ) : (
                 <span className="text-white w-full text-[20px]">Start Bot</span>
               )}
-            </div>
+            </button>
           </div>
           <div className="my-5">
             <TradeCyclesBar
@@ -291,6 +309,8 @@ export default function Dashboard() {
               setLiveMarketPrice={(e) => setLiveMarketPrice(e)}
               setTotalUsdtUsed={(e) => setTotalUsdtUsed(e)}
               setRemainingUsdt={(e) => setRemainingUsdt(e)}
+              isBotEnabled={botIsEnabled}
+              fetchData={fetchTradeCycleData}
             />
           </div>
           {/* <div>

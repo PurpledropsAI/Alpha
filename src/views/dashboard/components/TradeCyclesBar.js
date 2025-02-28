@@ -9,7 +9,9 @@ export default function TradeCyclesBar({
   setBotReason,
   setLiveMarketPrice,
   setTotalUsdtUsed,
-  setRemainingUsdt
+  setRemainingUsdt,
+  isBotEnabled,
+  fetchData
 }) {
   const [tradeData, setTradeData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +54,7 @@ export default function TradeCyclesBar({
 
   useEffect(() => {
     fetchtradeData();
-  }, []);
+  }, [isBotEnabled, fetchData]);
 
   useEffect(() => {
     setUsdtProfit(tradeData?.daily_profit);
