@@ -81,11 +81,12 @@ export default function HomePage() {
     <div className="flex flex-col items-center font-aclonica text-white justify-center h-full bg-gradient-to-br from-[#0D3225] via-[#172631] to-[#545767]  overflow-hidden">
       <HomeHeader />
 
-      <div className="flex flex-col gap-5 p-3 sm:p-10 items-center w-full">
-        <div className="flex flex-col gap-3 h-full ">
-          <span className="text-[20px] sm:text-[40px]">
-            Connection Exchange Alpha Trading Bot
+      <div className="flex flex-col gap-5 p-3 sm:p-10 max-sm:items-center w-full">
+        <div className="flex flex-col gap-3 h-full max-sm:text-center">
+          <span className="text-[28px] sm:text-[40px]">
+            Connection to Exchange 
           </span>
+          <span className="text-[24px] sm:text-[28px]">Alpha Trading Bot</span>
           <span className="text-[12px] sm:text-[16px] sm:w-[30rem] font-extralight">
             Kindly watch the video tutorial on how to connect your Binance
             account to the Alpha trading bot
@@ -136,7 +137,7 @@ export default function HomePage() {
               className="p-4 px-4 rounded-xl outline-none text-black w-[30rem]"
             />
           </div> */}
-          <div className="flex justify-center w-full">
+          <div className="flex justify-center w-full my-5">
             <button
               className={`p-4 px-8 rounded-xl  text-white ${
                 isLoading ? "px-16 bg-green-300" : "bg-green-500"
@@ -163,9 +164,9 @@ export default function HomePage() {
         </form>
 
         <div className="sm:px-10 rounded-lg w-full">
-          <div className="flex flex-col gap-1 sm:gap-3 text-[14px]">
+          <div className="flex flex-col gap-1 sm:gap-3 text-[14px] max-sm:text-center items-center">
             <span>Add these APIs to Binance:</span>
-            <div className="flex flex-col items-start gap-1 sm:gap-3">
+            <div className="flex flex-col  items-center sm:items-start gap-1 sm:gap-3">
               <div
                 className={`flex items-center p-2 rounded-lg bg-black bg-opacity-20 gap-2 hover:text-green-300 hover:bg-opacity-40 cursor-pointer ${
                   isCopied1 ? "text-green-500" : ""

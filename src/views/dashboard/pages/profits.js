@@ -86,11 +86,11 @@ export default function Profits() {
   }, []);
 
   return (
-    <div className="flex flex-col gap-5 p-10 w-full">
+    <div className="flex flex-col gap-5 p-5 sm:p-10 w-full">
       <div className="flex ">
         <span className="text-[38px] text-white">Profits</span>
       </div>
-      <div className="flex justify-between gap-5">
+      <div className="flex flex-col md:flex-row  justify-between gap-5">
         <div className="flex flex-col p-5 bg-white rounded-2xl">
           <div className="flex justify-between items-center w-full">
             <span>Total Profits</span>
@@ -98,7 +98,7 @@ export default function Profits() {
               <span>Months</span>
             </div> */}
           </div>
-          <div className="relative flex items-end w-full p-5 px-20 text-red-600">
+          <div className="relative flex justify-center items-end w-full p-5 md:px-20 text-red-600">
             <div className="flex flex-col items-center">
               <Tooltip title={`Value: ${realProfit}`}>
                 <div className="text-lg font-semibold mb-2">
@@ -141,7 +141,7 @@ export default function Profits() {
               </div>
             </div> */}
           </div>
-          <div className="flex items-end w-full p-5 px-20">
+          <div className="flex items-end w-full p-5 md:px-20">
             <Gauge
               width={350}
               height={350}

@@ -37,7 +37,7 @@ export default function Subscriptions() {
 
   return (
 
-<div className="flex flex-col gap-5 p-10 w-full">
+<div className="flex flex-col gap-5 p-5 sm:p-10 w-full min-h-screen">
       <div className="flex ">
         <span className="text-[38px] text-white">Billing & Subscriptions</span>
       </div>

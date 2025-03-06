@@ -65,7 +65,9 @@ const DashboardLayout = () => {
   const matchedOption =
     menuItems.find((item) => item.route === currentRoute)?.title || "Dashboard";
 
-  const [sideBarIsOpen, setSideBarIsOpen] = useState(true);
+  const [sideBarIsOpen, setSideBarIsOpen] = useState(
+    window.innerWidth < 768 ? false : true
+  );
   const [activeOption, setActiveOption] = useState(matchedOption);
 
   useEffect(() => {
@@ -77,10 +79,11 @@ const DashboardLayout = () => {
 
   const handleSideOptionsClick = (option) => {
     navigate(`${option.route}`);
+    if (window.innerWidth < 768) {
+      setSideBarIsOpen(false);
+    }
   };
 
-  
-  
   return (
     <div className="gradient-bg mx-auto h-full text-black font-aclonica transition-all overflow-hidden">
       <DashboardHeader sideBarIsOpen={() => setSideBarIsOpen(!sideBarIsOpen)} />
@@ -89,8 +92,10 @@ const DashboardLayout = () => {
         {/* <div> */}
         {sideBarIsOpen && (
           <nav
-            className={`flex flex-col  h-screen transition-all ease-in-out duration-200 ${
-              sideBarIsOpen ? "translate-x-0 w-72" : "-translate-x-full w-0"
+            className={`max-sm:fixed flex flex-col  h-screen transition-all ease-in-out duration-200 z-50 ${
+              sideBarIsOpen
+                ? "translate-x-0 left-0 w-72"
+                : "-translate-x-full w-0 "
             }`}
           >
             <div className="p-4 bg-white h-full">

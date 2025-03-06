@@ -12,7 +12,7 @@ export default function Support() {
     "Review Payment History",
   ];
   return (
-    <div className="flex flex-col p-10 w-full">
+    <div className="flex flex-col p-5 sm:p-10 w-full min-h-screen">
       <div className="flex ">
         <span className="text-[38px] text-white">Support</span>
       </div>

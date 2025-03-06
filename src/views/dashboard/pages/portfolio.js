@@ -3,10 +3,8 @@ import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import { LineChart } from "@mui/x-charts";
 
 export default function Portfolio() {
-  
-
   return (
-    <div className="flex flex-col p-10 w-full">
+    <div className="flex flex-col p-5 sm:p-10 w-full min-h-screen">
       <div className="flex ">
         <span className="text-[38px] text-white">Portfolio</span>
       </div>
@@ -30,15 +28,14 @@ export default function Portfolio() {
           </div>
         </div>
 
-        <div className="flex justify-between gap-5">
-          <div className="flex items-end w-5/12">
+        <div className="flex flex-col md:flex-row  justify-between gap-5">
+          <div className="flex items-end md:w-5/12">
             <Gauge
               width={300}
               height={300}
               value={60}
               cornerRadius="50%"
               innerRadius="85%"
-              
               sx={(theme) => ({
                 [`& .${gaugeClasses.valueText}`]: {
                   fontSize: 40,
@@ -52,7 +49,7 @@ export default function Portfolio() {
               })}
             />
           </div>
-          <div className="flex flex-col gap-2 justify-end items-start font-extralight w-5/12">
+          <div className="flex flex-col gap-2 justify-end items-start font-extralight md:w-5/12">
             <span>Total / Changes 24hr</span>
             <div className="flex items-center gap-3">
               <span className="font-normal">$20.87</span>
@@ -76,10 +73,10 @@ export default function Portfolio() {
                 {
                   dataKey: "x",
                   scaleType: "band",
-                  valueFormatter: (x) => ["JAN", "FEB", "MAR", "APR", "MAY","JUN"][x - 1],
+                  valueFormatter: (x) =>
+                    ["JAN", "FEB", "MAR", "APR", "MAY", "JUN"][x - 1],
                 },
               ]}
-
               series={[{ dataKey: "y" }]}
               height={300}
               margin={{ left: 30, right: 30, top: 30, bottom: 30 }}
