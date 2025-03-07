@@ -14,18 +14,22 @@ import ConfirmModal from "../../components/modals/confirmModal";
 import FailureModal from "../../components/modals/failureModal";
 import { HiCheckCircle } from "react-icons/hi";
 import PhoneInput from "react-phone-input-2";
-// import PhoneInput from "react-phone-input-2";
-
+import "react-phone-input-2/lib/bootstrap.css";
 
 // Add these helper functions at the top of your file
 const encryptOTP = (otp, email) => {
   // Simple encryption using email as salt
-  const salt = email.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const encryptedOTP = otp.split('').map(digit => {
-    // Encrypt each digit using the salt
-    const encrypted = (parseInt(digit) + salt) % 10;
-    return encrypted.toString();
-  }).join('');
+  const salt = email
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const encryptedOTP = otp
+    .split("")
+    .map((digit) => {
+      // Encrypt each digit using the salt
+      const encrypted = (parseInt(digit) + salt) % 10;
+      return encrypted.toString();
+    })
+    .join("");
   return encryptedOTP;
 };
 
@@ -55,6 +59,9 @@ export default function SignupPage() {
   // Add new state for encrypted OTP
   const [encryptedOTPData, setEncryptedOTPData] = useState(null);
 
+  // Add new state for email errors
+  const [emailError, setEmailError] = useState("");
+
   const [inputs, setInputs] = useState({
     username: "",
     email: "",
@@ -73,13 +80,13 @@ export default function SignupPage() {
   // Send OTP via Brevo API
   const sendOTP = async () => {
     if (!inputs.email) {
-      setErrorMessage("Please enter email first");
+      setEmailError("Please enter email first");
       return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(inputs.email)) {
-      setErrorMessage("Please enter a valid email");
+      setEmailError("Please enter a valid email");
       return;
     }
 
@@ -87,16 +94,18 @@ export default function SignupPage() {
       setIsOtpLoading(true);
       setOtpError("");
       setErrorMessage("");
-      
+
       // Generate OTP
-      const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      
+      const generatedOTP = Math.floor(
+        100000 + Math.random() * 900000
+      ).toString();
+
       // Store encrypted OTP with timestamp
       const encryptedOTP = encryptOTP(generatedOTP, inputs.email);
       setEncryptedOTPData({
         otp: encryptedOTP,
         timestamp: new Date().getTime(),
-        email: inputs.email
+        email: inputs.email,
       });
 
       // Brevo configuration
@@ -212,26 +221,21 @@ export default function SignupPage() {
         }
       } catch (err) {
         let errors = [];
-
         let errorData = err.response.data;
 
+        if (errorData.email) {
+          setEmailError(errorData.email.join(" "));
+        }
+        
+        // Handle other errors as before
         if (errorData.username) {
-          console.debug("adding username errors");
           errors.push(...errorData.username);
         }
-
-        if (errorData.email) {
-          console.debug("adding email errors");
-          errors.push(...errorData.email);
-        }
-
         if (errorData.phone_number) {
-          console.debug("adding phone_number errors");
           errors.push(...errorData.phone_number);
         }
 
         const joinedString = errors.join(" \n");
-
         setErrorMessage(joinedString);
       } finally {
         setIsLoading(false);
@@ -302,7 +306,10 @@ export default function SignupPage() {
                     name="email"
                     type="email"
                     value={inputs.email}
-                    onChange={handleInput}
+                    onChange={(e) => {
+                      handleInput(e);
+                      setEmailError(""); // Clear email error when user types
+                    }}
                     className={`w-full px-4 py-3 rounded-3xl border bg-transparent outline-none ${
                       isEmailVerified ? "pr-12" : ""
                     }`}
@@ -335,9 +342,9 @@ export default function SignupPage() {
                   </button>
                 )}
               </div>
-              {errorMessage && (
+              {emailError && (
                 <span className="text-red-500 text-[12px] mt-1 block">
-                  {errorMessage}
+                  {emailError}
                 </span>
               )}
               {successMessage && (
@@ -381,7 +388,26 @@ export default function SignupPage() {
                 )}
               </div>
             )}
-            <div className="bg-transparent outline-none border rounded-3xl">
+            
+
+            <div>
+              <label className="block  mb-1 text-[12px]" htmlFor="phone">
+                Phone Number*
+              </label>
+              {/* <div className="flex rounded-3xl">
+                <div className="flex items-center bg-gray-700 px-3 rounded-l-3xl">
+                  <span className="">🇮🇳</span>
+                </div>
+                <input
+                  name="phone_number"
+                  type="text"
+                  value={inputs.phone_number}
+                  onChange={handleInput}
+                  className="w-full px-4 py-3 rounded-r-3xl border bg-transparent outline-none  "
+                  placeholder="+00 0000000000"
+                />
+              </div> */}
+              <div className="bg-transparent outline-none border rounded-[2rem] p-3 px-4">
               <PhoneInput
                 country={"in"}
                 enableSearch={true}
@@ -396,7 +422,7 @@ export default function SignupPage() {
                   border: "none",
                   padding: "5px 50px",
                   color: "white",
-                  boxShadow: "none", 
+                  boxShadow: "none",
                 }}
                 containerStyle={{
                   border: "none",
@@ -406,27 +432,11 @@ export default function SignupPage() {
                   marginLeft: "-12px",
                 }}
                 value={inputs.phone_number}
-                onChange={(phone) => setInputs(prev => ({ ...prev, phone_number: phone }))}
+                onChange={(phone) =>
+                  setInputs((prev) => ({ ...prev, phone_number: phone }))
+                }
               />
             </div>
-
-            <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="phone">
-                Phone Number*
-              </label>
-              <div className="flex rounded-3xl">
-                <div className="flex items-center bg-gray-700 px-3 rounded-l-3xl">
-                  <span className="">🇮🇳</span>
-                </div>
-                <input
-                  name="phone_number"
-                  type="text"
-                  value={inputs.phone_number}
-                  onChange={handleInput}
-                  className="w-full px-4 py-3 rounded-r-3xl border bg-transparent outline-none  "
-                  placeholder="+00 0000000000"
-                />
-              </div>
             </div>
 
             <div>
@@ -449,6 +459,11 @@ export default function SignupPage() {
                   👁️
                 </span>
               </div>
+              {errorMessage && (
+                <span className="text-red-500 text-[12px] mt-1 block">
+                  {errorMessage}
+                </span>
+              )}
             </div>
 
             <button
