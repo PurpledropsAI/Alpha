@@ -12,15 +12,24 @@ import { BASE_URL, SIGN_UP_URL } from "../../api/api";
 import { RotatingLines } from "react-loader-spinner";
 import ConfirmModal from "../../components/modals/confirmModal";
 import FailureModal from "../../components/modals/failureModal";
+import { HiCheckCircle } from "react-icons/hi";
 // import
 export default function SignupPage() {
   let [passWordType, setPasswordType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [isFailureModal, setIsFailureModal] = useState(false);
-  // const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  // New states for OTP functionality
+  const [otpSent, setOtpSent] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [otp, setOtp] = useState("");
+  const [isOtpLoading, setIsOtpLoading] = useState(false);
+
+  // Add a new state for OTP-specific errors
+  const [otpError, setOtpError] = useState("");
 
   const [inputs, setInputs] = useState({
     username: "",
@@ -32,10 +41,108 @@ export default function SignupPage() {
   const auth = useAuth();
   const navigate = useNavigate();
 
+  // Generate random 6 digit OTP
+  const generateOTP = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
+  // Send OTP via Brevo API
+  const sendOTP = async () => {
+    if (!inputs.email) {
+      setErrorMessage("Please enter email first");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(inputs.email)) {
+      setErrorMessage("Please enter a valid email");
+      return;
+    }
+
+    try {
+      setIsOtpLoading(true);
+      setOtpError("");
+      setErrorMessage("");
+      const generatedOTP = generateOTP();
+
+      const otpData = {
+        otp: generatedOTP,
+        email: inputs.email,
+        timestamp: new Date().getTime(),
+      };
+      localStorage.setItem("signupOtpData", JSON.stringify(otpData));
+
+      // Updated Brevo configuration using environment variable
+      const brevoConfig = {
+        url: "https://api.brevo.com/v3/smtp/email",
+        headers: {
+          accept: "application/json",
+          "api-key": process.env.BREVO_API_KEY,
+          "content-type": "application/json",
+        },
+        data: {
+          sender: {
+            email: "alpharoboticsllp@gmail.com",
+            name: "Alpha Robotics LLP",
+          },
+          to: [{ email: inputs.email }],
+          subject: "Email Verification OTP",
+          htmlContent: `<html><body>
+            <h1>Your OTP for Email Verification</h1>
+            <p>Your OTP is: <strong>${generatedOTP}</strong></p>
+            <p>This OTP is valid for 5 minutes.</p>
+            </body></html>`,
+        },
+      };
+
+      await axios.post(brevoConfig.url, brevoConfig.data, {
+        headers: brevoConfig.headers,
+      });
+
+      setOtpSent(true);
+      setSuccessMessage("OTP sent successfully!");
+    } catch (error) {
+      setOtpError("Failed to send OTP. Please try again.");
+      console.error("OTP Send Error:", error);
+    } finally {
+      setIsOtpLoading(false);
+    }
+  };
+
+  // Verify OTP
+  const verifyOTP = () => {
+    const storedOtpData = JSON.parse(localStorage.getItem("signupOtpData"));
+
+    if (
+      !storedOtpData ||
+      storedOtpData.email !== inputs.email ||
+      new Date().getTime() - storedOtpData.timestamp > 5 * 60 * 1000
+    ) {
+      setOtpError("OTP is invalid or expired");
+      return;
+    }
+
+    if (otp === storedOtpData.otp) {
+      setIsEmailVerified(true);
+      setOtpError("");
+      setSuccessMessage("Email verified successfully!");
+      localStorage.removeItem("signupOtpData");
+    } else {
+      setOtpError("Invalid OTP");
+    }
+  };
+
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
     setErrorMessage("");
     setIsLoading(true);
+
+    if (!isEmailVerified) {
+      setErrorMessage("Please verify your email first");
+      setIsLoading(false);
+      return;
+    }
+
     if (
       inputs.username !== "" &&
       inputs.password !== "" &&
@@ -135,9 +242,9 @@ export default function SignupPage() {
             Register your account to get started today..!
           </p>
 
-          <form className="space-y-4 " onSubmit={handleSubmitEvent}>
+          <form className="space-y-4" onSubmit={handleSubmitEvent}>
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="username">
+              <label className="block mb-1 text-[12px]" htmlFor="username">
                 Username*
               </label>
               <input
@@ -145,24 +252,100 @@ export default function SignupPage() {
                 type="text"
                 value={inputs.username}
                 onChange={handleInput}
-                className="w-full px-4 p-3 rounded-3xl border bg-transparent  outline-none "
+                className="w-full px-4 p-3 rounded-3xl border bg-transparent outline-none"
                 placeholder="Username"
               />
             </div>
 
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="email">
+              <label className="block mb-1 text-[12px]" htmlFor="email">
                 Email*
               </label>
-              <input
-                name="email"
-                type="email"
-                value={inputs.email}
-                onChange={handleInput}
-                className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
-                placeholder="xyz@gmail.com"
-              />
+              <div className="flex gap-2 items-center">
+                <div className="relative flex-1">
+                  <input
+                    name="email"
+                    type="email"
+                    value={inputs.email}
+                    onChange={handleInput}
+                    className={`w-full px-4 py-3 rounded-3xl border bg-transparent outline-none ${
+                      isEmailVerified ? "pr-12" : ""
+                    }`}
+                    placeholder="xyz@gmail.com"
+                    disabled={isEmailVerified}
+                  />
+                  {isEmailVerified && (
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 text-green-500">
+                      <HiCheckCircle className="w-5 h-5" />
+                      <span className="text-xs">Verified</span>
+                    </div>
+                  )}
+                </div>
+                {!isEmailVerified && (
+                  <button
+                    type="button"
+                    onClick={sendOTP}
+                    disabled={isOtpLoading}
+                    className={`px-6 py-3 rounded-3xl transition whitespace-nowrap ${
+                      isOtpLoading
+                        ? "bg-gray-500 cursor-not-allowed"
+                        : "bg-green-500 hover:bg-green-600"
+                    }`}
+                  >
+                    {isOtpLoading
+                      ? "Sending..."
+                      : otpSent
+                      ? "Resend OTP"
+                      : "Send OTP"}
+                  </button>
+                )}
+              </div>
+              {errorMessage && (
+                <span className="text-red-500 text-[12px] mt-1 block">
+                  {errorMessage}
+                </span>
+              )}
+              {successMessage && (
+                <span className="text-green-500 text-[12px] mt-1 block">
+                  {successMessage}
+                </span>
+              )}
             </div>
+
+            {otpSent && !isEmailVerified && (
+              <div>
+                <label className="block mb-1 text-[12px]" htmlFor="otp">
+                  Enter OTP*
+                </label>
+                <div className="flex gap-2 items-center">
+                  <div className="flex-1">
+                    <input
+                      type="text"
+                      value={otp}
+                      onChange={(e) => {
+                        setOtpError(""); // Clear OTP error when user types
+                        setOtp(e.target.value);
+                      }}
+                      className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none"
+                      placeholder="Enter 6-digit OTP"
+                      maxLength="6"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    onClick={verifyOTP}
+                    className="px-6 py-3 rounded-3xl bg-green-500 hover:bg-green-600 transition whitespace-nowrap"
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+                {otpError && (
+                  <span className="text-red-500 text-[12px] mt-1 block">
+                    {otpError}
+                  </span>
+                )}
+              </div>
+            )}
 
             <div>
               <label className="block  mb-1 text-[12px]" htmlFor="phone">
@@ -203,15 +386,18 @@ export default function SignupPage() {
                   👁️
                 </span>
               </div>
-              {errorMessage && (
-                <span className="text-red-500 text-[12px]">{errorMessage}</span>
-              )}
             </div>
 
             <button
               type="submit"
-              // onClick={handleSubmitEvent}
-              className="flex justify-center w-full bg-green-500  py-2 rounded-3xl hover:bg-green-600 transition font-bold"
+              disabled={!isEmailVerified || isLoading}
+              className={`flex justify-center w-full py-2 rounded-3xl transition font-bold ${
+                !isEmailVerified
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : isLoading
+                  ? "bg-green-300"
+                  : "bg-green-500 hover:bg-green-600"
+              }`}
             >
               {isLoading ? (
                 <RotatingLines
@@ -222,11 +408,9 @@ export default function SignupPage() {
                   strokeWidth="5"
                   animationDuration="0.75"
                   ariaLabel="rotating-lines-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
                 />
               ) : (
-                <span> Sign Up</span>
+                <span>Sign Up</span>
               )}
             </button>
           </form>
@@ -288,7 +472,6 @@ export default function SignupPage() {
       )}
       {isFailureModal && (
         <FailureModal
-        
           message1="Some error occurred."
           message2="Please try again."
           onClose={() => handleModalOnClose()}
