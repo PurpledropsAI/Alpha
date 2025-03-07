@@ -77,7 +77,7 @@ export default function SignupPage() {
         url: "https://api.brevo.com/v3/smtp/email",
         headers: {
           accept: "application/json",
-          "api-key": process.env.BREVO_API_KEY,
+          "api-key": process.env.REACT_APP_BREVO_API_KEY,
           "content-type": "application/json",
         },
         data: {
