@@ -15,6 +15,11 @@ import FailureModal from "../../components/modals/failureModal";
 import { HiCheckCircle } from "react-icons/hi";
 // import
 export default function SignupPage() {
+  // Add these debug logs at the start of your component
+  console.log("All env variables:", process.env);
+  console.log("NODE_ENV:", process.env.NODE_ENV);
+  console.log("Brevo API Key:", process.env.REACT_APP_BREVO_API_KEY);
+
   let [passWordType, setPasswordType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModal, setIsSuccessModal] = useState(false);
@@ -48,6 +53,8 @@ export default function SignupPage() {
 
   // Send OTP via Brevo API
   const sendOTP = async () => {
+    console.log("api key:", process.env.REACT_APP_BREVO_API_KEY);
+    
     if (!inputs.email) {
       setErrorMessage("Please enter email first");
       return;
