@@ -14,6 +14,25 @@ import ConfirmModal from "../../components/modals/confirmModal";
 import FailureModal from "../../components/modals/failureModal";
 import { HiCheckCircle } from "react-icons/hi";
 // import
+
+// Add these helper functions at the top of your file
+const encryptOTP = (otp, email) => {
+  // Simple encryption using email as salt
+  const salt = email.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const encryptedOTP = otp.split('').map(digit => {
+    // Encrypt each digit using the salt
+    const encrypted = (parseInt(digit) + salt) % 10;
+    return encrypted.toString();
+  }).join('');
+  return encryptedOTP;
+};
+
+const verifyEncryptedOTP = (inputOTP, encryptedOTP, email) => {
+  // Encrypt the input OTP and compare with stored encrypted OTP
+  const encryptedInput = encryptOTP(inputOTP, email);
+  return encryptedInput === encryptedOTP;
+};
+
 export default function SignupPage() {
   let [passWordType, setPasswordType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +49,9 @@ export default function SignupPage() {
 
   // Add a new state for OTP-specific errors
   const [otpError, setOtpError] = useState("");
+
+  // Add new state for encrypted OTP
+  const [encryptedOTPData, setEncryptedOTPData] = useState(null);
 
   const [inputs, setInputs] = useState({
     username: "",
@@ -63,16 +85,19 @@ export default function SignupPage() {
       setIsOtpLoading(true);
       setOtpError("");
       setErrorMessage("");
-      const generatedOTP = generateOTP();
-
-      const otpData = {
-        otp: generatedOTP,
-        email: inputs.email,
+      
+      // Generate OTP
+      const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+      
+      // Store encrypted OTP with timestamp
+      const encryptedOTP = encryptOTP(generatedOTP, inputs.email);
+      setEncryptedOTPData({
+        otp: encryptedOTP,
         timestamp: new Date().getTime(),
-      };
-      localStorage.setItem("signupOtpData", JSON.stringify(otpData));
+        email: inputs.email
+      });
 
-      // Updated Brevo configuration using environment variable
+      // Brevo configuration
       const brevoConfig = {
         url: "https://api.brevo.com/v3/smtp/email",
         headers: {
@@ -111,22 +136,30 @@ export default function SignupPage() {
 
   // Verify OTP
   const verifyOTP = () => {
-    const storedOtpData = JSON.parse(localStorage.getItem("signupOtpData"));
-
-    if (
-      !storedOtpData ||
-      storedOtpData.email !== inputs.email ||
-      new Date().getTime() - storedOtpData.timestamp > 5 * 60 * 1000
-    ) {
-      setOtpError("OTP is invalid or expired");
+    if (!encryptedOTPData) {
+      setOtpError("Please request a new OTP");
       return;
     }
 
-    if (otp === storedOtpData.otp) {
+    // Check if OTP is expired (5 minutes)
+    if (new Date().getTime() - encryptedOTPData.timestamp > 5 * 60 * 1000) {
+      setOtpError("OTP has expired. Please request a new one");
+      setEncryptedOTPData(null);
+      return;
+    }
+
+    // Verify email matches
+    if (encryptedOTPData.email !== inputs.email) {
+      setOtpError("Invalid OTP for this email");
+      return;
+    }
+
+    // Verify OTP
+    if (verifyEncryptedOTP(otp, encryptedOTPData.otp, inputs.email)) {
       setIsEmailVerified(true);
       setOtpError("");
       setSuccessMessage("Email verified successfully!");
-      localStorage.removeItem("signupOtpData");
+      setEncryptedOTPData(null); // Clear OTP data after successful verification
     } else {
       setOtpError("Invalid OTP");
     }
