@@ -13,7 +13,9 @@ import { RotatingLines } from "react-loader-spinner";
 import ConfirmModal from "../../components/modals/confirmModal";
 import FailureModal from "../../components/modals/failureModal";
 import { HiCheckCircle } from "react-icons/hi";
-// import
+import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
+
 
 // Add these helper functions at the top of your file
 const encryptOTP = (otp, email) => {
@@ -379,6 +381,34 @@ export default function SignupPage() {
                 )}
               </div>
             )}
+            <div className="bg-transparent outline-none border rounded-3xl">
+              <PhoneInput
+                country={"in"}
+                enableSearch={true}
+                enableAreaCodes={true}
+                // inputProps={{
+                //   name: "Phone",
+                //   // placeholder: "",
+                // }}
+                inputStyle={{
+                  background: "transparent",
+                  outline: "none",
+                  border: "none",
+                  padding: "5px 50px",
+                  color: "white",
+                  boxShadow: "none", 
+                }}
+                containerStyle={{
+                  border: "none",
+                  outline: "none",
+                  color: "black",
+                  background: "transparent",
+                  marginLeft: "-12px",
+                }}
+                value={inputs.phone_number}
+                onChange={(phone) => setInputs(prev => ({ ...prev, phone_number: phone }))}
+              />
+            </div>
 
             <div>
               <label className="block  mb-1 text-[12px]" htmlFor="phone">
