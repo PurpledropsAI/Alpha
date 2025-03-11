@@ -194,7 +194,9 @@ export default function TradeCyclesBar({
 
                 <td className="py-2 px-">BNB/USDT</td>
                 <td className="py-2 px-">{tradeData?.daily_profit}</td>
-                <td className="py-2 px-">{tradeData?.trade_cycles[0]?.live_profit} USDT</td>
+                <td className="py-2 px-">
+                  {tradeData?.trade_cycles[0]?.live_profit} USDT
+                </td>
                 <td className="py-2 px-">{tradeData?.bot_status}</td>
               </tr>
             </tbody>
@@ -226,59 +228,62 @@ export default function TradeCyclesBar({
           )}
         </div>
         <div className="flex w-full bg-white rounded-b-lg p-5">
-          {isLoading ? (
-            <div className="flex justify-center w-full">
-              <RotatingLines
-                visible={true}
-                height="40"
-                width="40"
-                color="blue"
-                strokeWidth="5"
-                animationDuration="0.75"
-                ariaLabel="rotating-lines-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-              />
-            </div>
-          ) : selectedCycle?.orders?.length > 0 ? (
-            <div className="flex flex-col items-start w-full">
-              <div>These are your current open positions.</div>
-              <div className="w-full overflow-auto p-5">
-                <table className="w-full">
-                  <thead className=" ">
-                    <tr className="font-normal bg-white bg-opacity-10 text-[12px] sm:text-[16px] ">
-                      <th className="">Started at</th>
-                      <th className="">Cost</th>
-                      <th className="">BNB Bought</th>
-                      <th className="">Bought at</th>
-                      <th className="">Order type</th>
-                    </tr>
-                  </thead>
-                  {selectedCycle.orders?.map((item, index) => (
-                    <tbody className="text-[12px] sm:text-[16px]">
-                      <tr
-                        key={index}
-                        className=" border-b border-gray-700 font-extralight"
-                      >
-                        {/* <td className="py-2 px-4">{new Date(item?.started_at).toLocaleDateString()}</td> */}
-                        <td className="py-2 px-">
-                          {new Date(item?.timestamp).toLocaleDateString()}
-                        </td>
-                        <td className="py-2 px-">{item?.order_capital}</td>
-                        <td className="py-2 px-">{item?.quantity}</td>
-                        <td className="py-2 px-">{item?.fill_price}</td>
-                        <td className="py-2 px-">{item?.order_type}</td>
+          {
+            // isLoading ? (
+            //   <div className="flex justify-center w-full">
+            //     <RotatingLines
+            //       visible={true}
+            //       height="40"
+            //       width="40"
+            //       color="blue"
+            //       strokeWidth="5"
+            //       animationDuration="0.75"
+            //       ariaLabel="rotating-lines-loading"
+            //       wrapperStyle={{}}
+            //       wrapperClass=""
+            //     />
+            //   </div>
+            // ) :
+            selectedCycle?.orders?.length > 0 ? (
+              <div className="flex flex-col items-start w-full">
+                <div>These are your current open positions.</div>
+                <div className="w-full overflow-auto p-5">
+                  <table className="w-full">
+                    <thead className=" ">
+                      <tr className="font-normal bg-white bg-opacity-10 text-[12px] sm:text-[16px] ">
+                        <th className="">Started at</th>
+                        <th className="">Cost</th>
+                        <th className="">BNB Bought</th>
+                        <th className="">Bought at</th>
+                        <th className="">Order type</th>
                       </tr>
-                    </tbody>
-                  ))}
-                </table>
+                    </thead>
+                    {selectedCycle.orders?.map((item, index) => (
+                      <tbody className="text-[12px] sm:text-[16px]">
+                        <tr
+                          key={index}
+                          className=" border-b border-gray-700 font-extralight"
+                        >
+                          {/* <td className="py-2 px-4">{new Date(item?.started_at).toLocaleDateString()}</td> */}
+                          <td className="py-2 px-">
+                            {new Date(item?.timestamp).toLocaleDateString()}
+                          </td>
+                          <td className="py-2 px-">{item?.order_capital}</td>
+                          <td className="py-2 px-">{item?.quantity}</td>
+                          <td className="py-2 px-">{item?.fill_price}</td>
+                          <td className="py-2 px-">{item?.order_type}</td>
+                        </tr>
+                      </tbody>
+                    ))}
+                  </table>
+                </div>
               </div>
-            </div>
-          ) : (
-            <div className="text-white">
-              You do not have any positions {`(yet)`}.
-            </div>
-          )}
+            ) : (
+              <div className="text-white">
+                You do not have any positions {`(yet)`}.
+              </div>
+            )
+          }
         </div>
       </div>
       {/* <div>

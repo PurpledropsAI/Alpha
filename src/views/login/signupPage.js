@@ -15,6 +15,7 @@ import FailureModal from "../../components/modals/failureModal";
 import { HiCheckCircle } from "react-icons/hi";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/bootstrap.css";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 // Add these helper functions at the top of your file
 const encryptOTP = (otp, email) => {
@@ -61,6 +62,10 @@ export default function SignupPage() {
 
   // Add new state for email errors
   const [emailError, setEmailError] = useState("");
+
+  // Add confirm password to state
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const [inputs, setInputs] = useState({
     username: "",
@@ -179,13 +184,22 @@ export default function SignupPage() {
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
     setErrorMessage("");
-    setIsLoading(true);
-
+    setEmailError("");
+    setPasswordError("");
+    
+    // Check if email is verified
     if (!isEmailVerified) {
-      setErrorMessage("Please verify your email first");
-      setIsLoading(false);
+      setEmailError("Please verify your email first");
       return;
     }
+    
+    // Check if passwords match
+    if (inputs.password !== confirmPassword) {
+      setPasswordError("Passwords do not match");
+      return;
+    }
+    
+    setIsLoading(true);
 
     if (
       inputs.username !== "" &&
@@ -243,6 +257,8 @@ export default function SignupPage() {
     } else {
       setIsLoading(false);
       setErrorMessage("Please fill in all the details");
+      console.log("error...");
+      
     }
   };
 
@@ -453,17 +469,54 @@ export default function SignupPage() {
                   placeholder="********"
                 />
                 <span
-                  className="absolute inset-y-0 right-4 flex items-center text-gray-400 cursor-pointer"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
                   onClick={() => setPasswordType(!passWordType)}
                 >
-                  👁️
+                  {passWordType ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                  
                 </span>
               </div>
+              {passwordError && (
+                <span className="text-red-500 text-[12px] mt-1 block">
+                  {passwordError}
+                </span>
+              )}
+            </div>
+
+            <div>
+              <label className="block mb-1 text-[12px]" htmlFor="confirmPassword">
+                Confirm Password*
+              </label>
+              <div className="relative">
+                <input
+                  name="confirmPassword"
+                  type={passWordType ? "password" : "text"}
+                  value={confirmPassword}
+                  onChange={(e) => {
+                    setConfirmPassword(e.target.value);
+                    setPasswordError("");
+                  }}
+                  className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none"
+                  placeholder="********"
+                />
+                <div
+                  className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                  onClick={() => setPasswordType(!passWordType)}
+                >
+                  {passWordType ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                </div>
+              </div>
+              {passwordError && (
+                <span className="text-red-500 text-[12px] mt-1 block">
+                  {passwordError}
+                </span>
+              )}
               {errorMessage && (
                 <span className="text-red-500 text-[12px] mt-1 block">
                   {errorMessage}
                 </span>
               )}
+              
             </div>
 
             <button

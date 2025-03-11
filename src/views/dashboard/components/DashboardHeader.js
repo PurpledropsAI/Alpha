@@ -1,25 +1,24 @@
 import React, { useState } from "react";
 import { FaDiscord, FaUserAlt } from "react-icons/fa";
-import { TbMoonFilled } from "react-icons/tb";
-import { IoFolderOpenOutline } from "react-icons/io5";
-import { CiServer } from "react-icons/ci";
-import { BiSupport } from "react-icons/bi";
-import { ImStatsBars2 } from "react-icons/im";
-import { MdOutlineBookmarkAdd } from "react-icons/md";
-import { GrMoney } from "react-icons/gr";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../auth/AuthProvider";
+import { TbMoonFilled } from "react-icons/tb";
 
 const DashboardHeader = ({ sideBarIsOpen }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
+
+  const { logout } = useAuth();
 
   const navigate = useNavigate();
-  const toggleNavbar = () => {
-    setIsOpen(!isOpen);
-  };
+
+  // const toggleNavbar = () => {
+  //   setIsOpen(!isOpen);
+  // };
 
   const handleLogout = () => {
-    localStorage.clear();
     navigate("/");
+    logout();
+    localStorage.clear();
     window.location.reload();
   };
 

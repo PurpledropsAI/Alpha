@@ -12,7 +12,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { IoCopyOutline } from "react-icons/io5";
 import { TbCopyCheck } from "react-icons/tb";
 
-export default function HomePage() {
+export default function ConnectBinance() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModal, setIsSuccessModal] = useState(false);

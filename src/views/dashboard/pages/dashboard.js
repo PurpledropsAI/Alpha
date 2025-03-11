@@ -2,48 +2,18 @@ import React, { useEffect, useState } from "react";
 import ActivitySideBar from "../components/ActivitySideBar";
 import StatsSideBar from "../components/StatsSideBar";
 import SwitchBoxSideBar from "../components/SwitchBoxSideBar";
-import {
-  Tabs,
-  TabList,
-  Tab,
-  TabPanels,
-  TabPanel,
-} from "../../../components/tabs/Tabs";
-import OpenPositionsTab from "../components/OpenPositionsTab";
 import SuccessBar from "../components/SuccessBar";
-import { PiCurrencyDollarBold } from "react-icons/pi";
 import { SiTether } from "react-icons/si";
 import { RiBnbFill } from "react-icons/ri";
 import axios from "axios";
 import { BASE_URL } from "../../../api/api";
 import DepositModal from "../../../components/modals/depositModal";
 import FailureModal from "../../../components/modals/failureModal";
-import TradeCycleDashboard from "../components/TradeCycleDashboard";
 import ConfirmModal from "../../../components/modals/confirmModal";
 import { RotatingLines } from "react-loader-spinner";
-import OpenPositionsTab1 from "../components/OpenPositionsTab1";
 import TradeCyclesBar from "../components/TradeCyclesBar";
 import PanicBar from "../components/PanicBar";
-import TradeHistory from "./tradeHistory";
 import TradeHistoryBar from "../components/TradeHistoryBar";
-
-const tabs = [
-  // {
-  //   title: "Open Orders",
-  //   dummyLabel: "No current active/open orders placed by Cryptohopper",
-  //   largeText: "",
-  // },
-  // {
-  //   title: "Summary Open positions",
-  //   dummyLabel: "",
-  //   largeText: "Total current positions",
-  // },
-  {
-    title: "Latest 5 Sells",
-    dummyLabel: "No sell trades made yet",
-    largeText: "",
-  },
-];
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);

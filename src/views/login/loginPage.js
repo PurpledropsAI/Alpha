@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import loginBg from "./assets/loginBg.png";
 import { FaInstagram } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
@@ -7,14 +7,15 @@ import { FaXTwitter } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthProvider";
 import { BASE_URL } from "../../api/api";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { RotatingLines } from "react-loader-spinner";
+import ConfirmModal from "../../components/modals/confirmModal";
 
 import "./login.css";
 import axios from "axios";
-import { RotatingLines } from "react-loader-spinner";
-import ConfirmModal from "../../components/modals/confirmModal";
-// import
-export default function SignupPage() {
-  const [passwordType, setpasswordType] = useState(true);
+
+export default function LoginPage() {
+  const [passwordType, setPasswordType] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -26,10 +27,36 @@ export default function SignupPage() {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmitEvent = async (e) => {
+  // Add this function to handle Binance connection
+  const connectBinance = async (apiKey, apiSecret, token) => {
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/binance/connect/`,
+        {
+          api_key: apiKey,
+          api_secret: apiSecret,
+        },
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+      if (response?.status === 200) {
+        return true; // Connection successful
+      } else {
+        return false; // Connection failed
+      }
+    } catch (error) {
+      console.error("Binance connection error:", error);
+      return false; // Connection failed
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
     setIsLoading(true);
+    setErrorMessage("");
 
     console.log("inpts", inputs);
 
@@ -43,40 +70,53 @@ export default function SignupPage() {
     if (!emailRegex.test(inputs.email_or_phone)) {
       setErrorMessage("Please enter a valid email");
       setIsLoading(false);
-
       return;
     }
     try {
       const response = await axios.post(`${BASE_URL}/api/users/login/`, inputs);
-      console.log("loginResponse: ", response?.data);
-      const data = response?.data;
-
-      if (response?.data?.token) {
+      if (response?.status === 200) {
+        const data = response?.data;
+        localStorage.setItem("token", data?.token);
         localStorage.setItem("userData", JSON.stringify(data));
-        if (data.plan == null || data.plan === "") {
-          setIsSuccessModal(true);
-          setTimeout(() => {
-            setIsSuccessModal(false);
-            auth.setToken(data?.token);
 
-            navigate("/");
-          }, 2000);
+        if (
+          data?.binance_connected === true &&
+          data?.binance_api_key &&
+          data?.binance_api_secret
+        ) {
+          console.log("Attempting to connect to Binance...");
+
+          const binanceConnected = await connectBinance(
+            data.binance_api_key,
+            data.binance_api_secret,
+            data.token
+          );
+
+          if (binanceConnected) {
+            setIsSuccessModal(true);
+            setTimeout(() => {
+              console.log("navigating....");
+              setIsSuccessModal(false);
+              navigate("/dashboard");
+              auth.login(data);
+            }, 2000);
+          } else {
+            setErrorMessage("Binance connection failed. Try again");
+          }
         } else {
           setIsSuccessModal(true);
           setTimeout(() => {
             setIsSuccessModal(false);
-            auth.setToken(data?.token);
-
-            navigate("/dashboard");
+            navigate("/connect-binance");
+            auth.login(data);
           }, 2000);
         }
       }
     } catch (err) {
-      console.log("error occurred:", err?.response?.data?.error);
-      if (err?.response?.data?.error) {
-        setErrorMessage(err?.response?.data?.error);
-      }
-      // setErrorMessage(err);
+      console.error("Login error:", err);
+      setErrorMessage(
+        err?.response?.data?.error || "Login failed. Please try again."
+      );
     } finally {
       setIsLoading(false);
     }
@@ -113,53 +153,27 @@ export default function SignupPage() {
               Login your account to get started..!
             </p>
 
-            <form className="space-y-4 " onSubmit={handleSubmitEvent}>
-              {/* <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="username">
-                Username*
-              </label>
-              <input
-                id="username"
-                type="text"
-                className="w-full px-4 p-3 rounded-3xl border bg-transparent  outline-none "
-                placeholder="Hariharan .S"
-              />
-            </div> */}
-
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              {/* Email/Phone Input */}
               <div>
-                <label className="block  mb-1 text-[12px]" htmlFor="email">
-                  Email*
+                <label className="block mb-1 text-sm" htmlFor="email">
+                  Email or Phone
                 </label>
                 <input
                   name="email_or_phone"
-                  type="email"
+                  type="text"
                   value={inputs.email_or_phone}
                   onChange={handleInput}
-                  className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none "
-                  placeholder="xyz@gmail.com"
+                  className="w-full px-4 py-3 rounded-xl border bg-transparent outline-none"
+                  placeholder="Enter email or phone"
+                  required
                 />
               </div>
 
-              {/* <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="phone">
-                Phone Number*
-              </label>
-              <div className="flex rounded-3xl">
-                <div className="flex items-center bg-gray-700 px-3 rounded-l-3xl">
-                  <span className="">🇮🇳</span>
-                </div>
-                <input
-                  id="phone"
-                  type="text"
-                  className="w-full px-4 py-3 rounded-r-3xl border bg-transparent outline-none  "
-                  placeholder="+91 97913 36435"
-                />
-              </div>
-            </div> */}
-
+              {/* Password Input */}
               <div>
-                <label className="block  mb-1 text-[12px]" htmlFor="password">
-                  Password*
+                <label className="block mb-1 text-sm" htmlFor="password">
+                  Password
                 </label>
                 <div className="relative">
                   <input
@@ -167,50 +181,57 @@ export default function SignupPage() {
                     type={passwordType ? "password" : "text"}
                     value={inputs.password}
                     onChange={handleInput}
-                    className="w-full px-4 py-3 rounded-3xl border bg-transparent  outline-none "
-                    placeholder="********"
+                    className="w-full px-4 py-3 rounded-xl border bg-transparent outline-none"
+                    placeholder="Enter password"
+                    required
                   />
-                  <span
-                    className="absolute inset-y-0 right-4 flex items-center text-gray-400 cursor-pointer"
-                    onClick={() => setpasswordType(!passwordType)}
+                  <div
+                    className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+                    onClick={() => setPasswordType(!passwordType)}
                   >
-                    👁️
-                  </span>
+                    {passwordType ? (
+                      <AiOutlineEye />
+                    ) : (
+                      <AiOutlineEyeInvisible />
+                    )}
+                  </div>
                 </div>
               </div>
+
+              {/* Error Message */}
               {errorMessage && (
-                <span className="text-[12px] text-red-500">{errorMessage}</span>
+                <div className="text-red-500 text-sm">{errorMessage}</div>
               )}
 
+              {/* Submit Button */}
               <button
                 type="submit"
-                className={`flex justify-center w-full  py-2 rounded-3xl hover:bg-green-600 transition font-bold ${
-                  isLoading ? "px-16 bg-green-300" : "bg-green-500"
-                }`}
+                disabled={isLoading}
+                className="w-full py-3 rounded-xl bg-green-500 hover:bg-green-600 transition font-medium flex justify-center"
               >
                 {isLoading ? (
                   <RotatingLines
                     visible={true}
-                    height="40"
-                    width="40"
+                    height="24"
+                    width="24"
                     color="white"
                     strokeWidth="5"
                     animationDuration="0.75"
-                    ariaLabel="rotating-lines-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
                   />
                 ) : (
-                  <span> Log In</span>
+                  "Login"
                 )}
               </button>
             </form>
 
-            <div className="text-center mt-6">
-              <span className="text-gray-400">Don’t have an account? </span>
-              <Link to="/signup" className="text-green-500 hover:underline">
-                Sign Up
-              </Link>
+            {/* Sign Up Link */}
+            <div className="mt-4 text-center">
+              <p>
+                Don't have an account?{" "}
+                <a href="/signup" className="text-green-500 hover:underline">
+                  Sign Up
+                </a>
+              </p>
             </div>
 
             {/* Social Icons */}
@@ -237,7 +258,9 @@ export default function SignupPage() {
         className="absolute top-5 sm:top-10 left-5 sm:left-10 w-14 sm:w-20"
       ></img>
       <div className=" flex flex-col sm:flex-row items-center gap-3  justify-between p-3 sm:px-32 sm:gap-[20rem]">
-        <div className="text-[12px] max-sm:order-last sm:text-[16px]">© 2025 alpha All Rights Reserved.</div>
+        <div className="text-[12px] max-sm:order-last sm:text-[16px]">
+          © 2025 alpha All Rights Reserved.
+        </div>
         <div className="flex gap-4  text-black">
           <button className="bg-white rounded-full p-2">
             <FaInstagram />

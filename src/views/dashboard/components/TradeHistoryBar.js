@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { HiMiniCheckBadge } from "react-icons/hi2";
-import { SiBinance } from "react-icons/si";
 import { BASE_URL } from "../../../api/api";
 import axios from "axios";
 
