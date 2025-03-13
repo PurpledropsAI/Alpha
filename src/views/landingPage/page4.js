@@ -6,23 +6,23 @@ import img3 from "./asses/img3.png";
 export default function Page4() {
   const cardItems = [
     {
-      title: "Automation Bot",
+      title: "Advanced Automated Trading Solutions",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.",
+        "Alpha Robotics LLP offers sophisticated trading solutions designed to enhance your investment journey. Our cutting-edge Alpha Trading Bot is the core of our services, providing seamless automation to maximize user profits. The bot continuously scans the market, detects trends, and optimizes trading positions using advanced algorithms and high-precision strategies.",
       redirectTo: "",
       logo: img1,
     },
     {
-      title: "Automation Bot",
+      title: "Smart & Efficient Trading Execution",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.",
+        "Our trading bot is engineered for speed and efficiency, adapting to various market conditions. Whether the market is bullish or bearish, the Alpha Trading Bot ensures you stay ahead with real-time analytics and dynamic trade execution. It is built to react swiftly to market movements, making intelligent trade decisions on your behalf to increase profitability.",
       redirectTo: "",
       logo: img2,
     },
     {
-      title: "Automation Bot",
+      title: " ⁠User-Friendly Yet Powerful",
       description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum is simply dummy text.",
+        "The Alpha Trading Bot is designed for both experienced traders and beginners. With an intuitive and easy-to-use interface, users can trade with confidence without requiring extensive trading knowledge. Whether you are a seasoned trader or just starting, our automated system empowers you to reach your financial goals effortlessly.",
       redirectTo: "",
       logo: img3,
     },
@@ -30,7 +30,9 @@ export default function Page4() {
   return (
     <div className="flex flex-col gap-5 items-center p-3 sm:p-10">
       <div className="flex flex-col gap-3 lg:px-[22rem] text-center">
-        <span className="text-[32px] sm:text-[60px] leading-10 sm:leading-[4.5rem]">Power your Crypto Trading Bot</span>
+        <span className="text-[32px] sm:text-[60px] leading-10 sm:leading-[4.5rem]">
+          Power your Crypto Trading Bot
+        </span>
         <p className="text-[12px] sm:text-[16px]">
           presented complicated trading solutions that are intended to
           streamline your investment experience.{" "}
