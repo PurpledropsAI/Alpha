@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../../../api/api";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
+import { useAuth } from "../../../views/auth/AuthProvider";
 
 export default function TradeCyclesBar({
   setUsdtProfit,
@@ -17,7 +18,8 @@ export default function TradeCyclesBar({
   const [tradeData, setTradeData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCycleNumber, setSelectedCycleNumber] = useState(0);
-
+  
+  const { logout } = useAuth();
   const token = localStorage.getItem("token");
 
   const fetchtradeData = async () => {
@@ -40,6 +42,12 @@ export default function TradeCyclesBar({
         "Error fetching cycle status:",
         error.response?.data || error.message
       );
+      
+      // Check if the error is due to unauthorized access (401)
+      if (error.response?.status === 401) {
+        console.log("Unauthorized access detected. Logging out...");
+        logout(); // Call the logout function from AuthProvider
+      }
     } finally {
       setIsLoading(false);
     }
