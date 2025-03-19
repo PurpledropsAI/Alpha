@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import loginBg from "./assets/loginBg.png";
 import { FaInstagram } from "react-icons/fa";
 import { TbBrandThreads } from "react-icons/tb";
@@ -41,32 +41,35 @@ const verifyEncryptedOTP = (inputOTP, encryptedOTP, email) => {
 };
 
 export default function SignupPage() {
-  let [passWordType, setPasswordType] = useState(true);
+  // Password visibility toggle
+  const [passWordType, setPasswordType] = useState(true);
+  
+  // Form submission states
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessModal, setIsSuccessModal] = useState(false);
   const [isFailureModal, setIsFailureModal] = useState(false);
+  
+  // Error and success messages
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  
+  // Field-specific error messages
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
 
-  // New states for OTP functionality
+  // Email verification states
   const [otpSent, setOtpSent] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [otp, setOtp] = useState("");
   const [isOtpLoading, setIsOtpLoading] = useState(false);
-
-  // Add a new state for OTP-specific errors
   const [otpError, setOtpError] = useState("");
-
-  // Add new state for encrypted OTP
+  const [resendTime, setResendTime] = useState(0);
   const [encryptedOTPData, setEncryptedOTPData] = useState(null);
-
-  // Add new state for email errors
-  const [emailError, setEmailError] = useState("");
-
-  // Add confirm password to state
+  
+  // Form data
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-
   const [inputs, setInputs] = useState({
     username: "",
     email: "",
@@ -77,13 +80,20 @@ export default function SignupPage() {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  // Generate random 6 digit OTP
-  const generateOTP = () => {
-    return Math.floor(100000 + Math.random() * 900000).toString();
+  // Clear all email verification related states
+  const resetEmailVerification = () => {
+    setOtpSent(false);
+    setIsEmailVerified(false);
+    setOtp("");
+    setOtpError("");
+    setResendTime(0);
+    setEncryptedOTPData(null);
+    setSuccessMessage("");
   };
 
   // Send OTP via Brevo API
   const sendOTP = async () => {
+    // Validate email
     if (!inputs.email) {
       setEmailError("Please enter email first");
       return;
@@ -98,12 +108,11 @@ export default function SignupPage() {
     try {
       setIsOtpLoading(true);
       setOtpError("");
-      setErrorMessage("");
+      setEmailError("");
+      setSuccessMessage("");
 
       // Generate OTP
-      const generatedOTP = Math.floor(
-        100000 + Math.random() * 900000
-      ).toString();
+      const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
 
       // Store encrypted OTP with timestamp
       const encryptedOTP = encryptOTP(generatedOTP, inputs.email);
@@ -136,9 +145,24 @@ export default function SignupPage() {
         },
       };
 
+      // Send the email
       await axios.post(brevoConfig.url, brevoConfig.data, {
         headers: brevoConfig.headers,
       });
+
+      // Start resend timer for 5 minutes (300 seconds)
+      setResendTime(300);
+      
+      // Set up the countdown timer
+      const countdownInterval = setInterval(() => {
+        setResendTime((prevTime) => {
+          if (prevTime <= 1) {
+            clearInterval(countdownInterval);
+            return 0;
+          }
+          return prevTime - 1;
+        });
+      }, 1000);
 
       setOtpSent(true);
       setSuccessMessage("OTP sent successfully!");
@@ -152,6 +176,13 @@ export default function SignupPage() {
 
   // Verify OTP
   const verifyOTP = () => {
+    // Validate OTP presence
+    if (!otp) {
+      setOtpError("Please enter OTP");
+      return;
+    }
+
+    // Validate OTP data exists
     if (!encryptedOTPData) {
       setOtpError("Please request a new OTP");
       return;
@@ -161,6 +192,7 @@ export default function SignupPage() {
     if (new Date().getTime() - encryptedOTPData.timestamp > 5 * 60 * 1000) {
       setOtpError("OTP has expired. Please request a new one");
       setEncryptedOTPData(null);
+      setOtpSent(false);
       return;
     }
 
@@ -174,6 +206,7 @@ export default function SignupPage() {
     if (verifyEncryptedOTP(otp, encryptedOTPData.otp, inputs.email)) {
       setIsEmailVerified(true);
       setOtpError("");
+      setOtp("");
       setSuccessMessage("Email verified successfully!");
       setEncryptedOTPData(null); // Clear OTP data after successful verification
     } else {
@@ -181,93 +214,145 @@ export default function SignupPage() {
     }
   };
 
+  // Handle form submission
   const handleSubmitEvent = async (e) => {
     e.preventDefault();
+    
+    // Reset all error messages
     setErrorMessage("");
     setEmailError("");
     setPasswordError("");
+    setUsernameError("");
+    setPhoneError("");
     
-    // Check if email is verified
+    // Validate email verification
     if (!isEmailVerified) {
       setEmailError("Please verify your email first");
       return;
     }
     
-    // Check if passwords match
+    // Validate password match
     if (inputs.password !== confirmPassword) {
       setPasswordError("Passwords do not match");
       return;
     }
+
+    // Validate all fields are filled
+    if (!inputs.username || !inputs.password || !inputs.phone_number || !inputs.email) {
+      setErrorMessage("Please fill in all the details");
+      
+      if (!inputs.username) setUsernameError("Username is required");
+      if (!inputs.password) setPasswordError("Password is required");
+      if (!inputs.phone_number) setPhoneError("Phone number is required");
+      if (!inputs.email) setEmailError("Email is required");
+      
+      return;
+    }
     
+    // Submit form
     setIsLoading(true);
+    
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/api/users/signup/`,
+        inputs
+      );
+      
+      if (response.status.toString().startsWith("2")) {
+        setInputs({
+          username: "",
+          email: "",
+          phone_number: "",
+          password: "",
+        });
+        setConfirmPassword("");
 
-    if (
-      inputs.username !== "" &&
-      inputs.password !== "" &&
-      inputs.phone_number !== "" &&
-      inputs.email !== ""
-    ) {
-      console.log("inpts", inputs);
+        const data = response.data;
+        setSuccessMessage(data.message);
 
-      try {
-        const response = await axios.post(
-          `${BASE_URL}/api/users/signup/`,
-          inputs
-        );
-        console.log("response: ", response);
-
-        if (response.status.toString().startsWith("2")) {
-          setInputs({
-            username: "",
-            email: "",
-            phone_number: "",
-            password: "",
-          });
-
-          const data = response.data;
-          setSuccessMessage(data.message);
-
-          if (data?.message === "Signup successful") {
-            setIsSuccessModal(true);
-          } else {
-            setIsFailureModal(true);
-          }
+        if (data?.message === "Signup successful") {
+          setIsSuccessModal(true);
+        } else {
+          setIsFailureModal(true);
         }
-      } catch (err) {
+      }
+    } catch (err) {
+      if (err.response && err.response.data) {
+        const errorData = err.response.data;
         let errors = [];
-        let errorData = err.response.data;
+        let hasFieldErrors = false;
 
+        // Handle email errors - reset verification if email error
         if (errorData.email) {
-          setEmailError(errorData.email.join(" "));
+          const emailErrorMsg = errorData.email.join(" ");
+          setEmailError(emailErrorMsg);
+          resetEmailVerification();
+          hasFieldErrors = true;
         }
         
-        // Handle other errors as before
+        // Handle other field errors
         if (errorData.username) {
+          setUsernameError(errorData.username.join(" "));
           errors.push(...errorData.username);
+          hasFieldErrors = true;
         }
+        
         if (errorData.phone_number) {
+          setPhoneError(errorData.phone_number.join(" "));
           errors.push(...errorData.phone_number);
+          hasFieldErrors = true;
+        }
+        
+        if (errorData.password) {
+          setPasswordError(errorData.password.join(" "));
+          errors.push(...errorData.password);
+          hasFieldErrors = true;
         }
 
-        const joinedString = errors.join(" \n");
-        setErrorMessage(joinedString);
-      } finally {
-        setIsLoading(false);
+        // Only set general error message if no field errors were found
+        if (!hasFieldErrors && errors.length > 0) {
+          setErrorMessage(errors.join(" \n"));
+        }
+      } else {
+        // For unexpected errors without response data
+        setErrorMessage("An unexpected error occurred. Please try again.");
       }
-    } else {
+    } finally {
       setIsLoading(false);
-      setErrorMessage("Please fill in all the details");
-      console.log("error...");
-      
     }
   };
 
+  // Handle input changes
   const handleInput = (e) => {
     const { name, value } = e.target;
+    
+    // Update input value
     setInputs((prev) => ({
       ...prev,
       [name]: value,
     }));
+
+    // Clear field-specific errors
+    switch (name) {
+      case "email":
+        setEmailError("");
+        // Reset email verification if changing email
+        if (value !== inputs.email) {
+          resetEmailVerification();
+        }
+        break;
+      case "username":
+        setUsernameError("");
+        break;
+      case "password":
+        setPasswordError("");
+        break;
+      case "phone_number":
+        setPhoneError("");
+        break;
+      default:
+        break;
+    }
   };
 
   const handleModalOnClose = () => {
@@ -290,14 +375,15 @@ export default function SignupPage() {
       {/* Right Section */}
       <div className="w-full md:w-1/2 flex justify-center items-center p-4 sm:p-6 md:p-0">
         <div className="p-3 sm:p-8 md:p-10 rounded-3xl shadow-lg border w-[30rem]">
-          <h1 className="text-2xl md:text-3xl  font-semibold text-center">
+          <h1 className="text-2xl md:text-3xl font-semibold text-center">
             Hey! Welcome <span className="wave-emoji">👋</span>
           </h1>
-          <p className="text-gray-400 mb-8  text-center">
+          <p className="text-gray-400 mb-8 text-center">
             Register your account to get started today..!
           </p>
 
           <form className="space-y-4" onSubmit={handleSubmitEvent}>
+            {/* Username field */}
             <div>
               <label className="block mb-1 text-[12px]" htmlFor="username">
                 Username*
@@ -310,8 +396,14 @@ export default function SignupPage() {
                 className="w-full px-4 p-3 rounded-3xl border bg-transparent outline-none"
                 placeholder="Username"
               />
+              {usernameError && (
+                <span className="text-red-500 text-[12px] mt-1 block">
+                  {usernameError}
+                </span>
+              )}
             </div>
 
+            {/* Email field */}
             <div>
               <label className="block mb-1 text-[12px]" htmlFor="email">
                 Email*
@@ -322,30 +414,27 @@ export default function SignupPage() {
                     name="email"
                     type="email"
                     value={inputs.email}
-                    onChange={(e) => {
-                      handleInput(e);
-                      setEmailError(""); // Clear email error when user types
-                    }}
+                    onChange={handleInput}
                     className={`w-full px-4 py-3 rounded-3xl border bg-transparent outline-none ${
                       isEmailVerified ? "pr-12" : ""
                     }`}
                     placeholder="xyz@gmail.com"
-                    disabled={isEmailVerified}
+                    disabled={isEmailVerified && !emailError}
                   />
-                  {isEmailVerified && (
+                  {isEmailVerified && !emailError && (
                     <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 text-green-500">
                       <HiCheckCircle className="w-5 h-5" />
                       <span className="text-xs">Verified</span>
                     </div>
                   )}
                 </div>
-                {!isEmailVerified && (
+                {(!isEmailVerified || emailError) && (
                   <button
                     type="button"
                     onClick={sendOTP}
-                    disabled={isOtpLoading}
+                    disabled={isOtpLoading || (otpSent && resendTime > 0)}
                     className={`px-6 py-3 rounded-3xl transition whitespace-nowrap ${
-                      isOtpLoading
+                      isOtpLoading || (otpSent && resendTime > 0)
                         ? "bg-gray-500 cursor-not-allowed"
                         : "bg-green-500 hover:bg-green-600"
                     }`}
@@ -353,7 +442,9 @@ export default function SignupPage() {
                     {isOtpLoading
                       ? "Sending..."
                       : otpSent
-                      ? "Resend OTP"
+                      ? resendTime > 0
+                        ? `Resend in ${Math.floor(resendTime / 60)}:${(resendTime % 60).toString().padStart(2, '0')}`
+                        : "Resend OTP"
                       : "Send OTP"}
                   </button>
                 )}
@@ -363,13 +454,14 @@ export default function SignupPage() {
                   {emailError}
                 </span>
               )}
-              {successMessage && (
+              {successMessage && !emailError && (
                 <span className="text-green-500 text-[12px] mt-1 block">
                   {successMessage}
                 </span>
               )}
             </div>
 
+            {/* OTP field - conditionally shown */}
             {otpSent && !isEmailVerified && (
               <div>
                 <label className="block mb-1 text-[12px]" htmlFor="otp">
@@ -381,7 +473,7 @@ export default function SignupPage() {
                       type="text"
                       value={otp}
                       onChange={(e) => {
-                        setOtpError(""); // Clear OTP error when user types
+                        setOtpError("");
                         setOtp(e.target.value);
                       }}
                       className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none"
@@ -404,59 +496,48 @@ export default function SignupPage() {
                 )}
               </div>
             )}
-            
 
+            {/* Phone number field */}
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="phone">
+              <label className="block mb-1 text-[12px]" htmlFor="phone">
                 Phone Number*
               </label>
-              {/* <div className="flex rounded-3xl">
-                <div className="flex items-center bg-gray-700 px-3 rounded-l-3xl">
-                  <span className="">🇮🇳</span>
-                </div>
-                <input
-                  name="phone_number"
-                  type="text"
-                  value={inputs.phone_number}
-                  onChange={handleInput}
-                  className="w-full px-4 py-3 rounded-r-3xl border bg-transparent outline-none  "
-                  placeholder="+00 0000000000"
-                />
-              </div> */}
               <div className="bg-transparent outline-none border rounded-[2rem] p-3 px-4">
-              <PhoneInput
-                country={"in"}
-                enableSearch={true}
-                enableAreaCodes={true}
-                // inputProps={{
-                //   name: "Phone",
-                //   // placeholder: "",
-                // }}
-                inputStyle={{
-                  background: "transparent",
-                  outline: "none",
-                  border: "none",
-                  padding: "5px 50px",
-                  color: "white",
-                  boxShadow: "none",
-                }}
-                containerStyle={{
-                  border: "none",
-                  outline: "none",
-                  color: "black",
-                  background: "transparent",
-                  marginLeft: "-12px",
-                }}
-                value={inputs.phone_number}
-                onChange={(phone) =>
-                  setInputs((prev) => ({ ...prev, phone_number: phone }))
-                }
-              />
-            </div>
+                <PhoneInput
+                  country={"in"}
+                  enableSearch={true}
+                  enableAreaCodes={true}
+                  inputStyle={{
+                    background: "transparent",
+                    outline: "none",
+                    border: "none",
+                    padding: "5px 50px",
+                    color: "white",
+                    boxShadow: "none",
+                  }}
+                  containerStyle={{
+                    border: "none",
+                    outline: "none",
+                    color: "black",
+                    background: "transparent",
+                    marginLeft: "-12px",
+                  }}
+                  value={inputs.phone_number}
+                  onChange={(phone) =>
+                    setInputs((prev) => ({ ...prev, phone_number: phone }))
+                  }
+                />
+              </div>
+              {phoneError && (
+                <span className="text-red-500 text-[12px] mt-1 block">
+                  {phoneError}
+                </span>
+              )}
             </div>
 
+            {/* Password field */}
             <div>
-              <label className="block  mb-1 text-[12px]" htmlFor="password">
+              <label className="block mb-1 text-[12px]" htmlFor="password">
                 Password*
               </label>
               <div className="relative">
@@ -465,7 +546,7 @@ export default function SignupPage() {
                   type={passWordType ? "password" : "text"}
                   value={inputs.password}
                   onChange={handleInput}
-                  className="w-full px-4 py-3 rounded-3xl border bg-transparent  outline-none "
+                  className="w-full px-4 py-3 rounded-3xl border bg-transparent outline-none"
                   placeholder="********"
                 />
                 <span
@@ -473,7 +554,6 @@ export default function SignupPage() {
                   onClick={() => setPasswordType(!passWordType)}
                 >
                   {passWordType ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-                  
                 </span>
               </div>
               {passwordError && (
@@ -483,6 +563,7 @@ export default function SignupPage() {
               )}
             </div>
 
+            {/* Confirm Password field */}
             <div>
               <label className="block mb-1 text-[12px]" htmlFor="confirmPassword">
                 Confirm Password*
@@ -506,19 +587,16 @@ export default function SignupPage() {
                   {passWordType ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </div>
               </div>
-              {passwordError && (
-                <span className="text-red-500 text-[12px] mt-1 block">
-                  {passwordError}
-                </span>
-              )}
-              {errorMessage && (
-                <span className="text-red-500 text-[12px] mt-1 block">
-                  {errorMessage}
-                </span>
-              )}
-              
             </div>
 
+            {/* General error message */}
+            {errorMessage && (
+              <span className="text-red-500 text-[12px] mt-1 block">
+                {errorMessage}
+              </span>
+            )}
+
+            {/* Submit button */}
             <button
               type="submit"
               disabled={!isEmailVerified || isLoading}
