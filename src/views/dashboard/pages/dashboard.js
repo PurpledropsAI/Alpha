@@ -155,6 +155,7 @@ export default function Dashboard() {
     if (response1?.is_enabled === false) {
       console.log("is_enabled is false.");
       setErrorMessage("Bot is disabled. Enable it.");
+      setBotisLoading(false);
       return;
     } else if (response1?.response?.data?.detail) {
       setErrorMessage(response1?.response?.data?.detail);
@@ -231,10 +232,10 @@ export default function Dashboard() {
               </div>
 
               <div className="flex flex-col items-start text-[20px]">
-                  <span>Total USDT:</span>
-                  <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
-                    in your binance
-                  </span>
+                <span>Total USDT:</span>
+                <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
+                  in your binance
+                </span>
                 <span className="mx-[3px]">
                   {Number(userData?.relevantBalances[1]?.free || 0).toFixed(4)}
                 </span>
@@ -246,10 +247,10 @@ export default function Dashboard() {
               </div>
 
               <div className="flex flex-col items-start text-[20px]">
-                  <span>Total BNB:</span>
-                  <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
-                    in your binance
-                  </span>
+                <span>Total BNB:</span>
+                <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
+                  in your binance
+                </span>
                 <span className="mx-[3px]">
                   {Number(userData?.relevantBalances[0]?.free || 0).toFixed(4)}
                 </span>
@@ -301,7 +302,6 @@ export default function Dashboard() {
           </div>
           {/* {tabs.map((tab, index) => createTab(tab, index))} */}
           <TradeHistoryBar />
-
         </div>
       </div>
       {isDepositModal && (

@@ -7,7 +7,7 @@ import "./App.css";
 // Import your components
 import LoginPage from "./views/login/loginPage";
 import SignupPage from "./views/login/signupPage";
-import Dashboard from "./views/dashboard/DashboardLayout";
+import DashboardLayout from "./views/dashboard/DashboardLayout";
 import ConnectBinance from "./views/homePage/connectBinance";
 import LandingPage from "./views/landingPage/landingPage";
 import Pricing from "./views/pricing/pricing";
@@ -27,7 +27,7 @@ function App() {
 
           {/* Protected Routes */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard/*" element={<DashboardLayout />} />
             <Route path="/connect-binance" element={<ConnectBinance />} />
           </Route>
 
