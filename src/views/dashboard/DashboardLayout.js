@@ -6,6 +6,7 @@ import { GrMoney } from "react-icons/gr";
 import { ImStatsBars2 } from "react-icons/im";
 import { MdOutlineBookmarkAdd } from "react-icons/md";
 import { BiSupport } from "react-icons/bi";
+import { MdLogout } from "react-icons/md";
 import {
   Route,
   Routes,
@@ -22,6 +23,7 @@ import Support from "./pages/support";
 import Subscriptions from "./pages/subscriptions";
 import { BASE_URL } from "../../api/api";
 import axios from "axios";
+import { useAuth } from "../auth/AuthProvider";
 
 const menuItems = [
   {
@@ -59,6 +61,7 @@ const menuItems = [
 const DashboardLayout = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { logout } = useAuth();
   const currentRoute =
     location.pathname.split("/").filter(Boolean).at(-1) || "";
 
@@ -69,6 +72,16 @@ const DashboardLayout = () => {
     window.innerWidth < 768 ? false : true
   );
   const [activeOption, setActiveOption] = useState(matchedOption);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     // console.log(location?.pathname.split("/").at(-1));
@@ -82,6 +95,13 @@ const DashboardLayout = () => {
     if (window.innerWidth < 768) {
       setSideBarIsOpen(false);
     }
+  };
+
+  const handleLogout = () => {
+    navigate("/");
+    logout();
+    localStorage.clear();
+    setSideBarIsOpen(false);
   };
 
   return (
@@ -122,6 +142,17 @@ const DashboardLayout = () => {
                     </span>
                   </li>
                 ))}
+                
+                {/* Logout option (only visible on mobile) */}
+                {isMobile && (
+                  <li
+                    className="flex gap-2 py-2 mx-3 cursor-pointer text-red-500 mt-auto border-t border-gray-200 pt-4"
+                    onClick={handleLogout}
+                  >
+                    <span className="inline-block"><MdLogout /></span>
+                    <span>Logout</span>
+                  </li>
+                )}
               </ul>
             </div>
           </nav>

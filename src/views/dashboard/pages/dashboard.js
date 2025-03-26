@@ -257,11 +257,17 @@ export default function Dashboard() {
               </div>
             </div>
             <button
-              disabled={botisLoading}
+              disabled={
+                botisLoading ||
+                botStatus?.toLowerCase() === "active" ||
+                botStatus?.toUpperCase() === "in progress"
+              }
               className={`flex items-center gap-3 p-5  rounded-lg  ${
-                botisLoading
-                  ? "bg-green-400"
-                  : "bg-green-600 cursor-pointer hover:bg-green-500"
+                botisLoading ||
+                botStatus?.toLowerCase() === "active" ||
+                botStatus?.toUpperCase() === "in progress"
+                  ? "bg-green-500 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-500"
               }`}
               onClick={() => handleStartBotClick()}
             >
@@ -283,7 +289,12 @@ export default function Dashboard() {
                   />
                 </div>
               ) : (
-                <span className="text-white w-full text-[20px]">Start Bot</span>
+                <span className="text-white w-full text-[20px]">
+                  {botStatus?.toLowerCase() === "active" ||
+                  botStatus?.toUpperCase() === "in progress"
+                    ? `Bot is ${botStatus}`
+                    : "Start Bot"}
+                </span>
               )}
             </button>
           </div>

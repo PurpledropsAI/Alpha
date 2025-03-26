@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { BASE_URL } from "../../../api/api";
 import axios from "axios";
 import { RotatingLines } from "react-loader-spinner";
@@ -18,6 +18,7 @@ export default function TradeCyclesBar({
   const [tradeData, setTradeData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCycleNumber, setSelectedCycleNumber] = useState(0);
+  const isFirstLoad = useRef(true);
   
   const { logout } = useAuth();
   const token = localStorage.getItem("token");
@@ -37,6 +38,13 @@ export default function TradeCyclesBar({
       console.log("tradeData response: ", response?.data);
 
       setTradeData(response.data);
+      
+      // Set the selected cycle number to the last cycle only on first load
+      if (isFirstLoad.current && response.data?.trade_cycles?.length > 0) {
+        setSelectedCycleNumber(response.data.trade_cycles.at(-1)?.cycle_number);
+        isFirstLoad.current = false;
+      }
+      
     } catch (error) {
       console.error(
         "Error fetching cycle status:",
@@ -88,27 +96,27 @@ export default function TradeCyclesBar({
     setBotReason(tradeData?.reason_inactive);
     setLiveMarketPrice(tradeData?.trade_cycles[0]?.current_market_price);
     setTradeCycleNo(tradeData?.trade_cycles[0]?.cycle_number);
-    setSelectedCycleNumber(tradeData?.trade_cycles?.at(-1)?.cycle_number);
     setTotalUsdtUsed(tradeData?.trade_cycles[0]?.used_capital);
     setRemainingUsdt(tradeData?.trade_cycles[0]?.remaining_capital);
   }, [tradeData]);
   return (
     <div className="flex flex-col gap-5">
       {/* Trade Cycles */}
-      <div className="flex flex-col  w-full bg-white rounded-xl p-3 sm:p-5">
+      <div className="flex flex-col w-full bg-white rounded-xl p-3 sm:p-5">
         <div className="flex">
-          <span className="">Trade Cycles</span>
+          <span className="text-lg font-medium">Trade Cycles</span>
         </div>
 
-        <div className="w-">
+        <div className="w-full overflow-x-auto">
           {tradeData?.trade_cycles?.length > 0 ? (
-            <div className="flex gap-10 flex-nowrap overflow-auto w-[50rem] p-5 ">
+            <div className="flex gap-4 md:gap-10 flex-nowrap py-3 px-1 sm:w-[50rem]">
               {tradeData?.trade_cycles
                 ?.slice()
                 .reverse()
                 .map((item, index) => (
                   <div
-                    className={`flex flex-col gap-3 font-light rounded-lg border p-3 min-w-72 cursor-pointer  ${
+                    key={index}
+                    className={`flex flex-col gap-3 font-light rounded-lg border p-3 min-w-[280px] flex-shrink-0 cursor-pointer  ${
                       item?.cycle_number == selectedCycleNumber
                         ? "bg-green-400"
                         : "hover:bg-green-500 hover:bg-opacity-20"
@@ -176,36 +184,34 @@ export default function TradeCyclesBar({
                 ))}
             </div>
           ) : (
-            <div>You do not have any Trade Cycles {`(yet)`}.</div>
+            <div className="py-4">You do not have any Trade Cycles {`(yet)`}.</div>
           )}
         </div>
       </div>
 
-      <div className="flex flex-col items-start p-5 bg-white rounded-lg">
-        <div>
-          <span>DCA BOT</span>
+      <div className="flex flex-col items-start p-3 sm:p-5 bg-white rounded-lg">
+        <div className="mb-3">
+          <span className="text-lg font-medium">DCA BOT</span>
         </div>
 
-        <div className="w-full">
-          <table className="w-full">
-            <thead className=" ">
-              <tr className="font-normal bg-white bg-opacity-10 text-[12px] sm:text-[16px] ">
-                <th className="">Pair</th>
-                <th className="">Today's Profit</th>
-                <th className="">Total Profit</th>
-                <th className="">Status</th>
+        <div className="w-full overflow-x-auto">
+          <table className="w-full min-w-[500px]">
+            <thead>
+              <tr className="font-normal bg-gray-100 text-[12px] sm:text-[16px]">
+                <th className="py-2 px-3 text-left">Pair</th>
+                <th className="py-2 px-3 text-left">Today's Profit</th>
+                <th className="py-2 px-3 text-left">Total Profit</th>
+                <th className="py-2 px-3 text-left">Status</th>
               </tr>
             </thead>
             <tbody className="text-[12px] sm:text-[16px]">
-              <tr className=" border-b border-gray-700 font-extralight">
-                {/* <td className="py-2 px-4">{new Date(item?.started_at).toLocaleDateString()}</td> */}
-
-                <td className="py-2 px-">BNB/USDT</td>
-                <td className="py-2 px-">{tradeData?.daily_profit}</td>
-                <td className="py-2 px-">
+              <tr className="border-b border-gray-200 font-extralight text-start">
+                <td className="py-3 px-3">BNB/USDT</td>
+                <td className="py-3 px-3">{tradeData?.daily_profit}</td>
+                <td className="py-3 px-3">
                   {tradeData?.trade_cycles[0]?.live_profit} USDT
                 </td>
-                <td className="py-2 px-">{tradeData?.bot_status}</td>
+                <td className="py-3 px-3">{tradeData?.bot_status}</td>
               </tr>
             </tbody>
           </table>
@@ -214,84 +220,69 @@ export default function TradeCyclesBar({
 
       {/*  */}
       <div className="flex flex-col w-full">
-        <div className="flex w-full">
-          {tradeData?.trade_cycles?.length > 0 ? (
-            tradeData?.trade_cycles
-              ?.slice()
-              .reverse()
-              .map((cycle, indxe) => (
-                <span
-                  className={`p-3 py-5 rounded-t-lg cursor-pointer  ${
-                    cycle?.cycle_number == selectedCycleNumber
-                      ? "bg-white "
-                      : "text-white hover:bg-white hover:bg-opacity-20"
-                  }`}
-                  onClick={() => setSelectedCycleNumber(cycle?.cycle_number)}
-                >
-                  Cycle ID: {cycle?.cycle_number}
-                </span>
-              ))
-          ) : (
-            <div className="text-white">No trade cycles found.</div>
-          )}
-        </div>
-        <div className="flex w-full bg-white rounded-b-lg p-5">
-          {
-            // isLoading ? (
-            //   <div className="flex justify-center w-full">
-            //     <RotatingLines
-            //       visible={true}
-            //       height="40"
-            //       width="40"
-            //       color="blue"
-            //       strokeWidth="5"
-            //       animationDuration="0.75"
-            //       ariaLabel="rotating-lines-loading"
-            //       wrapperStyle={{}}
-            //       wrapperClass=""
-            //     />
-            //   </div>
-            // ) :
-            selectedCycle?.orders?.length > 0 ? (
-              <div className="flex flex-col items-start w-full">
-                <div>These are your current open positions.</div>
-                <div className="w-full overflow-auto p-5">
-                  <table className="w-full">
-                    <thead className=" ">
-                      <tr className="font-normal bg-white bg-opacity-10 text-[12px] sm:text-[16px] ">
-                        <th className="">Started at</th>
-                        <th className="">Cost</th>
-                        <th className="">BNB Bought</th>
-                        <th className="">Bought at</th>
-                        <th className="">Order type</th>
-                      </tr>
-                    </thead>
-                    {selectedCycle.orders?.map((item, index) => (
-                      <tbody className="text-[12px] sm:text-[16px]">
-                        <tr
-                          key={index}
-                          className=" border-b border-gray-700 font-extralight"
-                        >
-                          {/* <td className="py-2 px-4">{new Date(item?.started_at).toLocaleDateString()}</td> */}
-                          <td className="py-2 px-">
-                            {new Date(item?.timestamp).toLocaleDateString()}
-                          </td>
-                          <td className="py-2 px-">{item?.order_capital}</td>
-                          <td className="py-2 px-">{item?.quantity}</td>
-                          <td className="py-2 px-">{item?.fill_price}</td>
-                          <td className="py-2 px-">{item?.order_type}</td>
-                        </tr>
-                      </tbody>
-                    ))}
-                  </table>
-                </div>
-              </div>
+        <div className="flex w-full overflow-x-auto">
+          <div className="flex">
+            {tradeData?.trade_cycles?.length > 0 ? (
+              tradeData?.trade_cycles
+                ?.slice()
+                .reverse()
+                .map((cycle, index) => (
+                  <span
+                    key={index}
+                    className={`p-2 sm:p-3 sm:py-4 rounded-t-lg cursor-pointer text-[14px] sm:text-[16px] whitespace-nowrap ${
+                      cycle?.cycle_number == selectedCycleNumber
+                        ? "bg-white text-black"
+                        : "text-white hover:bg-white hover:bg-opacity-20"
+                    }`}
+                    onClick={() => setSelectedCycleNumber(cycle?.cycle_number)}
+                  >
+                    Cycle ID: {cycle?.cycle_number}
+                  </span>
+                ))
             ) : (
-              <div className="text-white">
-                You do not have any positions {`(yet)`}.
+              <div className="text-white p-3">No trade cycles found.</div>
+            )}
+          </div>
+        </div>
+        <div className="flex w-full bg-white rounded-b-lg p-3 sm:p-5">
+          {selectedCycle?.orders?.length > 0 ? (
+            <div className="flex flex-col items-start w-full">
+              <div className="text-[12px] sm:text-[16px] mb-3">These are your current open positions.</div>
+              <div className="w-full overflow-x-auto">
+                <table className="w-full min-w-[600px]">
+                  <thead>
+                    <tr className="font-normal bg-gray-100 text-[12px] sm:text-[16px]">
+                      <th className="py-2 px-3 text-left">Started at</th>
+                      <th className="py-2 px-3 text-left">Cost</th>
+                      <th className="py-2 px-3 text-left">BNB Bought</th>
+                      <th className="py-2 px-3 text-left">Bought at</th>
+                      <th className="py-2 px-3 text-left">Order type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedCycle.orders?.map((item, index) => (
+                      <tr
+                        key={index}
+                        className="border-b text-start border-gray-200 font-extralight text-[12px] sm:text-[16px]"
+                      >
+                        <td className="py-3 px-3">
+                          {new Date(item?.timestamp).toLocaleDateString()}
+                        </td>
+                        <td className="py-3 px-3">{item?.order_capital}</td>
+                        <td className="py-3 px-3">{item?.quantity}</td>
+                        <td className="py-3 px-3">{item?.fill_price}</td>
+                        <td className="py-3 px-3">{item?.order_type}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
-            )
-          }
+            </div>
+          ) : (
+            <div className="py-4">
+              You do not have any positions {`(yet)`}.
+            </div>
+          )}
         </div>
       </div>
       {/* <div>

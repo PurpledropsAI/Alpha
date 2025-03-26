@@ -66,12 +66,12 @@ export default function LoginPage() {
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(inputs.email_or_phone)) {
-      setErrorMessage("Please enter a valid email");
-      setIsLoading(false);
-      return;
-    }
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!emailRegex.test(inputs.email_or_phone)) {
+    //   setErrorMessage("Please enter a valid email");
+    //   setIsLoading(false);
+    //   return;
+    // }
     try {
       const response = await axios.post(`${BASE_URL}/api/users/login/`, inputs);
       if (response?.status === 200) {
@@ -277,7 +277,7 @@ export default function LoginPage() {
         </div>
       </div>
       {isSuccessModal && (
-        <ConfirmModal title="Login Successfull" isClose={false} />
+        <ConfirmModal title="Login Successful" isClose={false} />
       )}
     </div>
   );
