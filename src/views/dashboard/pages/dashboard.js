@@ -192,7 +192,7 @@ export default function Dashboard() {
     <div className="w-full">
       <div className="flex flex-col md:flex-row w-full transition-all">
         {/* side tabs section */}
-        <div className=" w-full md:w-2/5 bg-transparent p-4">
+        <div className="w-full md:w-2/5 bg-transparent p-2 sm:p-4">
           <ActivitySideBar
             status={botStatus}
             liveMarketPrice={liveMarketPrice}
@@ -217,52 +217,54 @@ export default function Dashboard() {
               setFetchTradeCycleData(!fetchTradeCycleData);
             }}
           />
-          {/* {sideTabs.map((tab, index) => createTab(tab, index))} */}
         </div>
 
         {/* main tabs section */}
-        <div className="order-last md:order-first w-full  bg-transparent p-4">
-          <div className="my-5">
+        <div className="order-first w-full bg-transparent p-2 sm:p-4">
+          <div className="my-3 sm:my-5">
             <SuccessBar />
           </div>
-          <div className="grid sm:grid-cols-3 gap-5 sm:gap-10 w-full my-5">
-            <div className="flex items-center gap-3 p-5 rounded-lg bg-white">
-              <div className="p-2 rounded-full bg-green-600">
-                <SiTether color="white" size={40} />
+          
+          <div className="grid grid-cols-3 gap-1 sm:gap-3 w-full my-3 sm:my-5">
+            <div className="flex items-center gap-1 sm:gap-3 p-2 sm:p-5 rounded-lg bg-white">
+              <div className="p-1 sm:p-2 rounded-full bg-green-600 flex-shrink-0">
+                <SiTether color="white" size={window.innerWidth < 640 ? 20 : 40} />
               </div>
 
-              <div className="flex flex-col items-start text-[20px]">
-                <span>Total USDT:</span>
-                <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
+              <div className="flex flex-col items-start text-[12px] sm:text-[20px] min-w-0">
+                <span className="font-medium whitespace-nowrap">Total USDT:</span>
+                <span className="text-[9px] sm:text-[14px] text-center text-slate-400 -mt-1 sm:-mt-2 hidden sm:block">
                   in your binance
                 </span>
-                <span className="mx-[3px]">
+                <span className="font-semibold text-ellipsis overflow-hidden w-full">
                   {Number(userData?.relevantBalances[1]?.free || 0).toFixed(4)}
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-3 p-5 rounded-lg bg-white">
-              <div className="p-2 rounded-full bg-yellow-500">
-                <RiBnbFill color="white" size={40} />
+            
+            <div className="flex items-center gap-1 sm:gap-3 p-2 sm:p-5 rounded-lg bg-white">
+              <div className="p-1 sm:p-2 rounded-full bg-yellow-500 flex-shrink-0">
+                <RiBnbFill color="white" size={window.innerWidth < 640 ? 20 : 40} />
               </div>
 
-              <div className="flex flex-col items-start text-[20px]">
-                <span>Total BNB:</span>
-                <span className="mx-[4px] text-[14px] text-center font- text-slate-400 -mt-2">
+              <div className="flex flex-col items-start text-[12px] sm:text-[20px] min-w-0">
+                <span className="font-medium whitespace-nowrap">Total BNB:</span>
+                <span className="text-[9px] sm:text-[14px] text-center text-slate-400 -mt-1 sm:-mt-2 hidden sm:block">
                   in your binance
                 </span>
-                <span className="mx-[3px]">
+                <span className="font-semibold text-ellipsis overflow-hidden w-full">
                   {Number(userData?.relevantBalances[0]?.free || 0).toFixed(4)}
                 </span>
               </div>
             </div>
+            
             <button
               disabled={
                 botisLoading ||
                 botStatus?.toLowerCase() === "active" ||
                 botStatus?.toUpperCase() === "in progress"
               }
-              className={`flex items-center gap-3 p-5  rounded-lg  ${
+              className={`flex items-center justify-center gap-1 sm:gap-3 p-2 sm:p-5 rounded-lg ${
                 botisLoading ||
                 botStatus?.toLowerCase() === "active" ||
                 botStatus?.toUpperCase() === "in progress"
@@ -271,25 +273,23 @@ export default function Dashboard() {
               }`}
               onClick={() => handleStartBotClick()}
             >
-              <div className="p-2 px-4 rounded-xl bg-white">
-                <img src="/hello3.png" alt="logo" className="w-12 h-12" />
+              <div className="p-1 sm:p-2 rounded-xl bg-white hidden sm:block">
+                <img src="/hello3.png" alt="logo" className="w-8 h-8 sm:w-12 sm:h-12" />
               </div>
               {botisLoading ? (
-                <div className="flex justify-center w-full">
+                <div className="flex justify-center">
                   <RotatingLines
                     visible={true}
-                    height="40"
-                    width="40"
-                    color="blue"
+                    height={window.innerWidth < 640 ? "24" : "40"}
+                    width={window.innerWidth < 640 ? "24" : "40"}
+                    color="white"
                     strokeWidth="5"
                     animationDuration="0.75"
                     ariaLabel="rotating-lines-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
                   />
                 </div>
               ) : (
-                <span className="text-white w-full text-[20px]">
+                <span className="text-white text-[12px] sm:text-[20px] font-medium whitespace-nowrap overflow-hidden text-ellipsis">
                   {botStatus?.toLowerCase() === "active" ||
                   botStatus?.toUpperCase() === "in progress"
                     ? `Bot is ${botStatus}`
@@ -298,7 +298,8 @@ export default function Dashboard() {
               )}
             </button>
           </div>
-          <div className="my-5">
+          
+          <div className="my-3 sm:my-5">
             <TradeCyclesBar
               setUsdtProfit={(e) => setUsdtProfit(e)}
               setBotReason={(e) => setBotReason(e)}
@@ -311,7 +312,6 @@ export default function Dashboard() {
               fetchData={fetchTradeCycleData}
             />
           </div>
-          {/* {tabs.map((tab, index) => createTab(tab, index))} */}
           <TradeHistoryBar />
         </div>
       </div>
@@ -342,21 +342,13 @@ export default function Dashboard() {
   );
 }
 
-const createTab = (tab, index) => {
-  return (
-    <div
-      index={index}
-      className="text-left w-full my-5 py-2 px-5 mx-auto bg-white rounded-lg"
-    >
-      <span className="text-lg font-semibold"> {tab.title}</span>
-      <div className="my-3 text-right">
-        <span className="text-black text-2xl font-semibold ">
-          {tab.largeText}
-        </span>
-      </div>
-      <div className="my-3">
-        <span className="text-slate-600">{tab.dummyLabel}</span>
-      </div>
-    </div>
-  );
-};
+// const style = document.createElement('style');
+// style.textContent = `
+//   @media (max-width: 640px) {
+//     .success-bar-container {
+//       transform: scale(0.9);
+//       transform-origin: left top;
+//     }
+//   }
+// `;
+// document.head.appendChild(style);

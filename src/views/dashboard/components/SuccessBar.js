@@ -5,13 +5,13 @@ import { SiBinance } from "react-icons/si";
 export default function SuccessBar() {
   return (
     <div className="flex flex-col sm:flex-row justify-between w-full bg-white rounded-xl p-3 sm:p-5">
-      <div className="flex flex-col gap-5 sm:w-3/4">
+      <div className="flex flex-col gap-2 sm:gap-5 sm:w-3/4">
         <div className="flex gap-1 text-green-500 items-center">
           <span className="">Successfully Connected</span>
           <HiMiniCheckBadge />
         </div>
         <div className="flex w-full font-extralight">
-            <span>Hey Congrats your account successfully connected</span>
+            <span className="text-[14px] sm:text-[16px]">Hey Congrats your account successfully connected</span>
         </div>
       </div>
       <div className="flex items-center justify-center  h-full sm:w-1/4 ">
