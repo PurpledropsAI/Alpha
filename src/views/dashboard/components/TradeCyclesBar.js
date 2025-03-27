@@ -116,19 +116,19 @@ export default function TradeCyclesBar({
                 .map((item, index) => (
                   <div
                     key={index}
-                    className={`flex flex-col gap-3 font-light rounded-lg border p-3 min-w-[280px] flex-shrink-0 cursor-pointer  ${
+                    className={`flex flex-col items-start gap-3 font-light rounded-lg border p-3 min-w-[280px] flex-shrink-0 cursor-pointer text-[14px]  ${
                       item?.cycle_number == selectedCycleNumber
                         ? "bg-green-400"
                         : "hover:bg-green-500 hover:bg-opacity-20"
                     }`}
                     onClick={() => setSelectedCycleNumber(item?.cycle_number)}
                   >
-                    <span>
+                    <span className="font-medium">
                       Cycle ID:{" "}
                       <span className="font-normal">{item?.cycle_number}</span>
                     </span>
                     <div className="w-full h-[1px] bg-black"></div>
-                    <span>
+                    <span className="">
                       Status:{" "}
                       <span className="font-normal">{item?.status}</span>
                     </span>
@@ -195,18 +195,18 @@ export default function TradeCyclesBar({
         </div>
 
         <div className="w-full overflow-x-auto">
-          <table className="w-full min-w-[500px]">
-            <thead>
-              <tr className="font-normal bg-gray-100 text-[12px] sm:text-[16px]">
+          <table className="w-full min-w-[500px] divide-y divide-gray-200">
+          <thead className="text-left text-xs font-medium uppercase tracking-wider bg-gray-50">
+          <tr>
                 <th className="py-2 px-3 text-left">Pair</th>
                 <th className="py-2 px-3 text-left">Today's Profit</th>
                 <th className="py-2 px-3 text-left">Total Profit</th>
                 <th className="py-2 px-3 text-left">Status</th>
               </tr>
             </thead>
-            <tbody className="text-[12px] sm:text-[16px]">
-              <tr className="border-b border-gray-200 font-extralight text-start">
-                <td className="py-3 px-3">BNB/USDT</td>
+            <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="hover:bg-gray-50 text-left text-sm text-gray-500">
+            <td className="py-3 px-3">BNB/USDT</td>
                 <td className="py-3 px-3">{tradeData?.daily_profit}</td>
                 <td className="py-3 px-3">
                   {tradeData?.trade_cycles[0]?.live_profit} USDT
@@ -249,22 +249,20 @@ export default function TradeCyclesBar({
             <div className="flex flex-col items-start w-full">
               <div className="text-[12px] sm:text-[16px] mb-3">These are your current open positions.</div>
               <div className="w-full overflow-x-auto">
-                <table className="w-full min-w-[600px]">
-                  <thead>
-                    <tr className="font-normal bg-gray-100 text-[12px] sm:text-[16px]">
-                      <th className="py-2 px-3 text-left">Started at</th>
-                      <th className="py-2 px-3 text-left">Cost</th>
-                      <th className="py-2 px-3 text-left">BNB Bought</th>
-                      <th className="py-2 px-3 text-left">Bought at</th>
-                      <th className="py-2 px-3 text-left">Order type</th>
+                <table className="w-full min-w-[600px]  divide-y divide-gray-200">
+                  <thead className="text-left text-xs font-medium uppercase tracking-wider bg-gray-50">
+                    <tr>
+                      <th className="py-2 px-3">Started at</th>
+                      <th className="py-2 px-3">Cost</th>
+                      <th className="py-2 px-3">BNB Bought</th>
+                      <th className="py-2 px-3">Bought at</th>
+                      <th className="py-2 px-3">Order type</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-gray-200">
                     {selectedCycle.orders?.map((item, index) => (
-                      <tr
-                        key={index}
-                        className="border-b text-start border-gray-200 font-extralight text-[12px] sm:text-[16px]"
-                      >
+                                          <tr key={index} className="hover:bg-gray-50 text-left text-sm text-gray-500">
+
                         <td className="py-3 px-3">
                           {new Date(item?.timestamp).toLocaleDateString()}
                         </td>

@@ -10,7 +10,7 @@ export default function SuccessBar() {
           <span className="">Successfully Connected</span>
           <HiMiniCheckBadge />
         </div>
-        <div className="flex w-full font-extralight">
+        <div className="flex w-full text-start font-extralight">
             <span className="text-[14px] sm:text-[16px]">Hey Congrats your account successfully connected</span>
         </div>
       </div>

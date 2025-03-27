@@ -225,7 +225,7 @@ export default function Dashboard() {
             <SuccessBar />
           </div>
           
-          <div className="grid grid-cols-3 gap-1 sm:gap-3 w-full my-3 sm:my-5">
+          <div className="grid grid-cols-3 gap-1 sm:gap-3 w-full my-3 sm:my-5  text-start">
             <div className="flex items-center gap-1 sm:gap-3 p-2 sm:p-5 rounded-lg bg-white">
               <div className="p-1 sm:p-2 rounded-full bg-green-600 flex-shrink-0">
                 <SiTether color="white" size={window.innerWidth < 640 ? 20 : 40} />
@@ -233,7 +233,7 @@ export default function Dashboard() {
 
               <div className="flex flex-col items-start text-[12px] sm:text-[20px] min-w-0">
                 <span className="font-medium whitespace-nowrap">Total USDT:</span>
-                <span className="text-[9px] sm:text-[14px] text-center text-slate-400 -mt-1 sm:-mt-2 hidden sm:block">
+                <span className="text-[9px] sm:text-[14px] text-center text-slate-400 -mt-1 sm:-mt-2 ml-1 hidden sm:block">
                   in your binance
                 </span>
                 <span className="font-semibold text-ellipsis overflow-hidden w-full">
@@ -249,7 +249,7 @@ export default function Dashboard() {
 
               <div className="flex flex-col items-start text-[12px] sm:text-[20px] min-w-0">
                 <span className="font-medium whitespace-nowrap">Total BNB:</span>
-                <span className="text-[9px] sm:text-[14px] text-center text-slate-400 -mt-1 sm:-mt-2 hidden sm:block">
+                <span className="text-[9px] sm:text-[14px] text-center text-slate-400 -mt-1 sm:-mt-2 ml-1 hidden sm:block">
                   in your binance
                 </span>
                 <span className="font-semibold text-ellipsis overflow-hidden w-full">
