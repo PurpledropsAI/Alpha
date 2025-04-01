@@ -221,7 +221,7 @@ export default function TradeCyclesBar({
       {/*  */}
       <div className="flex flex-col w-full">
         <div className="flex w-full overflow-x-auto">
-          <div className="flex">
+          <div className="flex md:lg:w-[50rem]">
             {tradeData?.trade_cycles?.length > 0 ? (
               tradeData?.trade_cycles
                 ?.slice()

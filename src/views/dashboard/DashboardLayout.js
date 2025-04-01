@@ -92,7 +92,7 @@ const DashboardLayout = () => {
 
   const handleSideOptionsClick = (option) => {
     navigate(`${option.route}`);
-    if (window.innerWidth < 768) {
+    if (window.innerWidth < 1024) {
       setSideBarIsOpen(false);
     }
   };
@@ -112,7 +112,7 @@ const DashboardLayout = () => {
         {/* <div> */}
         {sideBarIsOpen && (
           <nav
-            className={`max-sm:fixed flex flex-col  h-screen transition-all ease-in-out duration-200 z-50 ${
+            className={`max-lg:fixed flex flex-col  h-screen transition-all ease-in-out duration-200 z-50 ${
               sideBarIsOpen
                 ? "translate-x-0 left-0 w-72"
                 : "-translate-x-full w-0 "

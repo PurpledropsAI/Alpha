@@ -190,9 +190,9 @@ export default function Dashboard() {
 
   return (
     <div className="w-full">
-      <div className="flex flex-col md:flex-row w-full transition-all">
+      <div className="flex flex-col lg:flex-row w-full transition-all">
         {/* side tabs section */}
-        <div className="w-full md:w-2/5 bg-transparent p-2 sm:p-4">
+        <div className="w-full lg:w-2/5 bg-transparent p-2 sm:p-4">
           <ActivitySideBar
             status={botStatus}
             liveMarketPrice={liveMarketPrice}
