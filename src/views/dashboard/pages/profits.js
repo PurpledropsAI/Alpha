@@ -77,6 +77,7 @@ export default function Profits() {
 
     setBarChartLabels(labels);
     setBarChartData(data);
+    console.log("barChartData: ", data);
   };
 
   const fetchBotConfig = async () => {

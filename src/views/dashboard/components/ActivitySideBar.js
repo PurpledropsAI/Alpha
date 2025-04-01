@@ -9,16 +9,14 @@ const ActivitySideBar = ({ status, reason, liveMarketPrice, tradeCycleNo }) => {
       <div className="py-2 px-4">
         <span className="text-lg font-semibold"> Activity</span>
 
-        <div className="my-2 flex flex-col">
-          <div className="my-2 flex flex-row justify-start items-center px-1">
-            <div className="mr-8">
-              <span className="">
-                <MdAccessAlarm className="text-6xl text-alphaGray font-bold" />
-              </span>
+        <div className="flex flex-col">
+          <div className="flex justify-start gap-4 items-center">
+            <div className="">
+                <MdAccessAlarm className="text-5xl text-alphaGray font-bold" />
             </div>
             <div className=" flex flex-col items-start">
               {tradeCycleNo ? (
-                <span className="text-slate-400 mb-1">
+                <span className="text-slate-400 text-[14px]">
                   Trade Cycle {tradeCycleNo} in Progress
                 </span>
               ) : (
@@ -26,14 +24,14 @@ const ActivitySideBar = ({ status, reason, liveMarketPrice, tradeCycleNo }) => {
                   Trade Cycle waiting for signal...
                 </span>
               )}
-              <span className="text-xl mb-1 font-normal">
+              <span className="text-[18px] mb-1 font-normal">
                 Bot status: {status || "waiting for signal..."}
               </span>
-              <span className="text-slate-400 mb-1">
+              <span className="text-slate-400 text-[14px]">
                 {new Date().toLocaleString()}
               </span>
               {reason && (
-                <span className="text-xl mb-1 font-normal">
+                <span className="text-[14px] font-normal">
                   Reason: {reason}
                 </span>
               )}
@@ -43,20 +41,18 @@ const ActivitySideBar = ({ status, reason, liveMarketPrice, tradeCycleNo }) => {
       </div>
       <hr class="border-alphaGray " />
       <div className="py-2 px-4">
-        <div className="my-2 flex flex-col">
-          <div className="my-2 flex flex-row justify-start items-center px-1">
-            <div className="mr-8">
-              <span className="">
-                <BiTargetLock className="text-6xl text-green-500 font-bold" />
-              </span>
+        <div className="flex flex-col">
+          <div className=" flex flex-row justify-start gap-4 items-center">
+            <div className="">
+                <BiTargetLock className="text-5xl text-green-500 font-bold" />
             </div>
             <div className=" flex flex-col items-start">
-              <span className="text-slate-400 mb-1">Live Market Price:</span>
+              <span className="text-slate-400 text-[14px]">Live Market Price:</span>
               <div className="flex items-center gap-2">
                 <span className="text-2xl">{liveMarketPrice || 0.0}</span>
                 <SiBinance color="orange" size={25} />
               </div>
-              <span className="text-slate-400 mb-1">
+              <span className="text-slate-400 text-[14px]">
                 {new Date().toLocaleString()}
               </span>
             </div>

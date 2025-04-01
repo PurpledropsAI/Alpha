@@ -132,9 +132,9 @@ const SwitchBoxSideBar = ({ botStatus, botIsEnabled }) => {
               <div className="py-2 px-4">
                 <div>
                   <div className="flex justify-around items-center my-5">
-                    <span className="text-6xl text-green-500">{item.icon}</span>
+                    <span className="text-5xl text-green-500">{item.icon}</span>
                     <div className="flex flex-col items-center">
-                      <span className="text-lg mb-1 text-alphaGreen uppercase">
+                      <span className="text-[16px] mb-1 text-alphaGreen uppercase">
                         {item.title}{" "}
                         <span className="font-bold">
                           {switches[type] ? "Enabled" : "Disabled"}
