@@ -147,16 +147,16 @@ export default function TradeCyclesBar({
                     <span>
                       Quantity:{" "}
                       <span className="font-normal">
-                        {item?.accumulated_quantity}
+                        {item?.accumulated_quantity || 0}
                       </span>
                     </span>
                     <span>
                       Average Price:{" "}
-                      <span className="font-normal">{item?.average_price}</span>
+                      <span className="font-normal">{item?.average_price || 0}</span>
                     </span>
                     <span>
                       Profit:{" "}
-                      <span className="font-normal">{item?.live_profit}</span>
+                      <span className="font-normal">{item?.profit || 0}</span>
                     </span>
                     <span>
                       Age:{" "}

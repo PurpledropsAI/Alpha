@@ -69,10 +69,10 @@ const DashboardLayout = () => {
     menuItems.find((item) => item.route === currentRoute)?.title || "Dashboard";
 
   const [sideBarIsOpen, setSideBarIsOpen] = useState(
-    window.innerWidth < 768 ? false : true
+    window.innerWidth < 1024 ? false : true
   );
   const [activeOption, setActiveOption] = useState(matchedOption);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024);
 
   useEffect(() => {
     const handleResize = () => {
