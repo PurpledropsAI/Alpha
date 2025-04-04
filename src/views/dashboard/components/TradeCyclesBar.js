@@ -5,7 +5,7 @@ import { RotatingLines } from "react-loader-spinner";
 import { useAuth } from "../../../views/auth/AuthProvider";
 
 export default function TradeCyclesBar({
-  setUsdtProfit,
+  setCurrentProfit,
   setBotStatus,
   setTradeCycleNo,
   setBotReason,
@@ -91,7 +91,7 @@ export default function TradeCyclesBar({
   }, [isBotEnabled, fetchData]);
 
   useEffect(() => {
-    setUsdtProfit(tradeData?.trade_cycles[0]?.live_profit);
+    setCurrentProfit(tradeData?.cumulative_profit);
     setBotStatus(tradeData?.bot_status);
     setBotReason(tradeData?.reason_inactive);
     setLiveMarketPrice(tradeData?.trade_cycles[0]?.current_market_price);
@@ -207,9 +207,9 @@ export default function TradeCyclesBar({
             <tbody className="bg-white divide-y divide-gray-200">
             <tr className="hover:bg-gray-50 text-left text-sm text-gray-500">
             <td className="py-3 px-3">BNB/USDT</td>
-                <td className="py-3 px-3">{tradeData?.daily_profit}</td>
+                <td className="py-3 px-3">{parseFloat(tradeData?.daily_profit).toFixed(3)} USDT</td>
                 <td className="py-3 px-3">
-                  {tradeData?.trade_cycles[0]?.live_profit} USDT
+                  {parseFloat(tradeData?.cumulative_profit).toFixed(3)} USDT
                 </td>
                 <td className="py-3 px-3">{tradeData?.bot_status}</td>
               </tr>

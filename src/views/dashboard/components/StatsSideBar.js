@@ -5,7 +5,7 @@ import { IoMdWallet } from "react-icons/io";
 
 const StatsSideBar = ({
   usdtBal,
-  usdtProfit,
+  currentProfit,
   totalUsdtUsed,
   remainingUsdt,
 }) => {
@@ -28,10 +28,10 @@ const StatsSideBar = ({
               </span>
               <span
                 className={`text-xl  font-bold ${
-                  usdtProfit > 0 ? "text-green-500" : "text-red-500"
+                  currentProfit > 0 ? "text-green-500" : "text-red-500"
                 }`}
               >
-                {usdtProfit} USDT{`(0%)`}
+                {parseFloat(currentProfit).toFixed(3)} USDT{`(0%)`}
               </span>
               {/* <span className="mb-1">reset |</span> */}
             </div>
@@ -54,16 +54,17 @@ const StatsSideBar = ({
                 <span className="text-alphaBlack font-normal">
                   <BsFillQuestionCircleFill />
                 </span>
-              </span>
+              </span> 
               <span className="text-2xl text-green-500 font-bold">
                 {/* {Number(usdtBal || 0)?.toFixed(4)} {`(0%)`} */}
                 {usdtBal}
-                {"(0%)"}
+                <span className="text-red-500">{" (-0.05%)"} </span>
+                {/* 1650 - 1645/100 = -0.05% */}
               </span>
 
               <span className="text-alphaGray">
                 Start balance:
-                <span className="font-bold"> 0.00</span>
+                <span className="font-bold"> 1650</span>
               </span>
             </div>
           </div>

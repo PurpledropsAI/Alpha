@@ -19,7 +19,7 @@ export default function Dashboard() {
   const [userData, setUserData] = useState(null);
   const [isDepositModal, setIsDepositModal] = useState(false);
   const [bal, setBal] = useState("");
-  const [usdtProfit, setUsdtProfit] = useState("");
+  const [currentProfit, setCurrentProfit] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [successModalMessage, setSuccessModalMessage] = useState("");
   const [successModalTitle, setSuccessModalTitle] = useState("");
@@ -201,7 +201,7 @@ export default function Dashboard() {
           />
           <StatsSideBar
             usdtBal={bal || 0}
-            usdtProfit={usdtProfit}
+            currentProfit={currentProfit}
             totalUsdtUsed={totalUsdtUsed}
             remainingUsdt={remainingUsdt}
           />
@@ -301,7 +301,7 @@ export default function Dashboard() {
           
           <div className="my-3 sm:my-5">
             <TradeCyclesBar
-              setUsdtProfit={(e) => setUsdtProfit(e)}
+              setCurrentProfit={(e) => setCurrentProfit(e)}
               setBotReason={(e) => setBotReason(e)}
               setBotStatus={(e) => setBotStatus(e)}
               setTradeCycleNo={(e) => setTradeCycleNo(e)}
