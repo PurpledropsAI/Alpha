@@ -105,7 +105,7 @@ export default function Pricing() {
 
       <Footer />
 
-      {isPaymentModal && (
+      {!isPaymentModal && (
         <PaymentModal onclose={() => setIsPaymentModal(false)} />
       )}
     </div>
