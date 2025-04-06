@@ -73,7 +73,7 @@ export default function DepositModal({ onClose, onConfirm, usdtBal}) {
       data-aos="fade-in"
     >
       <div
-        className="fixed flex flex-col gap-5  items-center bg-white rounded-3xl shadow-lg p-10 w-[30rem] text-center max-w-4xl"
+        className="fixed flex flex-col gap-5  items-center bg-white rounded-3xl shadow-lg p-3 sm:p-10 w-[90%] sm:w-[30rem] text-center max-w-4xl"
         data-aos="zoom-in"
       >
         <div className="flex w-full justify-end">
@@ -83,7 +83,7 @@ export default function DepositModal({ onClose, onConfirm, usdtBal}) {
           <span className="text-green-500 text-[20px]">
             Set Initial Capital for Bot to Trade
           </span>
-          <span>
+          <span className="text-[14px] sm:text-[16px]">
             You have <span className="text-green-500">{usdtBal} USDT</span>{" "}
             available in your wallet. To add more transfer funds from your
             funding wallet to spot or make a deposit.
@@ -92,11 +92,11 @@ export default function DepositModal({ onClose, onConfirm, usdtBal}) {
         <div className="w-full h-[0.5px] bg-black bg-opacity-40"></div>
         <div className="flex flex-col gap-2">
           {/* <span className="text-green-500 text-[20px]">Deposit USDT </span> */}
-          <span>
+          <span className="text-[14px] sm:text-[16px]">
             Please enter the initial USDT amount you want to use for trading/
           </span>
         </div>
-        <div className="flex justify-center gap-5">
+        <div className="flex flex-col sm:flex-row justify-center gap-5">
           <input
             value={balValue}
             onChange={handleInputChange}

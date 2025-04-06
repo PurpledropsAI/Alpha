@@ -10,7 +10,7 @@ export default function FailureModal({ message1, message2, onClose }) {
       data-aos="fade-in"
     >
       <div
-        className="fixed flex flex-col gap-5  items-center bg-white rounded-3xl shadow-lg p-10 w-[30rem] text-center max-w-4xl"
+        className="fixed flex flex-col gap-5  items-center bg-white rounded-3xl shadow-lg p-3 sm:p-10 w-[90%] sm:w-[30rem] text-center max-w-4xl"
         data-aos="zoom-in"
       >
         <div className="flex w-full justify-end">
@@ -22,10 +22,10 @@ export default function FailureModal({ message1, message2, onClose }) {
         </div>
         <MdError size={50} color="red" />
 
-        <span className="text-red-500 text-[32px]">Error</span>
+        <span className="text-red-500 text-[24px] sm:text-[32px]">Error</span>
         <div className="flex flex-col gap-2">
-          <span>{message1}</span>
-          {message2 && <span className="text-[12px]">{message2}</span>}
+          <span className="text-[12px] sm:text-[16px]">{message1}</span>
+          {message2 && <span className="text-[12px] sm:text-[16px]">{message2}</span>}
         </div>
       </div>
     </div>
