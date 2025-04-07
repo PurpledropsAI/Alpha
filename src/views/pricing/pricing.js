@@ -12,8 +12,8 @@ export default function Pricing() {
   const cardList = [
     {
       title: "Life Time Plan",
-      primaryPrice: "₹15250.00",
-      secondaryPrice: "+ ₹2745.00 GST (18%)",
+      primaryPrice: "$500.00",
+      secondaryPrice: "$600.00",
       descriptionList: [
         "Everything in Innovator, plus",
         "Competitoe Benchmarking",
