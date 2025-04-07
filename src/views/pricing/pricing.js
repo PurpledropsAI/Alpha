@@ -328,7 +328,7 @@ export default function Pricing() {
 
           try {
             const verifyResp = await axios.post(
-              "https://YOUR_BACKEND_URL/api/users/payment-success/",
+              "https://dca-alpha-bot-aa0c6c561214.herokuapp.com/api/users/payment-success/",
               {
                 razorpay_payment_id,
                 razorpay_order_id,
@@ -346,9 +346,9 @@ export default function Pricing() {
         },
         prefill: {
           // prefill your user's info
-          name: "John Doe",
-          email: "john@example.com",
-          contact: "9999999999",
+          name: "Murugaraj",
+          email: "murugaraj2@gmail.com",
+          contact: "8015347451",
         },
         notes: {
           plan: "One Year Plan",
