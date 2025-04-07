@@ -311,7 +311,7 @@ export default function Pricing() {
 
       // 2) Once we get order_id, we open the Razorpay checkout
       const options = {
-        key: "YOUR_RAZORPAY_KEY_ID", // from your env or .env
+        key: "rzp_test_i2PpkMQpHSbv4w", // from your env or .env
         amount: amount,
         currency: currency,
         name: "Alpha Robotics LLP",
