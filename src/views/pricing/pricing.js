@@ -12,8 +12,8 @@ export default function Pricing() {
   const cardList = [
     {
       title: "Life Time Plan",
-      primaryPrice: "$500.00",
-      secondaryPrice: "$600.00",
+      primaryPrice: "₹15250.00",
+      secondaryPrice: "+ ₹2745.00 GST (18%)",
       descriptionList: [
         "Everything in Innovator, plus",
         "Competitoe Benchmarking",
@@ -23,20 +23,48 @@ export default function Pricing() {
       ],
       planType: "1_year",
     },
-    {
-      title: "1 Year Plan",
-      primaryPrice: "$200.00",
-      secondaryPrice: "$300.00",
-      descriptionList: [
-        "Everything in Innovator, plus",
-        "Competitoe Benchmarking",
-        "Holistic Market Visualization",
-        "Adaptive Stategy Planner",
-        "24/7 Priority Support",
-      ],
-      planType: "lifetime",
-    },
+    // {
+    //   title: "1 Year Plan",
+    //   primaryPrice: "$200.00",
+    //   secondaryPrice: "$300.00",
+    //   descriptionList: [
+    //     "Everything in Innovator, plus",
+    //     "Competitoe Benchmarking",
+    //     "Holistic Market Visualization",
+    //     "Adaptive Stategy Planner",
+    //     "24/7 Priority Support",
+    //   ],
+    //   planType: "lifetime",
+    // },
   ];
+  // const cardList = [
+  //   {
+  //     title: "Life Time Plan",
+  //     primaryPrice: "$500.00",
+  //     secondaryPrice: "$600.00",
+  //     descriptionList: [
+  //       "Everything in Innovator, plus",
+  //       "Competitoe Benchmarking",
+  //       "Holistic Market Visualization",
+  //       "Adaptive Stategy Planner",
+  //       "24/7 Priority Support",
+  //     ],
+  //     planType: "1_year",
+  //   },
+  //   {
+  //     title: "1 Year Plan",
+  //     primaryPrice: "$200.00",
+  //     secondaryPrice: "$300.00",
+  //     descriptionList: [
+  //       "Everything in Innovator, plus",
+  //       "Competitoe Benchmarking",
+  //       "Holistic Market Visualization",
+  //       "Adaptive Stategy Planner",
+  //       "24/7 Priority Support",
+  //     ],
+  //     planType: "lifetime",
+  //   },
+  // ];
 
   const pricingFooter = ["Free trial", "Cancel anytime", "Support included"];
 
