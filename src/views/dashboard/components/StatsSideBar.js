@@ -57,8 +57,9 @@ const StatsSideBar = ({
               </span> 
               <span className="text-2xl text-green-500 font-bold">
                 {/* {Number(usdtBal || 0)?.toFixed(4)} {`(0%)`} */}
-                {usdtBal}
-                <span className="text-red-500">{" (-0.05%)"} </span>
+                {/* {usdtBal} */}
+                1650
+                {/* <span className="text-red-500">{" (-0.05%)"} </span> */}
                 {/* 1650 - 1645/100 = -0.05% */}
               </span>
 
