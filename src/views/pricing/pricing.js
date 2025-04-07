@@ -23,48 +23,20 @@ export default function Pricing() {
       ],
       planType: "1_year",
     },
-    // {
-    //   title: "1 Year Plan",
-    //   primaryPrice: "$200.00",
-    //   secondaryPrice: "$300.00",
-    //   descriptionList: [
-    //     "Everything in Innovator, plus",
-    //     "Competitoe Benchmarking",
-    //     "Holistic Market Visualization",
-    //     "Adaptive Stategy Planner",
-    //     "24/7 Priority Support",
-    //   ],
-    //   planType: "lifetime",
-    // },
+    {
+      title: "1 Year Plan",
+      primaryPrice: "$200.00",
+      secondaryPrice: "$300.00",
+      descriptionList: [
+        "Everything in Innovator, plus",
+        "Competitoe Benchmarking",
+        "Holistic Market Visualization",
+        "Adaptive Stategy Planner",
+        "24/7 Priority Support",
+      ],
+      planType: "lifetime",
+    },
   ];
-  // const cardList = [
-  //   {
-  //     title: "Life Time Plan",
-  //     primaryPrice: "$500.00",
-  //     secondaryPrice: "$600.00",
-  //     descriptionList: [
-  //       "Everything in Innovator, plus",
-  //       "Competitoe Benchmarking",
-  //       "Holistic Market Visualization",
-  //       "Adaptive Stategy Planner",
-  //       "24/7 Priority Support",
-  //     ],
-  //     planType: "1_year",
-  //   },
-  //   {
-  //     title: "1 Year Plan",
-  //     primaryPrice: "$200.00",
-  //     secondaryPrice: "$300.00",
-  //     descriptionList: [
-  //       "Everything in Innovator, plus",
-  //       "Competitoe Benchmarking",
-  //       "Holistic Market Visualization",
-  //       "Adaptive Stategy Planner",
-  //       "24/7 Priority Support",
-  //     ],
-  //     planType: "lifetime",
-  //   },
-  // ];
 
   const pricingFooter = ["Free trial", "Cancel anytime", "Support included"];
 
@@ -81,7 +53,7 @@ export default function Pricing() {
           <h2 className="text-[18px] sm:text-4xl font-bold">Choose a plan</h2>
         </div>
 
-        {/* Pricing Cards. */}
+        {/* Pricing Cards */}
         <div className="flex flex-col sm:flex-row justify-center gap-8 w-full">
           {cardList?.map((items, index) => (
             <div
