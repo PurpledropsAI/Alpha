@@ -81,7 +81,7 @@ export default function Pricing() {
           <h2 className="text-[18px] sm:text-4xl font-bold">Choose a plan</h2>
         </div>
 
-        {/* Pricing Cards */}
+        {/* Pricing Cards. */}
         <div className="flex flex-col sm:flex-row justify-center gap-8 w-full">
           {cardList?.map((items, index) => (
             <div
