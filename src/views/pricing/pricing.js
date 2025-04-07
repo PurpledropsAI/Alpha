@@ -282,7 +282,7 @@ export default function Pricing() {
     title: "Alpha Robotics Trading Bot – One Year Plan",
     primaryPrice: "₹15250.00",
     secondaryPrice: "+ ₹2745.00 GST (18%)",
-    totalInPaise: 1800000, // example: 15250 + 2745 = 17995 => about 1800000 paise
+    totalInPaise: 1799500, // example: 15250 + 2745 = 17995 => about 1800000 paise
   };
 
   const handleBuyNow = async () => {
